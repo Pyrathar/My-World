@@ -13,11 +13,14 @@ import { database } from '../../database';
 })
 export class NotesPage {
 
-  notes: any = [];
+
+  public personList: Array<Object>
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, private database: database) {
-
+  this.refresh();
   }
+
+
   public onPageLoaded() {
     this.refresh();
   }
@@ -25,13 +28,11 @@ export class NotesPage {
   public refresh() {
     this.database.getPatients().then((data) => {
       if (data.res.rows.length > 0) {
-        this.notes = [];
+        this.personList = [];
         for (let i = 0; i < data.res.rows.length; i++) {
-          this.notes.push({
-            "id": data.res.rows.item(i).id,
-            "firstname": data.res.rows.item(i).Firstname,
-
-          });
+          this.personList.push({
+                "firstname": data.res.rows.item(i).name,
+        });
         }
       }
     }, (error) => {
@@ -54,16 +55,12 @@ export class NotesPage {
           text: 'Add',
           handler: data => {
             //Add to notes
-          this.notes.push(data);
-          var as = data.title;
-          console.log("The Name of the guy is:   "+ as);
-          this.database.storage.query("INSERT INTO Patients (FirstName,LastName,PatientID) VALUES (?,?,?)",[as,as,as]);
-
-          //this.database.addpatients(data.title);
+          
+          this.database.addpatients(data.title);
             (error) => {
             console.log(error);
           }
-
+          this.refresh();
           }
         }
       ]
@@ -86,10 +83,10 @@ export class NotesPage {
         {
           text: 'Save',
           handler: data => {
-            let index = this.notes.indexOf(note);
+            let index = this.personList.indexOf(note);
 
             if (index > -1) {
-              this.notes[index] = data;
+              this.personList[index] = data;
             }
           }
         }
@@ -102,10 +99,10 @@ export class NotesPage {
 
   deleteNote(note) {
 
-    let index = this.notes.indexOf(note);
+    let index = this.personList.indexOf(note);
 
     if (index > -1) {
-      this.notes.splice(index, 1);
+      this.personList.splice(index, 1);
     }
   }
 

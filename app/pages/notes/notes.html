@@ -20,15 +20,13 @@
       <button (click)="addNote()"><ion-icon name="add"></ion-icon></button>
   </ion-buttons>
 
-  <ion-buttons end>
-      <button (click)="refresh()"><ion-icon name="add"></ion-icon></button>
-  </ion-buttons>
+
     <ion-list>
 
-        <ion-item-sliding *ngFor="let note of notes">
+        <ion-item-sliding *ngFor="let person of personList">
 
             <ion-item>
-                {{note.title}}
+                {{person.firstname}}
             </ion-item>
 
             <ion-item-options>

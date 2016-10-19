@@ -21,7 +21,7 @@ export class database {
   scenesItems: Object[];
 
   constructor() {
-    this.storage = new Storage(SqlStorage, { name: 'myWorld.db' });
+    this.storage = new Storage(SqlStorage, { name: 'myWorld4.db' });
     this.generateitems();
     this.generatepatients();
     this.generatesituations();
@@ -39,22 +39,15 @@ export class database {
 
   public generatepatients() {
     //Generate Patients Table
-    let sql = "CREATE TABLE IF NOT EXISTS Patients ( " +
-  //    "P_Id INTEGER PRIMARY KEY AUTOINCREMENT," +
-      "Firstname varchar(255) , " +
-      "LastName varchar(255), " +
-      "PatientID var char(255)) "
-
-      return this.storage.query(sql);
-
+    this.storage.query("CREATE TABLE IF NOT EXISTS Patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
     //Primary Key Will be P_Id
   }
 
   public addpatients(name: string) {
     //Add Patients
-    console.log("Will Insert   " + name + "  this Guy");
-    this.storage.query("INSERT INTO Patients (FirstName,LastName,PatientID) VALUES (?,?,?),[name,name,name]");
-   }
+    console.log("Adding:  "+name);
+    this.storage.query("INSERT INTO Patients (name) VALUES (?)", [name])
+  }
 
   public getPatients() {
     //Get Patients
@@ -66,10 +59,10 @@ export class database {
   public generatesituations() {
     //Generate Patients Table
     let sql = "CREATE TABLE IF NOT EXISTS Situations(" +
-    "P_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-    "Situation varchar(255) NOT NULL, " +
-    "FOREIGN KEY (P_Id) REFERENCES Patients(P_Id)" +
-    ")";
+      "P_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+      "Situation varchar(255) NOT NULL, " +
+      "FOREIGN KEY (P_Id) REFERENCES Patients(P_Id)" +
+      ")";
     return this.storage.query(sql);
     //Primary Key Will be S_Id
   }
