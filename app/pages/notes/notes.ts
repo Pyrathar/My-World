@@ -55,7 +55,7 @@ export class NotesPage {
           text: 'Add',
           handler: data => {
             //Add to notes
-          
+
           this.database.addpatients(data.title);
             (error) => {
             console.log(error);
@@ -69,7 +69,7 @@ export class NotesPage {
     prompt.present();
   }
 
-  editNote(note) {
+  editPerson(person) {
 
     let prompt = this.alertCtrl.create({
       title: 'Edit Note',
@@ -83,10 +83,15 @@ export class NotesPage {
         {
           text: 'Save',
           handler: data => {
-            let index = this.personList.indexOf(note);
+            let index = this.personList.indexOf(person);
 
             if (index > -1) {
-              this.personList[index] = data;
+              this.database.obliteratepatients(person.firstname)
+              this.database.addpatients(data.title);
+                (error) => {
+                console.log(error);
+              }
+              this.refresh();
             }
           }
         }
@@ -97,12 +102,25 @@ export class NotesPage {
 
   }
 
-  deleteNote(note) {
+  deletePerson(person) {
 
-    let index = this.personList.indexOf(note);
+    let index = this.personList.indexOf(person);
 
     if (index > -1) {
-      this.personList.splice(index, 1);
+
+      this.database.obliteratepatients(person.firstname)
+      this.refresh();
+    }
+  }
+
+  openPage(person) {
+
+    let index = this.personList.indexOf(person);
+
+    if (index > -1) {
+
+      this.database.obliteratepatients(person.firstname)
+      this.refresh();
     }
   }
 

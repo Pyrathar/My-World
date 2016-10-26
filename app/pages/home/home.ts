@@ -4,7 +4,7 @@ import {GroceriesPage} from '../groceries/groceries';
 import {ContactsPage} from '../contacts/contacts';
 import {LadderPage} from '../ladder/ladder';
 import {NotesPage} from '../notes/notes';
-import {SqlStorage, Storage} from 'ionic-angular';
+
 
 
 @Component({

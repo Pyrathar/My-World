@@ -37,6 +37,8 @@ export class database {
 
   }
 
+// PATIENT MANAGEMENT ON THE SQL
+
   public generatepatients() {
     //Generate Patients Table
     this.storage.query("CREATE TABLE IF NOT EXISTS Patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
@@ -55,6 +57,13 @@ export class database {
     return this.storage.query(sql);
   }
 
+  public obliteratepatients(index: string) {
+    //OBLITERATE PATIENTS Cause erasing is for kids and obliterate sounds badass!
+    console.log("index is:"+index);
+    console.log(this.storage.query("DELETE FROM Patients WHERE name=(?)", [index]))
+  }
+
+// SITUATION MANAGEMENT ON THE SQL
 
   public generatesituations() {
     //Generate Patients Table

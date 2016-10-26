@@ -7,10 +7,9 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Notes</ion-title>
-    <ion-buttons end>
-        <button (click)="addNote()"><ion-icon name="add"></ion-icon></button>
-    </ion-buttons>
+
+
+
   </ion-navbar>
 
 </ion-header>
@@ -23,6 +22,7 @@
 
     <ion-list>
 
+
         <ion-item-sliding *ngFor="let person of personList">
 
             <ion-item>
@@ -30,10 +30,16 @@
             </ion-item>
 
             <ion-item-options>
-                <button (click)="editNote(note)" light>
+
+
+                    <rb></rb><button (click)="openPage(p)">
+
+                    </button>
+
+                <button (click)="editPerson(person)" light>
                     <ion-icon name="paper"></ion-icon>
                 </button>
-                <button (click)="deleteNote(note)" danger>
+                <button (click)="deletePerson(person)" danger>
                     <ion-icon name="trash"></ion-icon>
                 </button>
             </ion-item-options>
