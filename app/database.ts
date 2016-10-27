@@ -15,17 +15,23 @@ export class Item {
   }
 }
 
-@Injectable()
+
 export class database {
   storage: Storage = null;
   scenesItems: Object[];
 
   constructor() {
-    this.storage = new Storage(SqlStorage, { name: 'myWorld4.db' });
+    this.storage = new Storage(SqlStorage, { name: 'myWorld9.db' });
     this.generateitems();
     this.generatepatients();
     this.generatesituations();
   }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GENERATIONS
+// ITEM GENERATION ON THE SQL
 
   public generateitems() {
     let sql = "CREATE TABLE IF NOT EXISTS items ( " +
@@ -37,13 +43,32 @@ export class database {
 
   }
 
-// PATIENT MANAGEMENT ON THE SQL
+// PATIENT GENERATION ON THE SQL
 
   public generatepatients() {
     //Generate Patients Table
-    this.storage.query("CREATE TABLE IF NOT EXISTS Patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
+    this.storage.query("CREATE TABLE IF NOT EXISTS Patients (P_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
     //Primary Key Will be P_Id
   }
+
+  // SITUATION MANAGEMENT ON THE SQL
+
+    public generatesituations() {
+      //Generate Patients Table
+
+      let sql = "CREATE TABLE IF NOT EXISTS Situations(" +
+        "S_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        "Situation varchar(255) NOT NULL, " +
+        "P_id INTEGER NOT NULL, " +
+        "FOREIGN KEY (P_Id) REFERENCES Patients(P_Id)" +
+        ")";
+      return this.storage.query(sql);
+      //Primary Key Will be S_Id
+
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PATIENT MANAGEMENT
 
   public addpatients(name: string) {
     //Add Patients
@@ -59,24 +84,40 @@ export class database {
 
   public obliteratepatients(index: string) {
     //OBLITERATE PATIENTS Cause erasing is for kids and obliterate sounds badass!
-    console.log("index is:"+index);
-    console.log(this.storage.query("DELETE FROM Patients WHERE name=(?)", [index]))
+    console.log("Entry on DB is:"+ index);
+    console.log(this.storage.query("DELETE FROM Patients WHERE P_id=(?)", [index]))
   }
 
-// SITUATION MANAGEMENT ON THE SQL
-
-  public generatesituations() {
-    //Generate Patients Table
-    let sql = "CREATE TABLE IF NOT EXISTS Situations(" +
-      "P_Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-      "Situation varchar(255) NOT NULL, " +
-      "FOREIGN KEY (P_Id) REFERENCES Patients(P_Id)" +
-      ")";
-    return this.storage.query(sql);
-    //Primary Key Will be S_Id
+  public getidpatients(index: string) {
+    //Check ID of user
+    console.log(this.storage.query("SELECT P_id FROM Patients WHERE name=(?)", [index]))
   }
 
+  public replacepatients(name: string,P_id: string) {
+    //Check ID of user
+    console.log(this.storage.query("INSERT INTO Patients (name) WHERE P_id=(?) VALUES (?)", [P_id,name]))
+  }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SITUATION MANAGEMENT
+
+    //Add situations
+    public addsituation(name: string, P_id: string) {
+      this.storage.query("INSERT INTO Situations (Situation,P_id) VALUES (?,?)",[name,P_id])
+    }
+
+    //Get situations
+    public getsituation(P_id: string) {
+      var listofsituations = (this.storage.query("SELECT * FROM Situations WHERE P_id=(?)", [P_id]))
+      return listofsituations
+    }
+    //Delete situations (ZIGGY WILL HAVE TO UPDATE THIS LATER)
+    public obliteratesituation(index: string) {
+      //OBLITERATE situations
+      console.log(this.storage.query("DELETE FROM Situations WHERE S_id=(?)", [index]))
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

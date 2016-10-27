@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, SqlStorage, Storage} from 'ionic-angular';
 import { database } from '../../database';
+import {ContactsPage} from '../contacts/contacts';
 /*
   Generated class for the NotesPage page.
 
@@ -32,13 +33,17 @@ export class NotesPage {
         for (let i = 0; i < data.res.rows.length; i++) {
           this.personList.push({
                 "firstname": data.res.rows.item(i).name,
-        });
+                "P_id": data.res.rows.item(i).P_id,
+
+         });
+
         }
       }
     }, (error) => {
       console.log(error);
     });
-  }
+
+ }
 
   addNote() {
 
@@ -71,6 +76,7 @@ export class NotesPage {
 
   editPerson(person) {
 
+
     let prompt = this.alertCtrl.create({
       title: 'Edit Note',
       inputs: [{
@@ -86,8 +92,12 @@ export class NotesPage {
             let index = this.personList.indexOf(person);
 
             if (index > -1) {
-              this.database.obliteratepatients(person.firstname)
-              this.database.addpatients(data.title);
+               //HAS TO BE SAME ID
+              this.database.replacepatients(person.P_id,data.title);
+            //  this.database.obliteratepatients(person.P_id)
+            //  this.database.addpatients(data.title);
+
+
                 (error) => {
                 console.log(error);
               }
@@ -107,8 +117,9 @@ export class NotesPage {
     let index = this.personList.indexOf(person);
 
     if (index > -1) {
+      console.log("deleting"+ person.P_id)
+      this.database.obliteratepatients(person.P_id)
 
-      this.database.obliteratepatients(person.firstname)
       this.refresh();
     }
   }
@@ -119,9 +130,17 @@ export class NotesPage {
 
     if (index > -1) {
 
-      this.database.obliteratepatients(person.firstname)
+
+       console.log("Opening Patient ID number = " + person.P_id);
+
+      this.navCtrl.push(ContactsPage, {
+      param1: person.P_id
+      });
       this.refresh();
     }
   }
+
+
+
 
 }

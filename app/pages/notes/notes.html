@@ -7,7 +7,9 @@
 <ion-header>
 
   <ion-navbar>
-
+ <ion-title>
+   Patients
+ </ion-title>
 
 
   </ion-navbar>
@@ -27,12 +29,13 @@
 
             <ion-item>
                 {{person.firstname}}
+
             </ion-item>
 
             <ion-item-options>
 
 
-                    <rb></rb><button (click)="openPage(p)">
+                    <rb></rb><button (click)="openPage(person)">
 
                     </button>
 
