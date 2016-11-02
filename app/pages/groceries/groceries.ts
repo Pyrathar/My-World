@@ -15,7 +15,7 @@ export class GroceriesPage {
    groceries: any;
 
   constructor(private navCtrl: NavController) {
-    this.groceries = [
+  /*  this.groceries = [
             'No Milk',
             'Cheese',
             'Snacks',
@@ -27,7 +27,7 @@ export class GroceriesPage {
             'Vegemite',
             'Muffins',
             'Paper towels'
-        ];
+        ];*/
   }
 
 }

@@ -25,7 +25,7 @@
     <ion-list>
 
 
-        <ion-item-sliding *ngFor="let person of personList">
+        <ion-item-sliding *ngFor="let person of personList" (click)="openPage(person)">
 
             <ion-item>
                 {{person.firstname}}
@@ -33,13 +33,7 @@
             </ion-item>
 
             <ion-item-options>
-
-
-                    <rb></rb><button (click)="openPage(person)">
-
-                    </button>
-
-                <button (click)="editPerson(person)" light>
+              <button (click)="editPerson(person)" light>
                     <ion-icon name="paper"></ion-icon>
                 </button>
                 <button (click)="deletePerson(person)" danger>

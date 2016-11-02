@@ -70,6 +70,46 @@ export class ContactsPage {
 
    prompt.present();
  }
+
+ editPerson(Situation) {
+
+
+   let prompt = this.alertCtrl.create({
+     title: 'Edit Situation',
+     inputs: [{
+       name: 'title'
+     }],
+     buttons: [
+       {
+         text: 'Cancel'
+       },
+       {
+         text: 'Save',
+         handler: data => {
+            let index = this.situationList.indexOf(Situation);
+
+           if (index > -1) {
+              //HAS TO BE SAME ID
+             this.database.replacepatients(Situation.P_id,data.title);
+           //  this.database.obliteratepatients(person.P_id)
+           //  this.database.addpatients(data.title);
+
+
+               (error) => {
+               console.log(error);
+             }
+             this.refresh();
+           }
+         }
+       }
+     ]
+   });
+
+   prompt.present();
+
+ }
+
+
  deletesituation(Situation) {
 
       console.log("deleting"+ Situation.S_id)
@@ -79,6 +119,22 @@ export class ContactsPage {
 
      this.database.obliteratesituation(Situation.S_id)
 
+     this.refresh();
+   }
+ }
+
+ openPage(Situation) {
+
+   let index = this.situationList.indexOf(Situation);
+
+   if (index > -1) {
+
+
+      console.log("Opening Patient ID number = " + Situation.P_id);
+
+     this.navController.push(ContactsPage, {
+     param1: Situation.P_id
+     });
      this.refresh();
    }
  }

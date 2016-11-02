@@ -78,7 +78,7 @@ export class NotesPage {
 
 
     let prompt = this.alertCtrl.create({
-      title: 'Edit Note',
+      title: 'Edit Patient',
       inputs: [{
         name: 'title'
       }],

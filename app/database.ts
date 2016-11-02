@@ -117,6 +117,11 @@ export class database {
       console.log(this.storage.query("DELETE FROM Situations WHERE S_id=(?)", [index]))
     }
 
+    public replacesituation(name: string,P_id: string) {
+      //Check ID of user
+      console.log(this.storage.query("INSERT INTO Situations (name) WHERE P_id=(?) VALUES (?)", [P_id,name]))
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
