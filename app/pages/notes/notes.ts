@@ -1,57 +1,53 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, SqlStorage, Storage} from 'ionic-angular';
-import { database } from '../../database';
-import {ContactsPage} from '../contacts/contacts';
-/*
-  Generated class for the NotesPage page.
+import { AlertController, NavController } from 'ionic-angular';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { database, Patient } from '../../database';
+import { ContactsPage } from '../contacts/contacts';
+
+// ********************************//
+//  PATIENTS PAGE
+// ********************************//
+
 @Component({
-  templateUrl: 'build/pages/notes/notes.html',
-
+  templateUrl: 'build/pages/notes/notes.html'
 })
+
 export class NotesPage {
 
-
-  public personList: Array<Object>
+  patient: Patient;
+  patientsList: Array<Patient>;
 
   constructor(private navCtrl: NavController, private alertCtrl: AlertController, private database: database) {
-  this.refresh();
   }
-
 
   public onPageLoaded() {
-    this.refresh();
+    this.updatePatientList();
   }
 
-  public refresh() {
+  public updatePatientList() {
     this.database.getPatients().then((data) => {
+
+      this.patientsList = [];
       if (data.res.rows.length > 0) {
-        this.personList = [];
-        for (let i = 0; i < data.res.rows.length; i++) {
-          this.personList.push({
-                "firstname": data.res.rows.item(i).name,
-                "P_id": data.res.rows.item(i).P_id,
-
-         });
-
+        for (var i = 0; i < data.res.rows.length; i++) {
+          let patient = data.res.rows.item(i);
+          this.patientsList.push(new Patient(
+            patient.P_id,
+            patient.name));
         }
+        return this.patientsList;
       }
-    }, (error) => {
-      console.log(error);
     });
+  }
 
- }
-
-  addNote() {
+  addPatient(patient: Patient) {
 
     let prompt = this.alertCtrl.create({
       title: 'Add Patient',
       inputs: [{
-        name: 'title',
-          }],
+        name: 'name',
+        placeholder: 'Enter patient\'s name'
+      }],
       buttons: [
         {
           text: 'Cancel'
@@ -59,13 +55,13 @@ export class NotesPage {
         {
           text: 'Add',
           handler: data => {
-            //Add to notes
 
-          this.database.addpatients(data.title);
+            //Add to Database Patients table
+            this.database.addpatient(data);
             (error) => {
-            console.log(error);
-          }
-          this.refresh();
+              console.log(error);
+            }
+            this.updatePatientList();
           }
         }
       ]
@@ -74,13 +70,13 @@ export class NotesPage {
     prompt.present();
   }
 
-  editPerson(person) {
-
+  editPatient(patient: Patient) {
 
     let prompt = this.alertCtrl.create({
       title: 'Edit Patient',
       inputs: [{
-        name: 'title'
+        name: 'name',
+        value: `${patient.name}`
       }],
       buttons: [
         {
@@ -89,20 +85,12 @@ export class NotesPage {
         {
           text: 'Save',
           handler: data => {
-            let index = this.personList.indexOf(person);
-
-            if (index > -1) {
-               //HAS TO BE SAME ID
-              this.database.replacepatients(person.P_id,data.title);
-            //  this.database.obliteratepatients(person.P_id)
-            //  this.database.addpatients(data.title);
-
-
-                (error) => {
-                console.log(error);
-              }
-              this.refresh();
+            patient.name = data.name;
+            this.database.editPatient(patient);
+            (error) => {
+              console.log(error);
             }
+            this.updatePatientList();
           }
         }
       ]
@@ -112,35 +100,25 @@ export class NotesPage {
 
   }
 
-  deletePerson(person) {
+  deletePatient(patient: Patient) {
 
-    let index = this.personList.indexOf(person);
+    this.database.obliteratepatients(patient)
+    let index = this.patientsList.indexOf(patient);
 
     if (index > -1) {
-      console.log("deleting"+ person.P_id)
-      this.database.obliteratepatients(person.P_id)
-
-      this.refresh();
+      // console.log("deleting" + patient.P_id);
+      this.patientsList.splice(index, 1);
     }
   }
 
-  openPage(person) {
+  openPage(patient: Patient) {
 
-    let index = this.personList.indexOf(person);
+    // console.log("Opening Patient ID number = " + patient.P_id);
 
-    if (index > -1) {
-
-
-       console.log("Opening Patient ID number = " + person.P_id);
-
-      this.navCtrl.push(ContactsPage, {
-      param1: person.P_id
-      });
-      this.refresh();
-    }
+    this.navCtrl.push(ContactsPage, {
+      patientObject: patient
+    });
   }
-
-
 
 
 }

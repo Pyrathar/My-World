@@ -5,51 +5,43 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-toolbar>
-      <ion-title>Header</ion-title>
-    </ion-toolbar>
   <ion-navbar>
 
+    <ion-title>{{currentPatient.name}} situations</ion-title>
 
+    <ion-buttons end>
+      <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button>
+    </ion-buttons>
 
   </ion-navbar>
-
 </ion-header>
 
+
+
 <ion-content>
-  <ion-buttons end>
-      <button (click)="addsituation()"><ion-icon name="add"></ion-icon></button>
-  </ion-buttons>
 
+  <ion-list>
 
-    <ion-list>
+    <ion-item-sliding *ngFor="let situation of situationList">
 
+      <ion-item (click)="openPage(situation)">
+        {{situation.Situation}}
+      </ion-item>
 
-        <ion-item-sliding *ngFor="let situation of situationList" (click)="openPage(situation)">
+      <ion-item-options>
 
-            <ion-item>
-                {{situation.situation}}
-            </ion-item>
+        <button (click)="editSituation(situation)" light>
+          <ion-icon name="paper"></ion-icon>
+        </button>
 
-            <ion-item-options>
+        <button (click)="deletesituation(situation)" danger>
+          <ion-icon name="trash"></ion-icon>
+        </button>
 
+      </ion-item-options>
 
-                    <rb></rb><button (click)="openPage(situation)">
-                    </button>
+    </ion-item-sliding>
 
-                    <button (click)="deletesituation(situation)" danger>
-                    <ion-icon name="trash"></ion-icon>
-                    </button>
-
-
-                    <button (click)="editsituation(situation)" light>
-                    <ion-icon name="paper"></ion-icon>
-                    </button>
-
-            </ion-item-options>
-
-        </ion-item-sliding>
-
-    </ion-list>
+  </ion-list>
 
 </ion-content>

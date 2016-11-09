@@ -7,42 +7,42 @@
 <ion-header>
 
   <ion-navbar>
- <ion-title>
-   Patients
- </ion-title>
 
+   <ion-title>
+     Patients
+   </ion-title>
+
+   <ion-buttons end>
+    <button (click)="addPatient()"><ion-icon name="add"></ion-icon></button>
+   </ion-buttons>
 
   </ion-navbar>
 
 </ion-header>
 
-<ion-content>
-  <ion-buttons end>
-      <button (click)="addNote()"><ion-icon name="add"></ion-icon></button>
-  </ion-buttons>
 
+<ion-content>
 
     <ion-list>
+        <ion-item-sliding *ngFor="let patient of patientsList">
 
-
-        <ion-item-sliding *ngFor="let person of personList" (click)="openPage(person)">
-
-            <ion-item>
-                {{person.firstname}}
-
+            <ion-item (click)="openPage(patient)">
+                {{patient.name}}
             </ion-item>
 
             <ion-item-options>
-              <button (click)="editPerson(person)" light>
-                    <ion-icon name="paper"></ion-icon>
-                </button>
-                <button (click)="deletePerson(person)" danger>
-                    <ion-icon name="trash"></ion-icon>
-                </button>
+
+              <button (click)="editPatient(patient)" light>
+                <ion-icon name="paper"></ion-icon>
+              </button>
+
+              <button (click)="deletePatient(patient)" danger>
+                <ion-icon name="trash"></ion-icon>
+              </button>
+              
             </ion-item-options>
 
         </ion-item-sliding>
-
     </ion-list>
 
 </ion-content>

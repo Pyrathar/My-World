@@ -1,143 +1,142 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import { database } from '../../database';
-/*
-  Generated class for the ContactsPage page.
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { database, Patient, Situation } from '../../database';
+import { Page1 } from '../page1/page1';
+import { LadderPage } from '../ladder/ladder';
+
+// ********************************//
+//  PATIENT SITUATIONS PAGE
+// ********************************//
+
 @Component({
-  templateUrl: 'build/pages/contacts/contacts.html',
+  templateUrl: 'build/pages/contacts/contacts.html'
 })
+
 export class ContactsPage {
 
-  public user;
-  public situationList: Array<Object>
+  currentPatient: Patient;
+  situation: Situation = null;
+  situationList: Array<Situation>;
 
-  constructor(private navController: NavController, private navParams: NavParams, private alertCtrl: AlertController,private database: database) {
-    //Name from the first page
-    this.user = navParams.get('param1');
-    this.refresh();
+  constructor(
+    private alertCtrl: AlertController,
+    private navController: NavController,
+    private navParams: NavParams,
+    private database: database) {
+
+    this.currentPatient = navParams.get('patientObject');
   }
+
   public onPageLoaded() {
-   this.refresh();
+    this.getSituationsForCurrentPatient(this.currentPatient);
   }
 
-//STILL HAVE TO ALTER SOME STUFF
+  //STILL HAVE TO ALTER SOME STUFF
 
-  public refresh() {
-   this.database.getsituation(this.user).then((data) => {
-     if (data.res.rows.length > 0) {
-       this.situationList = [];
-       for (let i = 0; i < data.res.rows.length; i++) {
-         this.situationList.push({
-               "situation": data.res.rows.item(i).Situation,
-               "S_id": data.res.rows.item(i).S_id,
-       });
-       }
-     }
-   }, (error) => {
-     console.log(error);
-   });
- }
+  // this was refresh()
+  public getSituationsForCurrentPatient(currentPatient: Patient) {
+    this.database.getSituations(this.currentPatient).then((data) => {
 
- addsituation() {
+      this.situationList = [];
+      if (data.res.rows.length > 0) {
+        for (var i = 0; i < data.res.rows.length; i++) {
+          let situation = data.res.rows.item(i);
+          this.situationList.push(new Situation(
+            situation.S_id,
+            situation.Situation,
+            situation.P_id));
+        }
+        return this.situationList;
+      }
 
-   let prompt = this.alertCtrl.create({
-     title: 'Add Situation',
-     inputs: [{
-       name: 'title',
-         }],
-     buttons: [
-       {
-         text: 'Cancel'
-       },
-       {
-         text: 'Add',
-         handler: data => {
-           //Add to notes
+    }, (error) => {
+      console.log(error);
+    });
+  }
 
-         this.database.addsituation(data.title,this.user);
-           (error) => {
-           console.log(error);
-         }
-         this.refresh();
-         }
-       }
-     ]
-   });
+  addsituation(situation: Situation) {
 
-   prompt.present();
- }
+    let prompt = this.alertCtrl.create({
+      title: 'Add Situation',
+      inputs: [{
+        name: 'Situation',
+        placeholder: 'Enter situation\'s title'
+      }],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Add',
+          handler: data => {
 
- editPerson(Situation) {
+            //Add to Database Situations table
+            data.P_id = this.currentPatient.P_id;
+            this.database.addSituation(data);
+            (error) => {
+              console.log(error);
+            }
+          }
+        }
+      ]
+    });
 
+    prompt.present();
+  }
 
-   let prompt = this.alertCtrl.create({
-     title: 'Edit Situation',
-     inputs: [{
-       name: 'title'
-     }],
-     buttons: [
-       {
-         text: 'Cancel'
-       },
-       {
-         text: 'Save',
-         handler: data => {
-            let index = this.situationList.indexOf(Situation);
-
-           if (index > -1) {
-              //HAS TO BE SAME ID
-             this.database.replacepatients(Situation.P_id,data.title);
-           //  this.database.obliteratepatients(person.P_id)
-           //  this.database.addpatients(data.title);
+  editSituation(situation: Situation) {
 
 
-               (error) => {
-               console.log(error);
-             }
-             this.refresh();
-           }
-         }
-       }
-     ]
-   });
+    let prompt = this.alertCtrl.create({
+      title: 'Edit Situation',
+      inputs: [{
+        name: 'Situation',
+        value: `${situation.Situation}`
+      }],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
 
-   prompt.present();
+            situation.Situation = data.Situation;
+            this.database.editSituation(situation);
+            (error) => {
+              console.log(error);
+            }
+          }
+        }
+      ]
+    });
 
- }
+    prompt.present();
 
-
- deletesituation(Situation) {
-
-      console.log("deleting"+ Situation.S_id)
-   let index = this.situationList.indexOf(Situation);
-
-   if (index > -1) {
-
-     this.database.obliteratesituation(Situation.S_id)
-
-     this.refresh();
-   }
- }
-
- openPage(Situation) {
-
-   let index = this.situationList.indexOf(Situation);
-
-   if (index > -1) {
+  }
 
 
-      console.log("Opening Patient ID number = " + Situation.P_id);
+  deletesituation(situation: Situation) {
 
-     this.navController.push(ContactsPage, {
-     param1: Situation.P_id
-     });
-     this.refresh();
-   }
- }
+    this.database.deleteSituation(situation)
+    let index = this.situationList.indexOf(situation);
+
+    if (index > -1) {
+      // console.log("deleting" + situation.S_id);
+      this.situationList.splice(index, 1);
+    }
+  }
+
+  openPage(situation: Situation) {
+
+    // console.log("Opening Patient ID = " + situation.P_id);
+    // console.log("Opening Situation ID = " + situation.S_id);
+
+    this.navController.push(Page1, {
+      situationObject: situation
+    });
+  }
 
 
 
