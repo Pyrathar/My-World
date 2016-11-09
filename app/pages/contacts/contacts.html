@@ -11,7 +11,7 @@
  </ion-title>
 
  <ion-buttons end>
-     <button (click)="addsituation()"><ion-icon name="add"></ion-icon></button>
+     <button color="IDAred" (click)="addsituation()"><ion-icon name="add"></ion-icon></button>
  </ion-buttons>
 
   </ion-navbar>
@@ -23,7 +23,7 @@
     <ion-list>
 
 
-        <ion-item-sliding *ngFor="let situation of situationList" (click)="openPage(situation)">
+        <ion-item-sliding *ngFor="let situation of situationList" (press)="openPage(situation)">
 
             <ion-item>
                 {{situation.situation}}

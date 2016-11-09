@@ -25,7 +25,7 @@
 
     <ion-list>
 
-        <ion-item-sliding *ngFor="let person of personList" (click)="openPage(person)">
+        <ion-item-sliding *ngFor="let person of personList" (press)="openPage(person)">
 
             <ion-item>{{person.firstname}}</ion-item>
 
