@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+
+    <ion-title>{{currentSituation.Situation}} situation</ion-title>
+
+    <ion-buttons end>
+      <button (click)="presentPopover($event)"><ion-icon name="more"></ion-icon></button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content id="page1" cache-view="false" (dragover)="moveDragOver(item, $event)" (drop)="moveDrop(item, itemsArray,  $event)">
+
+
+  <div *ngFor="let item of sceneItems" [class]="item.category" (dragstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
+
+    <ion-icon *ngIf="isActive === true" name="close" role="img" class="ion-ios-close item-icon" aria-label="close" ng-reflect-name="close" danger (click)="removeItemFromScene(item)" [id]="item.id"></ion-icon>
+
+    <img [src]="item.imgUrl" [id]="item.id" [class]="item.category" />
+
+  </div>
+
+  <!-- (mousedown)="startInterval()" (mouseup)="makeUnactive()"-->
+
+
+</ion-content>

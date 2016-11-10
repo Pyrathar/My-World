@@ -3,6 +3,7 @@ import { ionicBootstrap, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import {SqlStorage, Storage} from 'ionic-angular';
 import { HomePage } from './pages/home/home';
+import { GroceriesPage } from './pages/groceries/groceries';
 import { database } from './database';
 
 @Component({

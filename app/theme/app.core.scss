@@ -8,3 +8,33 @@
 // App Shared Sass variables belong in app.variables.scss.
 
 @import "../pages/home/home";
+
+.menuItems img {
+  position: inherit;
+  margin: 15px;
+}
+
+.person {
+  max-width: 40px;
+  height: 120px;
+  position: inherit;
+}
+
+.mood {
+  max-width: 50px;
+  height: 60px;
+  background: transparent;
+}
+
+.menuItems .background {
+  max-width: 50px;
+  height: 120px;
+}
+
+ion-page.show-page scroll-content {
+    overflow: hidden;
+}
+// ion-menu h2 {
+//   float: left;
+//   width: 100%;
+// }

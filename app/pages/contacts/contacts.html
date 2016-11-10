@@ -10,19 +10,31 @@
    Situations
  </ion-title>
 
+<<<<<<< HEAD
  <ion-buttons end>
      <button color="IDAred" (click)="addsituation()"><ion-icon name="add"></ion-icon></button>
  </ion-buttons>
+=======
+    <ion-title>{{currentPatient.name}} situations</ion-title>
+
+    <ion-buttons end>
+      <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button>
+    </ion-buttons>
+>>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
   </ion-navbar>
 </ion-header>
 
+<<<<<<< HEAD
 <ion-content>
 
+=======
+>>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
-    <ion-list>
 
+<ion-content>
 
+<<<<<<< HEAD
         <ion-item-sliding *ngFor="let situation of situationList" (press)="openPage(situation)">
 
             <ion-item>
@@ -30,24 +42,30 @@
             </ion-item>
 
             <ion-item-options>
+=======
+  <ion-list>
+>>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
+    <ion-item-sliding *ngFor="let situation of situationList">
 
-                    <rb></rb><button (click)="openPage(situation)">
-                    </button>
+      <ion-item (click)="openPage(situation)">
+        {{situation.Situation}}
+      </ion-item>
 
-                    <button (click)="deletesituation(situation)" danger>
-                    <ion-icon name="trash"></ion-icon>
-                    </button>
+      <ion-item-options>
 
+        <button (click)="editSituation(situation)" light>
+          <ion-icon name="paper"></ion-icon>
+        </button>
 
-                    <button (click)="editsituation(situation)" light>
-                    <ion-icon name="paper"></ion-icon>
-                    </button>
+        <button (click)="deletesituation(situation)" danger>
+          <ion-icon name="trash"></ion-icon>
+        </button>
 
-            </ion-item-options>
+      </ion-item-options>
 
-        </ion-item-sliding>
+    </ion-item-sliding>
 
-    </ion-list>
+  </ion-list>
 
 </ion-content>

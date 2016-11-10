@@ -6,13 +6,20 @@
 -->
 <ion-header>
   <ion-navbar>
- <ion-title>
-   Patients
- </ion-title>
 
+<<<<<<< HEAD
  <ion-buttons end>
      <button (click)="addNote()"><ion-icon name="add"></ion-icon></button>
  </ion-buttons>
+=======
+   <ion-title>
+     Patients
+   </ion-title>
+
+   <ion-buttons end>
+    <button (click)="addPatient()"><ion-icon name="add"></ion-icon></button>
+   </ion-buttons>
+>>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
 
   </ion-navbar>
@@ -21,6 +28,7 @@
 
 <ion-content>
 
+<<<<<<< HEAD
 
 
     <ion-list>
@@ -39,6 +47,25 @@
                 <ion-icon name="trash"></ion-icon>
                 </button>
 
+=======
+    <ion-list>
+        <ion-item-sliding *ngFor="let patient of patientsList">
+
+            <ion-item (click)="openPage(patient)">
+                {{patient.name}}
+            </ion-item>
+
+            <ion-item-options>
+
+              <button (click)="editPatient(patient)" light>
+                <ion-icon name="paper"></ion-icon>
+              </button>
+
+              <button (click)="deletePatient(patient)" danger>
+                <ion-icon name="trash"></ion-icon>
+              </button>
+              
+>>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
             </ion-item-options>
 
         </ion-item-sliding>

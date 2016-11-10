@@ -1,0 +1,29 @@
+.page1 {
+
+
+ion-content {
+  background-repeat: no-repeat;
+  // background-size: contain;
+}
+
+// img.char {
+ #page1 div.person, #page1 div.mood, #page1 div.background {
+  position: absolute!important;
+  float: left;
+  padding: 0;
+  left: 0px;
+  top: 0px;
+}
+
+.background {
+  max-width: 10000px;
+  z-index: -1;
+}
+
+.ion-ios-close {
+  margin: 0 !important;
+  margin-left: -10px!important;
+  position: absolute;
+}
+
+}
