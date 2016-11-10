@@ -5,13 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+
   <ion-navbar>
 
-<<<<<<< HEAD
- <ion-buttons end>
-     <button (click)="addNote()"><ion-icon name="add"></ion-icon></button>
- </ion-buttons>
-=======
    <ion-title>
      Patients
    </ion-title>
@@ -19,35 +15,14 @@
    <ion-buttons end>
     <button (click)="addPatient()"><ion-icon name="add"></ion-icon></button>
    </ion-buttons>
->>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
-
 
   </ion-navbar>
+
 </ion-header>
 
 
 <ion-content>
 
-<<<<<<< HEAD
-
-
-    <ion-list>
-
-        <ion-item-sliding *ngFor="let person of personList" (press)="openPage(person)">
-
-            <ion-item>{{person.firstname}}</ion-item>
-
-            <ion-item-options>
-
-                <button (click)="editPerson(person)" light>
-                <ion-icon name="paper"></ion-icon>
-                </button>
-
-                <button (click)="deletePerson(person)" danger>
-                <ion-icon name="trash"></ion-icon>
-                </button>
-
-=======
     <ion-list>
         <ion-item-sliding *ngFor="let patient of patientsList">
 
@@ -65,7 +40,6 @@
                 <ion-icon name="trash"></ion-icon>
               </button>
               
->>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
             </ion-item-options>
 
         </ion-item-sliding>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavParams, PopoverController } from 'ionic-angular';
 import { database, Item, ItemPosition, Patient, Situation } from '../../database';
 
-import { IonicSelectPage } from '../ionicselect/ionicselect'; //page for popover
+import { IonicSelectPage } from '../page2/page2'; //page for popover
 // ********************************//
 //  CURRENT SITUATION PAGE
 // ********************************//

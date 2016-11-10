@@ -6,45 +6,21 @@
 -->
 <ion-header>
   <ion-navbar>
- <ion-title>
-   Situations
- </ion-title>
 
-<<<<<<< HEAD
- <ion-buttons end>
-     <button color="IDAred" (click)="addsituation()"><ion-icon name="add"></ion-icon></button>
- </ion-buttons>
-=======
     <ion-title>{{currentPatient.name}} situations</ion-title>
 
     <ion-buttons end>
       <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button>
     </ion-buttons>
->>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
   </ion-navbar>
 </ion-header>
 
-<<<<<<< HEAD
-<ion-content>
-
-=======
->>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
 
 <ion-content>
 
-<<<<<<< HEAD
-        <ion-item-sliding *ngFor="let situation of situationList" (press)="openPage(situation)">
-
-            <ion-item>
-                {{situation.situation}}
-            </ion-item>
-
-            <ion-item-options>
-=======
   <ion-list>
->>>>>>> d7dd2021170d2b2e715beafefa2b550f7e467d46
 
     <ion-item-sliding *ngFor="let situation of situationList">
 
