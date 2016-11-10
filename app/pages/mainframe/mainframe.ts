@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavParams, PopoverController } from 'ionic-angular';
 import { database, Item, ItemPosition, Patient, Situation } from '../../database';
 
-import { IonicSelectPage } from '../page2/page2'; //page for popover
+import { IonicSelectPage } from '../popups/popups';
 // ********************************//
 //  CURRENT SITUATION PAGE
 // ********************************//
 
 @Component({
-  templateUrl: 'build/pages/page1/page1.html'
+  templateUrl: 'build/pages/mainframe/mainframe.html'
 })
 
 export class Page1 {

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { database, Item, ItemPosition, Patient, Situation } from '../../database';
-import { Page1 } from '../page1/page1';
+import { Page1 } from '../mainframe/mainframe';
 
 
 // ********************************//
 //  POPOVER PAGE
 // ********************************//
 @Component({
-  templateUrl: 'build/pages/ionicselect/ionicselect.html'
+  templateUrl: 'build/pages/popups/popups.html'
 })
 export class IonicSelectPage {
 

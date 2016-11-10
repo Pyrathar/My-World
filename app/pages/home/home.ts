@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {GroceriesPage} from '../groceries/groceries';
-import {ContactsPage} from '../contacts/contacts';
-import {LadderPage} from '../ladder/ladder';
-import {NotesPage} from '../notes/notes';
+import {GroceriesPage} from '../introduction/introduction';
+import {ContactsPage} from '../enviroments/enviroments';
+import {LadderPage} from '../about/about';
+import {NotesPage} from '../patients/patients';
 
 
 

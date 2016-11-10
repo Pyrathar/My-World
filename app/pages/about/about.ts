@@ -8,7 +8,7 @@ import { NavController } from 'ionic-angular';
   Ionic pages and navigation.
 */
 @Component({
-  templateUrl: 'build/pages/ladder/ladder.html',
+  templateUrl: 'build/pages/about/about.html',
 })
 export class LadderPage {
 

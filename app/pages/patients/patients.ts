@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 
 import { database, Patient } from '../../database';
-import { ContactsPage } from '../contacts/contacts';
+import { ContactsPage } from '../enviroments/enviroments';;
 
 // ********************************//
 //  PATIENTS PAGE
 // ********************************//
 
 @Component({
-  templateUrl: 'build/pages/notes/notes.html'
+  templateUrl: 'build/pages/patients/patients.html'
 })
 
 export class NotesPage {

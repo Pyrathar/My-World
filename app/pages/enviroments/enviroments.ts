@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
 
 import { database, Patient, Situation } from '../../database';
-import { Page1 } from '../page1/page1';
-import { LadderPage } from '../ladder/ladder';
+import { Page1 } from '../mainframe/mainframe';
+import { LadderPage } from '../about/about';
 
 // ********************************//
 //  PATIENT SITUATIONS PAGE
 // ********************************//
 
 @Component({
-  templateUrl: 'build/pages/contacts/contacts.html'
+  templateUrl: 'build/pages/enviroments/enviroments.html'
 })
 
 export class ContactsPage {
