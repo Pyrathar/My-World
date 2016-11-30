@@ -1,0 +1,11 @@
+<ion-content>
+
+  <ion-list>
+
+    <div class="menuItems" *ngFor="let item of moodsMenu;">
+      <img [class]="item.category" [src]="item.imgUrl" (click)="addToSituation(item, currentSituation)" />
+    </div>
+
+  </ion-list>
+
+</ion-content>
