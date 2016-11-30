@@ -65,6 +65,7 @@ export class database {
       name: 'myWorld10.db'
     });
     // this.del();
+    this.lastSituation();
     this.generateitems();
     this.generatepatients();
     this.generatesituations();
@@ -77,6 +78,13 @@ export class database {
   //   let sql = `DELETE FROM items WHERE id>19`;
   //   this.storage.query(sql);
   // }
+
+  public lastSituation() {
+    // let sql = `SELECT LAST(S_id) FROM Situations`;
+    let sql = `SELECT S_id FROM Situations
+                ORDER BY S_id DESC LIMIT 1;`;
+    return this.storage.query(sql);
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // GENERATIONS

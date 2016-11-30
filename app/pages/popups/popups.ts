@@ -5,18 +5,14 @@ import { Page1 } from '../mainframe/mainframe';
 
 
 // ********************************//
-//  POPOVER PAGE
+//  POPOVER PAGE - BACKGROUNDS
 // ********************************//
 @Component({
   templateUrl: 'build/pages/popups/popups.html'
 })
 export class IonicSelectPage {
 
-  item: Item;
   backgroundsMenu: Item[];
-  personsMenu: Item[];
-  moodsMenu: Item[];
-
   thisSituation: Situation;
 
   constructor(public database: database, private navParams: NavParams) {
@@ -40,52 +36,14 @@ export class IonicSelectPage {
       });
   }
 
-  public loadPersons() {
-    this.database.getItems("person").then(
-      data => {
-        this.personsMenu = [];
-        if (data.res.rows.length > 0) {
-          for (var i = 0; i < data.res.rows.length; i++) {
-            let item = data.res.rows.item(i);
-            this.personsMenu.push(new Item(item.id, item.name, item.imgUrl, item.category));
-          }
-          // console.log(this.personsMenu);
-          return this.personsMenu;
-        }
-      });
-  }
-
-  public loadMoods() {
-    this.database.getItems("mood").then(
-      data => {
-        this.moodsMenu = [];
-        if (data.res.rows.length > 0) {
-          for (var i = 0; i < data.res.rows.length; i++) {
-            let item = data.res.rows.item(i);
-            this.moodsMenu.push(new Item(item.id, item.name, item.imgUrl, item.category));
-          }
-          // console.log(this.moodsMenu);
-          return this.moodsMenu;
-        }
-      });
-  }
-
-  // Initialise the MenuItems by loading data from our DB
-  public loadMenuItems() {
-    this.loadBackgrounds();
-    this.loadPersons();
-    this.loadMoods();
-  }
-
   public ngOnInit() {
-    this.loadMenuItems();
-    console.log(this.thisSituation, this.backgroundsMenu, this.personsMenu, this.moodsMenu);
+    this.loadBackgrounds();
+    console.log(this.thisSituation, this.backgroundsMenu);
   }
 
   // // Save our item to the DB and display it in Page1
-  private addToSituation(item: ItemPosition, thisSituation: Situation) {
+  public addToSituation(item: ItemPosition, thisSituation: Situation) {
     this.database.saveSceneItem(item, this.thisSituation);
-    // this.page1.loadSceneItems();
   }
 
 }

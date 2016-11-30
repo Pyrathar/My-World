@@ -68,10 +68,7 @@ export class ContactsPage {
           text: 'Cancel'
         },
         {
-          text: 'Add Blank'
-        },
-        {
-          text: 'Add Generated',
+          text: 'Add Blank',
           handler: data => {
 
             //Add to Database Situations table
@@ -80,6 +77,42 @@ export class ContactsPage {
             (error) => {
               console.log(error);
             }
+            this.getSituationsForCurrentPatient(this.currentPatient);
+          }
+        },
+        {
+          text: 'Add Generated',
+          handler: data => {
+
+            //Add to Database Situations table
+            data.P_id = this.currentPatient.P_id;
+            this.database.addSituation(data);
+
+            this.database.lastSituation().then(
+              lastSituationIdData => {
+                lastSituationIdData.res.rows[0].S_id;
+
+                var lastSituationId = lastSituationIdData.res.rows[0].S_id;
+                console.log(lastSituationId);
+
+
+                // let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`;
+                // console.log(sql);
+
+                this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`);
+                this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 5, 100, 100)`);
+                this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 7, 240, 300)`);
+                this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 11, 700, 400)`);
+
+
+                // this.database.saveSceneItem(item1, data);
+
+              });
+
+            (error) => {
+              console.log(error);
+            }
+            this.getSituationsForCurrentPatient(this.currentPatient);
           }
         }
       ]

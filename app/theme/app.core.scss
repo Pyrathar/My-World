@@ -12,29 +12,33 @@
 .menuItems img {
   position: inherit;
   margin: 15px;
+  float: left;
 }
 
 .person {
+  position: inherit;
   max-width: 40px;
   height: 120px;
-  position: inherit;
 }
 
 .mood {
+  height: 50px;
   max-width: 50px;
-  height: 60px;
-  background: transparent;
 }
 
 .menuItems .background {
-  max-width: 50px;
+  // max-width: 50px;
   height: 120px;
 }
 
 ion-page.show-page scroll-content {
-    overflow: hidden;
+  overflow: hidden;
 }
-// ion-menu h2 {
-//   float: left;
-//   width: 100%;
-// }
+
+.popover-content {
+  width: 25%;
+}
+::-webkit-scrollbar, ::-moz-scrollbars-none {
+    display: none;
+    width: 0;
+}
