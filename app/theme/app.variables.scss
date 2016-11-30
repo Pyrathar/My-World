@@ -14,6 +14,25 @@
 // Ionic's default Sass variable values. App Shared Sass imports belong
 // in the app.core.scss file and not this file. Sass variables specific
 // to the mode belong in either the app.ios.scss or app.md.scss files.
+$toolbar-background: #e63e4d;
+
+
+//IOS
+//Tabs
+$tabs-ios-tab-color: #ffffff;
+$tabs-ios-tab-color-active: #ffffff;
+$background-ios-color	: #F2F2F2;
+
+
+//Tabs
+//Android
+$tabs-md-tab-color: #ffffff;
+$tabs-md-tab-color-active: #ffffff;
+$background-md-color	: #F2F2F2;
+
+// Windows .....SERIOUSLY??? who gives a *****??
+
+
 
 
 // App Shared Color Variables
@@ -31,5 +50,12 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  favorite:   #69BB7B
+  favorite:   #69BB7B,
+  IDAred:     #e63e4d,
+  IDATurquoise: #0098AA,
+  IDAPurple:  #676696,
+  IDAViolet:  #A1ABD3,
+  IDAYellow:  #F5A52B,
+  IDAGrey:    #A1A19F,
+  IDAmenu:    #F2F2F2,
 );

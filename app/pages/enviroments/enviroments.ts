@@ -6,7 +6,7 @@ import { Page1 } from '../mainframe/mainframe';
 import { LadderPage } from '../about/about';
 
 // ********************************//
-//  PATIENT SITUATIONS PAGE
+//  PATIENT Enviroment PAGE
 // ********************************//
 
 @Component({
@@ -58,7 +58,7 @@ export class ContactsPage {
   addsituation(situation: Situation) {
 
     let prompt = this.alertCtrl.create({
-      title: 'Add Situation',
+      title: 'Add Enviroment',
       inputs: [{
         name: 'Situation',
         placeholder: 'Enter situation\'s title'
@@ -68,7 +68,10 @@ export class ContactsPage {
           text: 'Cancel'
         },
         {
-          text: 'Add',
+          text: 'Add Blank'
+        },
+        {
+          text: 'Add Generated',
           handler: data => {
 
             //Add to Database Situations table

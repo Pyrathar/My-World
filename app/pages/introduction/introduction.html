@@ -5,19 +5,64 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <img class="title-image" src="/img/iconslogos/logoplusbubles.png"/>
 
   <ion-navbar>
-    <ion-title>Groceries</ion-title>
+
+   <ion-title>
+     Introduction
+   </ion-title>
+
+
+
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content >
+<ion-content padding>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50>
+        <ion-card>
+
+         <ion-card-header>
+           Penguins!
+         </ion-card-header>
+
+         <ion-card-content>
+          I love penguins and ninjas so what can be better?
+         </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+      <ion-col width-50><ion-card>
+       <img src="img/various/ninjatux.png" width="50" height="250"/>
+       <ion-card-content>
+         <ion-card-title>
+           PENGUINS THAT ARE NINJAS!
+           </ion-card-title>
+         <p>
+           The most popular industrial group ever, and largely
+           responsible for bringing the music to a mass audience.
+         </p>
+       </ion-card-content>
+     </ion-card></ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item>
+    <ion-range [(ngModel)]="brightness">
+      <ion-icon range-left small name="sunny"></ion-icon>
+      <ion-icon range-right name="sunny"></ion-icon>
+    </ion-range>
+  </ion-item>
 
 
 
-      Hello this is IDA My World App Have fun!
 
 
 </ion-content>
