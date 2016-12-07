@@ -44,7 +44,7 @@
 </ion-header>
 
 
-<ion-content id="page1" cache-view="false" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)">
+<ion-content cache-view="false" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)">
 
 
   <div *ngFor="let item of sceneItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">

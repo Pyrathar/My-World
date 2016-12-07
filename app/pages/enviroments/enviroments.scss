@@ -1,3 +1,31 @@
 .enviroments {
+}
 
+.card-background-page {
+
+  ion-card {
+    margin: 5px;
+    position: relative;
+    text-align: center;
+
+    img {
+      width: 80px;
+    }
+  }
+
+  .card-title {
+    position: absolute;
+    top: 30%;
+    font-size: 1.8em;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .card-subtitle {
+    font-family: GothamLight;
+    font-size: 1.2em;
+    position: absolute;
+    top: 60%;
+    width: 100%;
+  }
 }

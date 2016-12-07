@@ -6,8 +6,27 @@
 // These are the imports which make up the design of this app.
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
+@font-face {
+    font-family: 'GothamBook';
+    src: url('../../fonts/Gotham-Book.ttf');
+}
 
-@import "../pages/home/home";
+@font-face {
+    font-family: 'GothamLight';
+    src: url('../../fonts/Gotham-Light.ttf');
+}
+
+body {
+  font-family: GothamBook;
+}
+
+@import "../pages/about/about.scss";
+@import "../pages/enviroments/enviroments.scss";
+@import "../pages/home/home.scss";
+@import "../pages/introduction/introduction.scss";
+@import "../pages/mainframe/mainframe.scss";
+@import "../pages/patients/patients.scss";
+
 
 .menuItems img {
   position: inherit;

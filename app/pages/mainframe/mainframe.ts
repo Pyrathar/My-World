@@ -13,7 +13,7 @@ import { database, Item, ItemPosition, Situation } from '../../database';
   template: `
     <ion-list>
       <div class="menuItems" *ngFor="let item of popoverItems;">
-        <img [class]="item.category" [src]="item.imgUrl" (click)="addToSituation(item, currentSituation)" />
+        <img [class]="item.category" [src]="item.imgUrl" (touchend)="addToSituation(item, currentSituation, $event)" />
       </div>
     </ion-list>
   `
@@ -23,14 +23,15 @@ export class PopoverPage {
 
   popoverItems: Item[];
   thisSituation: Situation;
+  popoverToShow;
 
   constructor(public database: database, public navParams: NavParams, public vc: ViewController) {
-    this.thisSituation = navParams.data.AAAA;
-    console.log(navParams.data.AAAA);
+    this.thisSituation = navParams.data.curSituation;
+    this.popoverToShow = navParams.data.popupToOpen;
   }
 
   public loadPopoverItems() {
-    this.database.getItems(this.thisSituation.Situation).then(
+    this.database.getItems(this.popoverToShow).then(
       data => {
         this.popoverItems = [];
         if (data.res.rows.length > 0) {
@@ -48,7 +49,10 @@ export class PopoverPage {
   }
 
   // // Save our item to the DB and display it in Page1
-  public addToSituation(item: ItemPosition, thisSituation) {
+  public addToSituation(item: ItemPosition, thisSituation, e) {
+    item.x = e.changedTouches["0"].clientX;
+    item.y = e.changedTouches["0"].clientY - 104;
+    console.log(e.changedTouches["0"].clientX, e.changedTouches["0"].clientY);
     this.database.saveSceneItem(item, this.thisSituation);
     this.vc.dismiss();
   }
@@ -68,6 +72,7 @@ export class Page1 {
 
   isActive: boolean;
   waitToDeleteTimer: number;
+  toolbarSize: number = 104;
 
   itemX: number;
   itemY: number;
@@ -104,21 +109,19 @@ export class Page1 {
   }
 
   presentPopover1(myEvent) {
-    this.currentSituation.Situation = "background";
-    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
+    let openPopup = "background";
+    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss((item) => {
-      if (item) {
         this.loadSceneItems();
-      }
     });
   }
 
   presentPopover2(myEvent) {
-    this.currentSituation.Situation = "person";
-    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
+    let openPopup = "person";
+    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
     popover.present({
       ev: myEvent
     });
@@ -128,15 +131,13 @@ export class Page1 {
   }
 
   presentPopover3(myEvent) {
-    this.currentSituation.Situation = "mood";
-    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
+    let openPopup = "mood";
+    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss((item) => {
-      if (item) {
         this.loadSceneItems();
-      }
     });
   }
 
@@ -144,16 +145,13 @@ export class Page1 {
 
 // change it to items when we get those
   presentPopover4(myEvent) {
-    this.currentSituation.Situation = "item";
-    // let popover = this.popoverCtrl.create(Page5, { test: 123 });
-    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
+    let openPopup = "item";
+    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss((item) => {
-      if (item) {
         this.loadSceneItems();
-      }
     });
   }
 
@@ -192,7 +190,7 @@ export class Page1 {
       // console.log(e);
       this.item = item;
       this.moveStartX = e.targetTouches["0"].clientX;  // current cursor X position on screen
-      this.moveStartY = e.targetTouches["0"].clientY - 104;  // current cursor Y position on screen minus toolbars in the top
+      this.moveStartY = e.targetTouches["0"].clientY - this.toolbarSize;  // current cursor Y position on screen minus toolbars in the top
       // console.log( this.moveStartX,  this.moveStartY);
 
       this.itemX = this.moveStartX - item.x; // item position X center
@@ -241,7 +239,7 @@ export class Page1 {
       // deltaY = e.clientY - this.moveStartY; // how many pixels item moved on Y axis
 
       updatedX = e.changedTouches["0"].clientX - this.itemX;
-      updatedY = e.changedTouches["0"].clientY - 104 - this.itemY;
+      updatedY = e.changedTouches["0"].clientY - this.toolbarSize - this.itemY;
       // console.log(e.changedTouches["0"].clientX, e.changedTouches["0"].clientY-104);
       // console.log(updatedX, updatedY);
 
@@ -259,7 +257,7 @@ export class Page1 {
         if (updatedY > 0) {  // check if item doesnt go over status bar (top of the screen)
           this.updateItemPositionOnScene(item, updatedX, updatedY);
         } else {
-          // this.removeItemFromScene(item);
+          this.removeItemFromScene(item);
         }
 
       } else {
