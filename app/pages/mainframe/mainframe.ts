@@ -1,74 +1,59 @@
-import { Component, ViewChild, Renderer  } from '@angular/core';
-import { NavParams, NavController, PopoverController } from 'ionic-angular';
-import { database, Item, ItemPosition, Patient, Situation } from '../../database';
-
-import { IonicSelectPage } from '../popups/popups'; //page for backgrounds popover
-import { Page3 } from '../page3/page3'; //page for people popover
-import { Page4 } from '../page4/page4'; //page for moods popover
-import { Page5 } from '../page5/page5'; //page for items popover
+import { Component } from '@angular/core';
+import { NavParams, PopoverController, ViewController } from 'ionic-angular';
+import { database, Item, ItemPosition, Situation } from '../../database';
 
 // ********************************//
 //  CURRENT COMMUNICATION SITUATION PAGE
 // ********************************//
-declare var jQuery:any;
 
+// ********************************//
+//  POPOVER
+// ********************************//
 @Component({
   template: `
     <ion-list>
-      <div class="menuItems" *ngFor="let item of personsMenu;">
-      <img [class]="item.category" [src]="item.imgUrl" (click)="addToSituation(item, currentSituation)" />
-    </div>
+      <div class="menuItems" *ngFor="let item of popoverItems;">
+        <img [class]="item.category" [src]="item.imgUrl" (click)="addToSituation(item, currentSituation)" />
+      </div>
     </ion-list>
   `
 })
 
 export class PopoverPage {
 
-  personsMenu: Item[];
+  popoverItems: Item[];
   thisSituation: Situation;
 
-  constructor(public database: database, public navParams: NavParams, public navController: NavController) {
-
-    this.thisSituation = this.navParams.get('AAAA');
-    console.log(this.thisSituation);
-
+  constructor(public database: database, public navParams: NavParams, public vc: ViewController) {
+    this.thisSituation = navParams.data.AAAA;
+    console.log(navParams.data.AAAA);
   }
 
-  public loadPersons() {
-    this.database.getItems("person").then(
+  public loadPopoverItems() {
+    this.database.getItems(this.thisSituation.Situation).then(
       data => {
-        this.personsMenu = [];
+        this.popoverItems = [];
         if (data.res.rows.length > 0) {
           for (var i = 0; i < data.res.rows.length; i++) {
             let item = data.res.rows.item(i);
-            this.personsMenu.push(new Item(item.id, item.name, item.imgUrl, item.category));
+            this.popoverItems.push(new Item(item.id, item.name, item.imgUrl, item.category));
           }
-          // console.log(this.personsMenu);
-          return this.personsMenu;
+          return this.popoverItems;
         }
       });
   }
 
   public ngOnInit() {
-    this.loadPersons();
-    let persss = this.loadPersons();
-    console.log(this.thisSituation, this.personsMenu, persss);
+    this.loadPopoverItems();
   }
 
   // // Save our item to the DB and display it in Page1
   public addToSituation(item: ItemPosition, thisSituation) {
     this.database.saveSceneItem(item, this.thisSituation);
-    console.log( thisSituation);
-
-    thisSituation.push(item);
-
-    console.log( thisSituation);
-    // this.navController.push(Page1, {
-    //   thisSituation: item
-    // });
+    this.vc.dismiss();
   }
 }
-
+// Popover end
 
 
 @Component({
@@ -76,11 +61,6 @@ export class PopoverPage {
 })
 
 export class Page1 {
-  // @ViewChild('popoverContent', { read: ElementRef }) content: ElementRef;
-  // @ViewChild("input") input;
-
-
-
 
   item: ItemPosition = null;
   sceneItems: ItemPosition[];
@@ -99,24 +79,6 @@ export class Page1 {
     public database: database, navParams: NavParams, public popoverCtrl: PopoverController) {
     this.currentSituation = navParams.get('situationObject');
     this.loadSceneItems();
-    // console.log(this.sceneItems);
-  }
-
-  // ngAfterContentInit() {
-  //   this.input.nativeElement.focus();
-  // }
-
-  public ngOnChanges() {
-    this.loadSceneItems();
-    console.log(this.sceneItems);
-  }
-
-  public ionViewDidLoad() {
-    console.log("ionViewDidLoad");
-  }
-
-  public ionViewWillEnter() {
-    console.log("ionViewWillEnter");
   }
 
   public loadSceneItems() {
@@ -136,38 +98,62 @@ export class Page1 {
             item.x,
             item.y));
         }
-        console.log(this.sceneItems);
         return this.sceneItems;
       }
     });
   }
 
   presentPopover1(myEvent) {
-    let popover = this.popoverCtrl.create(IonicSelectPage, {thisSituation: this.currentSituation});
+    this.currentSituation.Situation = "background";
+    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
     popover.present({
       ev: myEvent
+    });
+    popover.onDidDismiss((item) => {
+      if (item) {
+        this.loadSceneItems();
+      }
     });
   }
 
   presentPopover2(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.sceneItems});
+    this.currentSituation.Situation = "person";
+    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
     popover.present({
       ev: myEvent
+    });
+    popover.onDidDismiss((item) => {
+      this.loadSceneItems();
     });
   }
 
   presentPopover3(myEvent) {
-    let popover = this.popoverCtrl.create(Page4, {thisSituation: this.currentSituation});
+    this.currentSituation.Situation = "mood";
+    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
     popover.present({
       ev: myEvent
     });
+    popover.onDidDismiss((item) => {
+      if (item) {
+        this.loadSceneItems();
+      }
+    });
   }
+
+
 
 // change it to items when we get those
   presentPopover4(myEvent) {
-    let popover = this.popoverCtrl.create(Page5, {thisSituation: this.currentSituation});
+    this.currentSituation.Situation = "item";
+    // let popover = this.popoverCtrl.create(Page5, { test: 123 });
+    let popover = this.popoverCtrl.create(PopoverPage, {AAAA: this.currentSituation});
     popover.present({
       ev: myEvent
+    });
+    popover.onDidDismiss((item) => {
+      if (item) {
+        this.loadSceneItems();
+      }
     });
   }
 

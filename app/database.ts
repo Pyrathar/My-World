@@ -266,7 +266,8 @@ export class database {
   //   if (this.sceneItems[i].category && item.category == 'background') { //checks if there is already a background
   //     break;
   //   } else {
-      let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${thisSituation.S_id}, ${item.id}, 0, 0)`;
+      let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${thisSituation.S_id}, ${item.id}, 100, 100)`;
+      console.log(sql);
       return this.storage.query(sql);
     // }
   // }
