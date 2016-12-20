@@ -20,6 +20,10 @@ body {
   font-family: GothamBook;
 }
 
+ion-page.show-page scroll-content {
+    overflow: auto!important;
+}
+
 @import "../pages/about/about.scss";
 @import "../pages/enviroments/enviroments.scss";
 @import "../pages/home/home.scss";
@@ -55,9 +59,6 @@ ion-page.show-page scroll-content {
   overflow: hidden;
 }
 
-.popover-content {
-  width: 25%;
-}
 ::-webkit-scrollbar, ::-moz-scrollbars-none {
     display: none;
     width: 0;

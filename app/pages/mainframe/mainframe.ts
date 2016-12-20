@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavParams, PopoverController, ViewController } from 'ionic-angular';
 import { database, Item, ItemPosition, Situation } from '../../database';
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 // ********************************//
 //  CURRENT COMMUNICATION SITUATION PAGE
@@ -185,7 +186,8 @@ export class Page1 {
 
   moveStart(item: ItemPosition, e) {
 
-    if (!null) {
+    console.log(item);
+    if (item.category == 'person' || 'mood' || 'item') {
       // console.log("move started");
       // console.log(e);
       this.item = item;
@@ -208,7 +210,16 @@ export class Page1 {
   moveDragOver(item: ItemPosition, e) {
     // console.log("move over event");
     // console.log(e);
+    var updatedX: number;
+    var updatedY: number;
 
+    // e.preventDefault();
+
+    // deltaX = e.clientX - this.moveStartX; // how many pixels item moved on X axis
+    // deltaY = e.clientY - this.moveStartY; // how many pixels item moved on Y axis
+
+    updatedX = e.changedTouches["0"].clientX - this.itemX;
+    updatedY = e.changedTouches["0"].clientY - this.toolbarSize - this.itemY;
     // e.preventDefault();
     this.makeUnactive(e);
   }

@@ -1,31 +1,40 @@
 .enviroments {
 }
 
+.popover-content {
+  width: 80%;
+  top: 25%!important;
+  left: 10%!important;
+  text-align: center;
+  .popoverImg {
+    width: 25%;
+    padding: 10px;
+    float: left;
+  }
+}
+
 .card-background-page {
 
   ion-card {
     margin: 5px;
+    padding: 1.8em;
     position: relative;
     text-align: center;
 
     img {
-      width: 80px;
+      // width: 80px;
+      width: 250px;
+      margin: 0 auto;
     }
   }
 
   .card-title {
-    position: absolute;
-    top: 30%;
-    font-size: 1.8em;
+    // position: absolute;
+    // top: 30%;
     width: 100%;
+    font-size: 1.8em;
     font-weight: bold;
+    margin-top: 0.5em;
   }
 
-  .card-subtitle {
-    font-family: GothamLight;
-    font-size: 1.2em;
-    position: absolute;
-    top: 60%;
-    width: 100%;
-  }
 }

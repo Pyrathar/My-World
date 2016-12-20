@@ -48,14 +48,17 @@ $colors: (
   primary:    #387ef5,
   secondary:  #32db64,
   danger:     #f53d3d,
-  light:      #f4f4f4,
+  light:      #A1A19F,
   dark:       #222,
   favorite:   #69BB7B,
-  IDAred:     #e63e4d,
+  IDAred:     (
+    base: #0098AA,  // base is used as background color
+    contrast: #e63e4d  // contrast is used as text color
+  ),
   IDATurquoise: #0098AA,
   IDAPurple:  #676696,
   IDAViolet:  #A1ABD3,
   IDAYellow:  #F5A52B,
   IDAGrey:    #A1A19F,
-  IDAmenu:    #F2F2F2,
+  IDAmenu:    #F2F2F2
 );

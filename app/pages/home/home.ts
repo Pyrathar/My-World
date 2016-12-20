@@ -17,6 +17,7 @@ export class HomePage {
   tab4Root: any = LadderPage;
 
   constructor() {
-
   }
+
+
 }

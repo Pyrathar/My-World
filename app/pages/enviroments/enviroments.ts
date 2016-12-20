@@ -1,13 +1,85 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavParams, NavController, PopoverController, ViewController } from 'ionic-angular';
 
-import { database, Patient, Situation } from '../../database';
+import { database, Patient, Situation, Item, ItemPosition } from '../../database';
 import { Page1 } from '../mainframe/mainframe';
 import { LadderPage } from '../about/about';
 
 // ********************************//
 //  PATIENT Enviroment PAGE
 // ********************************//
+
+// ********************************//
+//  POPOVER
+// ********************************//
+@Component({
+  template: `
+    <h2>Select new environment</h2>
+    <ion-list class="popoverImg" *ngFor="let item of popoverItems;"  (click)="goToMainframe(item)">
+      <img  [class]="item.category" [src]="item.imgUrl" />
+      <p>{{item.name}}</p>
+    </ion-list>
+  `
+})
+
+export class PopoverPageBackgrounds {
+
+  popoverItems: Item[];
+  cPatient: Patient;
+  popoverToShow;
+
+  constructor(public database: database, private navController: NavController, public navParams: NavParams, public vc: ViewController) {
+    this.cPatient = navParams.data.patient;
+    this.popoverToShow = navParams.data.popupToOpen;
+  }
+
+  public loadPopoverItems() {
+    this.database.getItems(this.popoverToShow).then(
+      data => {
+        this.popoverItems = [];
+        if (data.res.rows.length > 0) {
+          for (var i = 0; i < data.res.rows.length; i++) {
+            let item = data.res.rows.item(i);
+            this.popoverItems.push(new Item(item.id, item.name, item.imgUrl, item.category));
+          }
+          return this.popoverItems;
+        }
+      });
+  }
+
+  public ngOnInit() {
+    this.loadPopoverItems();
+  }
+
+  public goToMainframe(item) {
+    // console.log(this.cPatient);
+    // console.log(item);
+    // adds situation for current patient
+    // this.database.addSituation(this.cPatient);
+    // close popover
+    this.vc.dismiss();
+
+    this.database.lastSituation().then(
+      lastSituationIdData => {
+        var lastSituation = lastSituationIdData.res.rows[0];
+
+        // console.log(lastSituation);
+
+        // this.database.saveSceneItem(item, lastSituation);
+
+        // open page
+        this.navController.push(Page1, {
+          situationObject: lastSituation
+        });
+
+      });
+
+    (error) => {
+      console.log(error);
+    }
+  }
+}
+// Popover end
 
 @Component({
   templateUrl: 'build/pages/enviroments/enviroments.html'
@@ -18,40 +90,56 @@ export class ContactsPage {
   currentPatient: Patient;
   situation: Situation = null;
   situationList: Array<Situation>;
+  bgList: Array<Item>;
 
   constructor(
     private alertCtrl: AlertController,
     private navController: NavController,
     private navParams: NavParams,
-    private database: database) {
+    private database: database,
+    public popoverCtrl: PopoverController) {
 
     this.currentPatient = navParams.get('patientObject');
   }
 
   public onPageLoaded() {
-    this.getSituationsForCurrentPatient(this.currentPatient);
+    this.getSituationsForCurrentPatient();
   }
 
   //STILL HAVE TO ALTER SOME STUFF
 
   // this was refresh()
-  public getSituationsForCurrentPatient(currentPatient: Patient) {
+  public getSituationsForCurrentPatient() {
+    // this.database.getItems("background").then((data) => {
     this.database.getSituations(this.currentPatient).then((data) => {
 
-      this.situationList = [];
+      this.bgList = [];
       if (data.res.rows.length > 0) {
         for (var i = 0; i < data.res.rows.length; i++) {
-          let situation = data.res.rows.item(i);
-          this.situationList.push(new Situation(
-            situation.S_id,
-            situation.Situation,
-            situation.P_id));
+          let item = data.res.rows.item(i);
+          this.bgList.push(new Item(
+            item.id,
+            item.name,
+            item.imgUrl,
+            item.category));
         }
-        return this.situationList;
+        console.log(this.bgList.length);
+        return this.bgList;
       }
 
     }, (error) => {
       console.log(error);
+    });
+  }
+
+  presentPopover1(myEvent) {
+    let openPopup = "background";
+    let popover = this.popoverCtrl.create(PopoverPageBackgrounds, { popupToOpen: openPopup, patient: this.currentPatient});
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss((item) => {
+        this.getSituationsForCurrentPatient();
     });
   }
 
@@ -77,7 +165,7 @@ export class ContactsPage {
             (error) => {
               console.log(error);
             }
-            this.getSituationsForCurrentPatient(this.currentPatient);
+            this.getSituationsForCurrentPatient();
           }
         },
         {
@@ -112,7 +200,7 @@ export class ContactsPage {
             (error) => {
               console.log(error);
             }
-            this.getSituationsForCurrentPatient(this.currentPatient);
+            this.getSituationsForCurrentPatient();
           }
         }
       ]
@@ -168,10 +256,10 @@ export class ContactsPage {
 
     // console.log("Opening Patient ID = " + situation.P_id);
     // console.log("Opening Situation ID = " + situation.S_id);
+      this.navController.push(Page1, {
+        situationObject: situation
+      });
 
-    this.navController.push(Page1, {
-      situationObject: situation
-    });
   }
 
 

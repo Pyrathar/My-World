@@ -56,8 +56,34 @@ export class NotesPage {
           text: 'Add',
           handler: data => {
 
+
             //Add to Database Patients table
             this.database.addpatient(data);
+            this.database.lastPatientAdded().then(
+              lastPatientIdData => {
+                lastPatientIdData.res.rows[0].P_id;
+
+                var lastSituationId = lastPatientIdData.res.rows[0].P_id;
+                console.log(lastSituationId);
+                this.database.addSituation(lastSituationId);
+
+
+                // let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`;
+                // console.log(sql);
+
+                // this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`);
+                // this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 5, 100, 100)`);
+                // this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 7, 240, 300)`);
+                // this.database.storage.query(`INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 11, 700, 400)`);
+                //
+
+                // this.database.saveSceneItem(item1, data);
+
+              });
+
+
+
+
             (error) => {
               console.log(error);
             }

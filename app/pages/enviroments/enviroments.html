@@ -12,7 +12,8 @@
 
 
     <ion-buttons end>
-      <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button>
+      <button (click)="presentPopover1($event)"><ion-icon name="add"></ion-icon></button>
+      <!-- <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button> -->
     </ion-buttons>
     <ion-title>{{currentPatient.name}} Enviroments</ion-title>
   </ion-navbar>
@@ -21,115 +22,21 @@
 
 
 
-<ion-content padding class="card-background-page">
+<ion-content overflow-scroll="true" padding class="card-background-page">
 
   <ion-grid>
 
     <ion-row>
 
-      <ion-col width-50>
+      <ion-col width-50 (click)="openPage(situation)" *ngFor="let item of bgList">
         <ion-card>
-          <img src="/img/backgrounds/e1.jpg" />
-          <div class="card-title">Room</div>
-          <div class="card-subtitle">Blank</div>
-        </ion-card>
-      </ion-col>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e1.jpg" />
-          <div class="card-title">Room</div>
-          <div class="card-subtitle">Pregenerated</div>
-        </ion-card>
-      </ion-col>
-
-    </ion-row>
-
-    <ion-row>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e2.jpg" />
-          <div class="card-title">Room2</div>
-          <div class="card-subtitle">Blank</div>
-        </ion-card>
-      </ion-col>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e2.jpg" />
-          <div class="card-title">Room2</div>
-          <div class="card-subtitle">Pregenerated</div>
-        </ion-card>
-      </ion-col>
-
-    </ion-row>
-
-    <ion-row>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e3.jpg" />
-          <div class="card-title">Garden</div>
-          <div class="card-subtitle">Blank</div>
-        </ion-card>
-      </ion-col>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e3.jpg" />
-          <div class="card-title">Garden</div>
-          <div class="card-subtitle">Pregenerated</div>
-        </ion-card>
-      </ion-col>
-
-    </ion-row>
-
-    <ion-row>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e4.jpg" />
-          <div class="card-title">School</div>
-          <div class="card-subtitle">Blank</div>
-        </ion-card>
-      </ion-col>
-
-      <ion-col width-50>
-        <ion-card>
-          <img src="/img/backgrounds/e4.jpg" />
-          <div class="card-title">School</div>
-          <div class="card-subtitle">Pregenerated</div>
+          <img [src]="item.imgUrl" />
+          <div color="IDAred" class="card-title">{{item.name}}</div>
         </ion-card>
       </ion-col>
 
     </ion-row>
 
   </ion-grid>
-
-
-  <!-- <ion-list>
-
-    <ion-item-sliding *ngFor="let situation of situationList">
-
-      <ion-item (click)="openPage(situation)">
-        {{situation.Situation}}
-      </ion-item>
-
-      <ion-item-options>
-
-        <button (click)="editSituation(situation)" light>
-          <ion-icon name="paper"></ion-icon>
-        </button>
-
-        <button (click)="deletesituation(situation)" danger>
-          <ion-icon name="trash"></ion-icon>
-        </button>
-
-      </ion-item-options>
-
-    </ion-item-sliding>
-
-  </ion-list> -->
 
 </ion-content>

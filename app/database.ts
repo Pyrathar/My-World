@@ -64,7 +64,7 @@ export class database {
     this.storage = new Storage(SqlStorage, {
       name: 'myWorld10.db'
     });
-    // this.del();
+    this.del();
     this.lastSituation();
     this.generateitems();
     this.generatepatients();
@@ -73,18 +73,12 @@ export class database {
   }
 
   // TEMPORARY function to delete unnecessary data from database
-  // public del() {
-  //   //Check ID of user
-  //   let sql = `DELETE FROM items WHERE id>19`;
-  //   this.storage.query(sql);
-  // }
-
-  public lastSituation() {
-    // let sql = `SELECT LAST(S_id) FROM Situations`;
-    let sql = `SELECT S_id FROM Situations
-                ORDER BY S_id DESC LIMIT 1;`;
-    return this.storage.query(sql);
+  public del() {
+    //Check ID of user
+    let sql = `DELETE FROM items WHERE id>19`;
+    this.storage.query(sql);
   }
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // GENERATIONS
@@ -126,7 +120,7 @@ export class database {
     let sql = `CREATE TABLE IF NOT EXISTS Situations(
       S_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       Situation varchar(255) NOT NULL,
-      P_id INTEGER NOT NULL,
+      P_id INTEGER,
       FOREIGN KEY (P_Id) REFERENCES Patients(P_Id))`;
     this.storage.query(sql);
     //Primary Key Will be S_Id
@@ -178,18 +172,39 @@ export class database {
     this.storage.query(sql);
   }
 
+  public lastPatientAdded() {
+    // let sql = `SELECT LAST(S_id) FROM Situations`;
+    let sql = `SELECT P_id FROM Patients
+                ORDER BY P_id DESC LIMIT 1;`;
+    return this.storage.query(sql);
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //SITUATION MANAGEMENT
 
   //Add situations
-  public addSituation(situation: Situation) {
-    let sql = `INSERT INTO Situations (P_id, Situation) VALUES (${situation.P_id}, "${situation.Situation}");`;
+  public addSituation1(AAAA) {
+    let sql = `INSERT INTO Situations (Situation, P_id)
+                SELECT name
+                 FROM items
+                WHERE category = 'background';`;
+    console.log(this.storage.query(sql));
+    return this.storage.query(sql);
+  }
+
+  public addSituation(patient: Patient) {
+    let sql = `INSERT INTO Situations (P_id, Situation) VALUES (${patient.P_id}, "${patient.name}");`;
     this.storage.query(sql);
   }
 
   //Get situations
   public getSituations(currentPatient: Patient) {
-    let sql = `SELECT * FROM Situations WHERE P_id = ${currentPatient.P_id}`;
+    let sql = `SELECT s.S_id, s.P_id, ip.S_id, ip.itemId, i.id, i.name, i.imgUrl, i.category
+                FROM Situations AS s
+                JOIN itemsPosition AS ip ON s.S_id = ip.S_id
+                JOIN items AS i ON ip.itemId = i.id
+                WHERE s.P_id = ${currentPatient.P_id} AND i.category="background"`;
+
     return this.storage.query(sql)
   }
 
@@ -205,6 +220,12 @@ export class database {
     this.storage.query(sql);
   }
 
+  public lastSituation() {
+    // let sql = `SELECT LAST(S_id) FROM Situations`;
+    let sql = `SELECT S_id FROM Situations
+                ORDER BY S_id DESC LIMIT 1;`;
+    return this.storage.query(sql);
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

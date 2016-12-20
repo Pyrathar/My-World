@@ -24,7 +24,7 @@
 
 <ion-content padding>
 
-  <ion-list danger>
+  <ion-list>
     <ion-item-sliding *ngFor="let patient of patientsList">
 
       <ion-item (click)="openPage(patient)">
@@ -37,7 +37,7 @@
                 <ion-icon name="paper"></ion-icon>
               </button>
 
-        <button (click)="deletePatient(patient)">
+        <button (click)="deletePatient(patient)" danger>
                 <ion-icon name="trash"></ion-icon>
               </button>
 
