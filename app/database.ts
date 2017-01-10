@@ -55,6 +55,19 @@ export class Situation {
   }
 }
 
+export class Environment {
+  S_id: number;
+  P_id: number;
+  name: string;
+  imgUrl: string;
+  constructor(S_id: number, P_id: number, name: string, imgUrl: string) {
+    this.S_id = S_id;
+    this.P_id = P_id;
+    this.name = name;
+    this.imgUrl = imgUrl;
+  }
+}
+
 @Injectable()
 export class database {
   storage: Storage = null;
@@ -62,9 +75,9 @@ export class database {
 
   constructor() {
     this.storage = new Storage(SqlStorage, {
-      name: 'myWorld10.db'
+      name: 'myWorld11.db'
     });
-    this.del();
+    // this.del();
     this.lastSituation();
     this.generateitems();
     this.generatepatients();
@@ -75,8 +88,9 @@ export class database {
   // TEMPORARY function to delete unnecessary data from database
   public del() {
     //Check ID of user
-    let sql = `DELETE FROM items WHERE id>19`;
+    let sql = `DELETE FROM items WHERE id>73`;
     this.storage.query(sql);
+    console.log("deleted");
   }
 
 
@@ -157,9 +171,12 @@ export class database {
 
   public getPatients() {
     //Get Patients
-    let sql = "SELECT * FROM Patients";
+    let sql = "SELECT * FROM Patients ORDER BY name";
     return this.storage.query(sql);
   }
+
+
+
 
   public obliteratepatients(patient: Patient) {
     //OBLITERATE PATIENTS Cause erasing is for kids and obliterate sounds badass!
@@ -192,24 +209,25 @@ export class database {
     return this.storage.query(sql);
   }
 
-  public addSituation(patient: Patient) {
-    let sql = `INSERT INTO Situations (P_id, Situation) VALUES (${patient.P_id}, "${patient.name}");`;
+  public addSituation(patient: Patient, environment: Environment) {
+    let sql = `INSERT INTO Situations (P_id, Situation) VALUES (${patient.P_id}, "${environment.name}");`;
     this.storage.query(sql);
   }
 
   //Get situations
   public getSituations(currentPatient: Patient) {
-    let sql = `SELECT s.S_id, s.P_id, ip.S_id, ip.itemId, i.id, i.name, i.imgUrl, i.category
+    let sql = `SELECT s.S_id, s.P_id, i.name, i.imgUrl
                 FROM Situations AS s
                 JOIN itemsPosition AS ip ON s.S_id = ip.S_id
                 JOIN items AS i ON ip.itemId = i.id
                 WHERE s.P_id = ${currentPatient.P_id} AND i.category="background"`;
-
-    return this.storage.query(sql)
+                console.log(currentPatient);
+                console.log(sql);
+    return this.storage.query(sql);
   }
 
   //Delete situations
-  public deleteSituation(situation: Situation) {
+  public deleteSituation(situation: Environment) {
     let sql = `DELETE FROM Situations WHERE S_id = ${situation.S_id};`;
     this.storage.query(sql);
   }
@@ -244,25 +262,87 @@ export class database {
   }
 
   public preloadData(): void {
-    this.addItemToDatabase("Room1", "img/backgrounds/e1.jpg", "background");
-    this.addItemToDatabase("Room2", "img/backgrounds/e2.jpg", "background");
-    this.addItemToDatabase("Room3", "img/backgrounds/e3.jpg", "background");
-    this.addItemToDatabase("Room4", "img/backgrounds/e4.jpg", "background");
-    this.addItemToDatabase("DarkGirl", "img/persons/dark_girl.png", "person");
-    this.addItemToDatabase("Grandfather", "img/persons/grandfather.png", "person");
-    this.addItemToDatabase("Grandmother", "img/persons/grandmother.png", "person");
-    this.addItemToDatabase("Baby", "img/persons/p1.png", "person");
-    this.addItemToDatabase("BoyGingerHair", "img/persons/p2.png", "person");
-    this.addItemToDatabase("BoyBlackHair", "img/persons/p3.png", "person");
-    this.addItemToDatabase("GirlDarkHair", "img/persons/p4.png", "person");
-    this.addItemToDatabase("Angry", "img/items/angry.png", "mood");
-    this.addItemToDatabase("Confused", "img/items/confused.png", "mood");
-    this.addItemToDatabase("Crying", "img/items/crying.png", "mood");
-    this.addItemToDatabase("Happy", "img/items/happy.png", "mood");
-    this.addItemToDatabase("Sad", "img/items/sad.png", "mood");
-    this.addItemToDatabase("Sad2", "img/items/sad_2.png", "mood");
-    this.addItemToDatabase("Shy", "img/items/shy.png", "mood");
-    this.addItemToDatabase("Surprised", "img/items/surprised.png", "mood");
+
+    // Backgrounds
+    this.addItemToDatabase("Classroom", "img/backgrounds/Classroom-shoebox.png", "background");
+    this.addItemToDatabase("At Home", "img/backgrounds/At-Home-shoebox.png", "background");
+    this.addItemToDatabase("The Great Outdoors", "img/backgrounds/The-Great-Outdoors.png", "background");
+    this.addItemToDatabase("Station and Metro", "img/backgrounds/Station-and-Metro.png", "background");
+
+    // Persons
+    this.addItemToDatabase("Afro Boy", "img/persons/afro_boy.png", "person");
+    this.addItemToDatabase("Afro Gril", "img/persons/afro_girl.png", "person");
+    this.addItemToDatabase("Afro Man", "img/persons/afro_man.png", "person");
+    this.addItemToDatabase("Afro Teen", "img/persons/afro_teen.png", "person");
+    this.addItemToDatabase("Asian Boy", "img/persons/asian_boy.png", "person");
+    this.addItemToDatabase("Asian Girl", "img/persons/asian_girl.png", "person");
+    this.addItemToDatabase("Asian Man", "img/persons/asian_man.png", "person");
+    this.addItemToDatabase("Asian Teen", "img/persons/asian_teen.png", "person");
+    this.addItemToDatabase("Baby", "img/persons/baby.png", "person");
+    this.addItemToDatabase("Causasis Boy", "img/persons/caucasis_boy.png", "person");
+    this.addItemToDatabase("Causasis Girl", "img/persons/caucasis_girl.png", "person");
+    this.addItemToDatabase("Causasis Woman", "img/persons/caucasis_woman.png", "person");
+    this.addItemToDatabase("Ginger Boy", "img/persons/ginger_boy.png", "person");
+    this.addItemToDatabase("Ginger Teen", "img/persons/ginger_teen.png", "person");
+    this.addItemToDatabase("Mid East Boy", "img/persons/mid_east_boy.png", "person");
+    this.addItemToDatabase("Mid East Girl", "img/persons/mid_east_girl.png", "person");
+    this.addItemToDatabase("Mid East Teen", "img/persons/mid_east_teen.png", "person");
+    this.addItemToDatabase("Mid East Woman", "img/persons/mid_east_woman.png", "person");
+    this.addItemToDatabase("Old Man", "img/persons/old_man.png", "person");
+    this.addItemToDatabase("Old Woman", "img/persons/old_woman.png", "person");
+
+    // Moods
+    this.addItemToDatabase("Bange", "img/moods/bange.png", "mood");
+    this.addItemToDatabase("Forvirret", "img/moods/forvirret.png", "mood");
+    this.addItemToDatabase("Happy", "img/moods/happy.png", "mood");
+    this.addItemToDatabase("Ked af Det", "img/moods/ked_af_det.png", "mood");
+    this.addItemToDatabase("Overrasket", "img/moods/overrasket.png", "mood");
+    this.addItemToDatabase("Pinligt Berort", "img/moods/pinligt_berort.png", "mood");
+    this.addItemToDatabase("Sad", "img/moods/sad.png", "mood");
+    this.addItemToDatabase("Vred", "img/moods/vred.png", "mood");
+
+    // Items
+    this.addItemToDatabase("Action Man", "img/items/action_man.png", "item");
+    this.addItemToDatabase("Arm Chair", "img/items/arm_chair.png", "item");
+    this.addItemToDatabase("Baseball Mit", "img/items/baseball_mit.png", "item");
+    this.addItemToDatabase("Bed", "img/items/bed.png", "item");
+    this.addItemToDatabase("Bike", "img/items/bike.png", "item");
+    this.addItemToDatabase("Bird", "img/items/bird.png", "item");
+    this.addItemToDatabase("Bookcase", "img/items/bookcase.png", "item");
+    this.addItemToDatabase("Bte", "img/items/bte.png", "item");
+    this.addItemToDatabase("Bus", "img/items/bus.png", "item");
+    this.addItemToDatabase("Car", "img/items/car.png", "item");
+    this.addItemToDatabase("Cat", "img/items/cat.png", "item");
+    this.addItemToDatabase("Chair", "img/items/chair.png", "item");
+    this.addItemToDatabase("Cohlear implants", "img/items/cochlear_implants.png", "item");
+    this.addItemToDatabase("Consol", "img/items/consol.png", "item");
+    this.addItemToDatabase("Control", "img/items/control.png", "item");
+    this.addItemToDatabase("Dog", "img/items/dog.png", "item");
+    this.addItemToDatabase("Doll", "img/items/doll.png", "item");
+    this.addItemToDatabase("Electric Piano", "img/items/electric_piano.png", "item");
+    this.addItemToDatabase("Flatscreen", "img/items/flatscreen.png", "item");
+    this.addItemToDatabase("Fodbold", "img/items/fodbold.png", "item");
+    this.addItemToDatabase("Horse", "img/items/horse.png", "item");
+    this.addItemToDatabase("Ite", "img/items/ite.png", "item");
+    this.addItemToDatabase("Ketched", "img/items/ketched.png", "item");
+    this.addItemToDatabase("Kort", "img/items/kort.png", "item");
+    this.addItemToDatabase("Laptop", "img/items/laptop.png", "item");
+    this.addItemToDatabase("Large table", "img/items/large_table.png", "item");
+    this.addItemToDatabase("Lego", "img/items/lego.png", "item");
+    this.addItemToDatabase("Mask and Snorke", "img/items/mask_and_snorke.png", "item");
+    this.addItemToDatabase("Microphone Brown", "img/items/microphone_brown.png", "item");
+    this.addItemToDatabase("Microphone Grey", "img/items/microphone_grey.png", "item");
+    this.addItemToDatabase("Mobile", "img/items/mobile.png", "item");
+    this.addItemToDatabase("Mp3", "img/items/mp3.png", "item");
+    this.addItemToDatabase("Radio Cd", "img/items/radio_cd.png", "item");
+    this.addItemToDatabase("Science Lab", "img/items/science_lab.png", "item");
+    this.addItemToDatabase("Skateboard", "img/items/skateboard.png", "item");
+    this.addItemToDatabase("Small Table", "img/items/small_table.png", "item");
+    this.addItemToDatabase("Sofa", "img/items/sofa.png", "item");
+    this.addItemToDatabase("Table", "img/items/table.png", "item");
+    this.addItemToDatabase("Terningsspil", "img/items/terningsspil.png", "item");
+    this.addItemToDatabase("Tortois", "img/items/tortois.png", "item");
+    this.addItemToDatabase("Train", "img/items/train.png", "item");
     console.log("preload data completed");
   }
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,23 +351,26 @@ export class database {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //ITEM POSITION MANAGEMENT
 
-  public getSceneItems(currentSituation: Situation) {
+  public getSceneItems(currentSituation: Environment) {
     let sql = `SELECT i.imgUrl AS imgUrl, i.category AS category, s.P_id AS P_id, p.id AS id, p.S_id AS S_id, p.itemId AS itemId, p.x AS x, p.y AS y
       FROM Situations AS s
       JOIN itemsPosition AS p ON s.S_id = p.S_id
       JOIN items AS i ON p.itemId = i.id
-      WHERE p.S_id = ${currentSituation.S_id}`; // change p.S_id to the value of scene passed
-    // console.log(sql);
+      WHERE p.S_id = ${currentSituation.S_id}`;
     return this.storage.query(sql);
   }
 
   // Save a scene item to the DB
-  public saveSceneItem(item: ItemPosition, thisSituation: Situation) {
+  // public saveSceneItem(item: ItemPosition, thisSituation: Situation) {
+  public saveSceneItem(item, thisSituation) {
   // for (let i = 0; i < this.sceneItems.length; i++) {
   //   if (this.sceneItems[i].category && item.category == 'background') { //checks if there is already a background
   //     break;
   //   } else {
-      let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${thisSituation.S_id}, ${item.id}, ${item.x}, ${item.y})`;
+      console.log(item);
+      console.log(thisSituation);
+
+      let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${thisSituation.S_id}, ${item.id}, ${item.x || 0}, ${item.y || 0})`;
       console.log(sql);
       return this.storage.query(sql);
     // }

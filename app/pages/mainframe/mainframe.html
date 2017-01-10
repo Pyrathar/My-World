@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
 
-    <ion-title>{{currentSituation.Situation}} situation</ion-title>
+    <ion-title>{{currentSituation.name}} situation</ion-title>
 
   </ion-navbar>
 
@@ -11,25 +11,25 @@
 
         <ion-col>
           <ion-buttons>
-            <button (click)="presentPopover1($event)"><ion-icon name="image"></ion-icon>Environments</button>
+            <button (click)="backgroundsPopover()"><ion-icon name="image"></ion-icon>Environments</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="presentPopover2($event)"><ion-icon name="person"></ion-icon>Persons</button>
+            <button (click)="personsPopover()"><ion-icon name="person"></ion-icon>Persons</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="presentPopover3($event)"><ion-icon name="happy"></ion-icon>Moods</button>
+            <button (click)="moodsPopover()"><ion-icon name="happy"></ion-icon>Moods</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="presentPopover4($event)"><ion-icon name="football"></ion-icon>Items</button>
+            <button (click)="itemsPopover()"><ion-icon name="football"></ion-icon>Items</button>
           </ion-buttons>
         </ion-col>
 
@@ -44,10 +44,16 @@
 </ion-header>
 
 
-<ion-content cache-view="false" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)">
+<ion-content isScrolling="false" cache-view="false" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)" (click)="closePopup()">
+
+  <ion-list *ngIf="togglePopover==true" class="popoverItems">
+
+    <img *ngFor="let popItem of popoverItems;" [class]="popItem.category" [src]="popItem.imgUrl" (touchend)="addToSituation(popItem, currentSituation, $event)" />
+
+  </ion-list>
 
 
-  <div *ngFor="let item of sceneItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
+  <div *ngFor="let item of sceneItems" class="situationItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
 
     <ion-icon *ngIf="isActive === true" (click)="removeItemFromScene(item)" name="close" role="img" class="ion-ios-close item-icon" aria-label="close" ng-reflect-name="close" danger [id]="item.id"></ion-icon>
 

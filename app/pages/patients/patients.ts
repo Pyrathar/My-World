@@ -65,7 +65,7 @@ export class NotesPage {
 
                 var lastSituationId = lastPatientIdData.res.rows[0].P_id;
                 console.log(lastSituationId);
-                this.database.addSituation(lastSituationId);
+// ??????? why not add patient               this.database.addSituation(lastSituationId);
 
 
                 // let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`;
@@ -141,9 +141,7 @@ export class NotesPage {
 
     // console.log("Opening Patient ID number = " + patient.P_id);
 
-    this.navCtrl.push(ContactsPage, {
-      patientObject: patient
-    });
+    this.navCtrl.push(ContactsPage, { patient });
   }
 
 

@@ -21,7 +21,7 @@ body {
 }
 
 ion-page.show-page scroll-content {
-    overflow: auto!important;
+    //overflow: auto!important;
 }
 
 @import "../pages/about/about.scss";
@@ -38,17 +38,6 @@ ion-page.show-page scroll-content {
   float: left;
 }
 
-.person {
-  position: inherit;
-  max-width: 40px;
-  height: 120px;
-}
-
-.mood {
-  position: inherit;
-  height: 50px;
-  max-width: 50px;
-}
 
 .menuItems .background {
   // max-width: 50px;

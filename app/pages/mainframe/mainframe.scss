@@ -7,8 +7,9 @@ ion-content {
 }
 
 .popover-content {
-  width: 25%;
+  width: 25%!important;
 }
+
 
 // img.char {
  #page1 div.person, #page1 div.mood, #page1 div.background {
@@ -20,8 +21,11 @@ ion-content {
 }
 
 .background {
-  max-width: 10000px;
+  overflow: hidden!important;
+  max-width: 100%;
+  max-height: 100%;
   z-index: -1;
+  margin-top: 0;
 }
 
 .ion-ios-close {
@@ -30,4 +34,40 @@ ion-content {
   position: absolute;
 }
 
+}
+ion-page.page1 ion-tabbar.show-tabbar {
+    display: none;
+}
+ion-page.page1 scroll-content {
+    margin-bottom: 0px!important;
+}
+
+.situationItems .person {
+  position: inherit;
+  max-width: 40px;
+  height: 120px;
+}
+
+.situationItems .mood {
+  position: inherit;
+  height: 50px;
+  max-width: 50px;
+}
+
+.situationItems .item {
+  position: inherit;
+  height: 50px;
+  max-width: 50px;
+}
+
+.popoverItems {
+  z-index: 10;
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  img{
+    position: initial;
+    max-width: 200px!important;
+    margin: 15px 0 15px 15px;
+  }
 }

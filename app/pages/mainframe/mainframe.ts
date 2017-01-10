@@ -1,65 +1,10 @@
 import { Component } from '@angular/core';
 import { NavParams, PopoverController, ViewController } from 'ionic-angular';
-import { database, Item, ItemPosition, Situation } from '../../database';
-import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+import { database, Environment, Item, ItemPosition, Situation } from '../../database';
 
 // ********************************//
 //  CURRENT COMMUNICATION SITUATION PAGE
 // ********************************//
-
-// ********************************//
-//  POPOVER
-// ********************************//
-@Component({
-  template: `
-    <ion-list>
-      <div class="menuItems" *ngFor="let item of popoverItems;">
-        <img [class]="item.category" [src]="item.imgUrl" (touchend)="addToSituation(item, currentSituation, $event)" />
-      </div>
-    </ion-list>
-  `
-})
-
-export class PopoverPage {
-
-  popoverItems: Item[];
-  thisSituation: Situation;
-  popoverToShow;
-
-  constructor(public database: database, public navParams: NavParams, public vc: ViewController) {
-    this.thisSituation = navParams.data.curSituation;
-    this.popoverToShow = navParams.data.popupToOpen;
-  }
-
-  public loadPopoverItems() {
-    this.database.getItems(this.popoverToShow).then(
-      data => {
-        this.popoverItems = [];
-        if (data.res.rows.length > 0) {
-          for (var i = 0; i < data.res.rows.length; i++) {
-            let item = data.res.rows.item(i);
-            this.popoverItems.push(new Item(item.id, item.name, item.imgUrl, item.category));
-          }
-          return this.popoverItems;
-        }
-      });
-  }
-
-  public ngOnInit() {
-    this.loadPopoverItems();
-  }
-
-  // // Save our item to the DB and display it in Page1
-  public addToSituation(item: ItemPosition, thisSituation, e) {
-    item.x = e.changedTouches["0"].clientX;
-    item.y = e.changedTouches["0"].clientY - 104;
-    console.log(e.changedTouches["0"].clientX, e.changedTouches["0"].clientY);
-    this.database.saveSceneItem(item, this.thisSituation);
-    this.vc.dismiss();
-  }
-}
-// Popover end
-
 
 @Component({
   templateUrl: 'build/pages/mainframe/mainframe.html'
@@ -67,11 +12,14 @@ export class PopoverPage {
 
 export class Page1 {
 
-  item: ItemPosition = null;
+  item: ItemPosition;
   sceneItems: ItemPosition[];
-  currentSituation: Situation;
+  currentSituation: Environment;
+  togglePopover: boolean = true;
+  popoverItems: Item[];
+  popoverToShow;
 
-  isActive: boolean;
+  isActive: boolean = false;
   waitToDeleteTimer: number;
   toolbarSize: number = 104;
 
@@ -83,8 +31,9 @@ export class Page1 {
 
   constructor(
     public database: database, navParams: NavParams, public popoverCtrl: PopoverController) {
-    this.currentSituation = navParams.get('situationObject');
+    this.currentSituation = navParams.get('environment');
     this.loadSceneItems();
+
   }
 
   public loadSceneItems() {
@@ -109,51 +58,67 @@ export class Page1 {
     });
   }
 
-  presentPopover1(myEvent) {
-    let openPopup = "background";
-    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
-    popover.present({
-      ev: myEvent
-    });
-    popover.onDidDismiss((item) => {
-        this.loadSceneItems();
-    });
+  public loadPopoverItems() {
+    this.database.getItems(this.popoverToShow).then(
+      data => {
+        this.popoverItems = [];
+        if (data.res.rows.length > 0) {
+          for (var i = 0; i < data.res.rows.length; i++) {
+            let item = data.res.rows.item(i);
+            this.popoverItems.push(new Item(
+              item.id,
+              item.name,
+              item.imgUrl,
+              item.category
+            ));
+          }
+          console.log(this.popoverItems);
+          return this.popoverItems;
+        }
+      });
   }
 
-  presentPopover2(myEvent) {
-    let openPopup = "person";
-    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
-    popover.present({
-      ev: myEvent
-    });
-    popover.onDidDismiss((item) => {
-      this.loadSceneItems();
-    });
+  // // Save our item to the DB and display it in Page1
+  public addToSituation(item: ItemPosition, thisSituation, e) {
+    item.x = Math.round(e.changedTouches["0"].clientX);
+    item.y = Math.round(e.changedTouches["0"].clientY - 104);
+    this.database.saveSceneItem(item, this.currentSituation);
+    this.togglePopover = false;
   }
 
-  presentPopover3(myEvent) {
-    let openPopup = "mood";
-    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
-    popover.present({
-      ev: myEvent
-    });
-    popover.onDidDismiss((item) => {
-        this.loadSceneItems();
-    });
+  backgroundsPopover() {
+    this.togglePopover = true;
+    this.popoverToShow = "background";
+    this.loadPopoverItems();
+    // let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
+    // popover.present({
+    //   ev: myEvent
+    // });
+    // popover.onDidDismiss((item) => {
+    //     this.loadSceneItems();
+    // });
   }
 
+  closePopup() {
+    this.togglePopover = false;
+  }
 
+  personsPopover(myEvent) {
+    this.togglePopover = true;
+    this.popoverToShow = "person";
+    this.loadPopoverItems();
+  }
 
-// change it to items when we get those
-  presentPopover4(myEvent) {
-    let openPopup = "item";
-    let popover = this.popoverCtrl.create(PopoverPage, {curSituation: this.currentSituation, popupToOpen: openPopup});
-    popover.present({
-      ev: myEvent
-    });
-    popover.onDidDismiss((item) => {
-        this.loadSceneItems();
-    });
+  moodsPopover(myEvent) {
+    this.togglePopover = true;
+    this.popoverToShow = "mood";
+    this.loadPopoverItems();
+  }
+
+  itemsPopover(myEvent) {
+    this.togglePopover = true;
+    this.popoverToShow = "item";
+    this.loadPopoverItems();
   }
 
   // Remove the item from the DB and our current array
@@ -249,8 +214,8 @@ export class Page1 {
       // deltaX = e.clientX - this.moveStartX; // how many pixels item moved on X axis
       // deltaY = e.clientY - this.moveStartY; // how many pixels item moved on Y axis
 
-      updatedX = e.changedTouches["0"].clientX - this.itemX;
-      updatedY = e.changedTouches["0"].clientY - this.toolbarSize - this.itemY;
+      updatedX = Math.round(e.changedTouches["0"].clientX - this.itemX);
+      updatedY = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
       // console.log(e.changedTouches["0"].clientX, e.changedTouches["0"].clientY-104);
       // console.log(updatedX, updatedY);
 
@@ -268,7 +233,9 @@ export class Page1 {
         if (updatedY > 0) {  // check if item doesnt go over status bar (top of the screen)
           this.updateItemPositionOnScene(item, updatedX, updatedY);
         } else {
-          this.removeItemFromScene(item);
+          if (item.category != 'background') {
+            this.removeItemFromScene(item);
+          }
         }
 
       } else {
@@ -288,3 +255,61 @@ export class Page1 {
   }
 
 }
+
+
+// ********************************//
+//  POPOVER
+// ********************************//
+@Component({
+  template: `
+    <ion-list>
+      <div class="menuItems" *ngFor="let item of popoverItems;">
+        <img [class]="item.category" [src]="item.imgUrl" (touchend)="addToSituation(item, currentSituation, $event)" />
+      </div>
+    </ion-list>
+  `
+})
+
+export class PopoverPage {
+
+  popoverItems: Item[];
+  thisSituation: Situation;
+  popoverToShow;
+
+  constructor(public database: database, public navParams: NavParams, public vc: ViewController) {
+    this.thisSituation = navParams.data.curSituation;
+    this.popoverToShow = navParams.data.popupToOpen;
+  }
+
+  public loadPopoverItems() {
+    this.database.getItems(this.popoverToShow).then(
+      data => {
+        this.popoverItems = [];
+        if (data.res.rows.length > 0) {
+          for (var i = 0; i < data.res.rows.length; i++) {
+            let item = data.res.rows.item(i);
+            this.popoverItems.push(new Item(
+              item.id,
+              item.name,
+              item.imgUrl,
+              item.category
+            ));
+          }
+          return this.popoverItems;
+        }
+      });
+  }
+
+  public ngOnInit() {
+    this.loadPopoverItems();
+  }
+
+  // // Save our item to the DB and display it in Page1
+  public addToSituation(item: ItemPosition, thisSituation, e) {
+    item.x = Math.round(e.changedTouches["0"].clientX);
+    item.y = Math.round(e.changedTouches["0"].clientY - 104);
+    this.database.saveSceneItem(item, this.thisSituation);
+    this.vc.dismiss();
+  }
+}
+// Popover end
