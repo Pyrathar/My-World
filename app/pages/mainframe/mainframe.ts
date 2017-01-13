@@ -84,6 +84,8 @@ export class Page1 {
     item.y = Math.round(e.changedTouches["0"].clientY - 104);
     this.database.saveSceneItem(item, this.currentSituation);
     this.togglePopover = false;
+    console.log(item);
+    this.sceneItems.push(item);
   }
 
   backgroundsPopover() {
@@ -151,7 +153,6 @@ export class Page1 {
 
   moveStart(item: ItemPosition, e) {
 
-    console.log(item);
     if (item.category == 'person' || 'mood' || 'item') {
       // console.log("move started");
       // console.log(e);
@@ -255,61 +256,3 @@ export class Page1 {
   }
 
 }
-
-
-// ********************************//
-//  POPOVER
-// ********************************//
-@Component({
-  template: `
-    <ion-list>
-      <div class="menuItems" *ngFor="let item of popoverItems;">
-        <img [class]="item.category" [src]="item.imgUrl" (touchend)="addToSituation(item, currentSituation, $event)" />
-      </div>
-    </ion-list>
-  `
-})
-
-export class PopoverPage {
-
-  popoverItems: Item[];
-  thisSituation: Situation;
-  popoverToShow;
-
-  constructor(public database: database, public navParams: NavParams, public vc: ViewController) {
-    this.thisSituation = navParams.data.curSituation;
-    this.popoverToShow = navParams.data.popupToOpen;
-  }
-
-  public loadPopoverItems() {
-    this.database.getItems(this.popoverToShow).then(
-      data => {
-        this.popoverItems = [];
-        if (data.res.rows.length > 0) {
-          for (var i = 0; i < data.res.rows.length; i++) {
-            let item = data.res.rows.item(i);
-            this.popoverItems.push(new Item(
-              item.id,
-              item.name,
-              item.imgUrl,
-              item.category
-            ));
-          }
-          return this.popoverItems;
-        }
-      });
-  }
-
-  public ngOnInit() {
-    this.loadPopoverItems();
-  }
-
-  // // Save our item to the DB and display it in Page1
-  public addToSituation(item: ItemPosition, thisSituation, e) {
-    item.x = Math.round(e.changedTouches["0"].clientX);
-    item.y = Math.round(e.changedTouches["0"].clientY - 104);
-    this.database.saveSceneItem(item, this.thisSituation);
-    this.vc.dismiss();
-  }
-}
-// Popover end

@@ -1,40 +1,41 @@
 .page1 {
 
+  ion-content {
+    background-repeat: no-repeat;
+    // background-size: contain;
+  }
 
-ion-content {
-  background-repeat: no-repeat;
-  // background-size: contain;
+  ion-toolbar .toolbar-background {
+    background-color: #fff;
+    border-top: 0;
+    border-bottom: 2px solid #e63e4d;
+  }
+
+  // img.char {
+   #page1 div.person, #page1 div.mood, #page1 div.background {
+    position: absolute!important;
+    float: left;
+    padding: 0;
+    left: 0px;
+    top: 0px;
+  }
+
+  .background {
+    overflow: hidden!important;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+    margin-top: 0;
+  }
+
+  .ion-ios-close {
+    margin: 0 !important;
+    margin-left: -10px!important;
+    position: absolute;
+  }
+
 }
 
-.popover-content {
-  width: 25%!important;
-}
-
-
-// img.char {
- #page1 div.person, #page1 div.mood, #page1 div.background {
-  position: absolute!important;
-  float: left;
-  padding: 0;
-  left: 0px;
-  top: 0px;
-}
-
-.background {
-  overflow: hidden!important;
-  max-width: 100%;
-  max-height: 100%;
-  z-index: -1;
-  margin-top: 0;
-}
-
-.ion-ios-close {
-  margin: 0 !important;
-  margin-left: -10px!important;
-  position: absolute;
-}
-
-}
 ion-page.page1 ion-tabbar.show-tabbar {
     display: none;
 }
@@ -42,32 +43,57 @@ ion-page.page1 scroll-content {
     margin-bottom: 0px!important;
 }
 
-.situationItems .person {
-  position: inherit;
-  max-width: 40px;
-  height: 120px;
-}
-
-.situationItems .mood {
-  position: inherit;
-  height: 50px;
-  max-width: 50px;
-}
-
-.situationItems .item {
-  position: inherit;
-  height: 50px;
-  max-width: 50px;
-}
-
 .popoverItems {
   z-index: 10;
   position: absolute;
-  background-color: white;
+  background-color: #fff;
   width: 100%;
+  display: flex;
+  overflow-x: scroll;
   img{
     position: initial;
     max-width: 200px!important;
-    margin: 15px 0 15px 15px;
+    align-self: baseline;
+    flex: 0 0 auto;
+    margin: 15px;
+
+  }
+  img.background{
+    max-width: 150px!important;
+  }
+  img.person{
+    max-width: 30px!important;
+  }
+  img.mood{
+    max-width: 50px!important;
+  }
+  img.item{
+    max-width: 50px!important;
+  }
+  img.item[src*="microphone"]{
+    max-width: 30px!important;
+  }
+}
+
+.situationItems .person, .situationItems .mood, .situationItems .item {
+  position: absolute!important;
+  overflow: visible;
+  min-height: 0;
+  background-color: transparent;
+  transition-duration: 200ms;
+  .person {
+    max-width: 30px;
+    // height: 120px;
+  }
+  .mood {
+    // height: 50px;
+    max-width: 50px;
+  }
+  .item {
+    // height: 50px;
+    max-width: 50px;
+  }
+  img.item[src*="microphone"]{
+    max-width: 30px!important;
   }
 }

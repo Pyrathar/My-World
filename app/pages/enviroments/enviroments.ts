@@ -19,7 +19,7 @@ export class ContactsPage {
   environment: Environment;
   environmentList: Array<Environment>;
   popoverItems: Item[];
-  showBackgrounds: boolean = true;
+  showBackgrounds: boolean = false;
 
   constructor(
     private database: database,
@@ -36,11 +36,9 @@ export class ContactsPage {
   }
 
   public getSituationsForCurrentPatient() {
-    console.log(this.currentPatient);
     // this.database.getItems("background").then((data) => {
     this.database.getSituations(this.currentPatient).then((data) => {
 
-      console.log("get situations");
       this.environmentList = [];
       if (data.res.rows.length > 0) {
         for (var i = 0; i < data.res.rows.length; i++) {
@@ -52,7 +50,6 @@ export class ContactsPage {
             env.imgUrl
           ));
         }
-        console.log(this.environmentList);
         return this.environmentList;
       }
 
@@ -64,6 +61,9 @@ export class ContactsPage {
     this.showBackgrounds = !this.showBackgrounds;
   }
 
+  public closePopup() {
+    this.showBackgrounds = false;
+  }
 // let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${lastSituationId}, 1, 0, 0)`;
 // // console.log(sql);
 //
@@ -105,25 +105,17 @@ export class ContactsPage {
   }
 
   public addEnvironment(environment: Environment) {
-    console.log(this.currentPatient);
-    console.log(environment);
     // adds situation for current patient
-    // this.database.addSituation(this.currentPatient);
     this.database.addSituation(this.currentPatient, environment);
 
     this.database.lastSituation().then(
       lastSituationIdData => {
         var lastSituation = lastSituationIdData.res.rows[0];
 
-        console.log(lastSituationIdData.res);
-        console.log(lastSituation);
-
         this.database.saveSceneItem(environment, lastSituation || 1);
 
         this.showBackgrounds = false;
         this.getSituationsForCurrentPatient();
-        // open page with a newly created situation
-        // this.navController.push(Page1, { lastSituation });
 
       });
 

@@ -11,25 +11,25 @@
 
         <ion-col>
           <ion-buttons>
-            <button (click)="backgroundsPopover()"><ion-icon name="image"></ion-icon>Environments</button>
+            <button (click)="backgroundsPopover()" light><ion-icon name="image" danger></ion-icon>Environments</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="personsPopover()"><ion-icon name="person"></ion-icon>Persons</button>
+            <button (click)="personsPopover()" light><ion-icon name="person" danger></ion-icon>Persons</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="moodsPopover()"><ion-icon name="happy"></ion-icon>Moods</button>
+            <button (click)="moodsPopover()" light><ion-icon name="happy" danger></ion-icon>Moods</button>
           </ion-buttons>
         </ion-col>
 
         <ion-col>
           <ion-buttons>
-            <button (click)="itemsPopover()"><ion-icon name="football"></ion-icon>Items</button>
+            <button (click)="itemsPopover()" light><ion-icon name="football" danger></ion-icon>Items</button>
           </ion-buttons>
         </ion-col>
 
@@ -53,14 +53,15 @@
   </ion-list>
 
 
-  <div *ngFor="let item of sceneItems" class="situationItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
+  <div class="situationItems">
+    <div *ngFor="let item of sceneItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
 
-    <ion-icon *ngIf="isActive === true" (click)="removeItemFromScene(item)" name="close" role="img" class="ion-ios-close item-icon" aria-label="close" ng-reflect-name="close" danger [id]="item.id"></ion-icon>
+      <ion-icon *ngIf="isActive === true" (click)="removeItemFromScene(item)" name="close" role="img" class="ion-ios-close item-icon" aria-label="close" ng-reflect-name="close" danger [id]="item.id"></ion-icon>
 
-    <img [src]="item.imgUrl" [id]="item.id" [class]="item.category" />
+      <img [src]="item.imgUrl" [id]="item.id" [class]="item.category" />
 
+    </div>
   </div>
-
 
 
   <!-- (mousedown)="startInterval()" (mouseup)="makeUnactive()"-->

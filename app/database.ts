@@ -88,9 +88,9 @@ export class database {
   // TEMPORARY function to delete unnecessary data from database
   public del() {
     //Check ID of user
-    let sql = `DELETE FROM items WHERE id>73`;
+    // let sql = `DELETE FROM items WHERE id>73`;
+    let sql = `DROP table items`;
     this.storage.query(sql);
-    console.log("deleted");
   }
 
 
@@ -164,7 +164,6 @@ export class database {
 
   public addpatient(patient: Patient) {
     //Add Patients
-    console.log("Adding:  " + patient);
     let sql = `INSERT INTO Patients (name) VALUES ("${patient.name}")`;
     this.storage.query(sql)
   }
@@ -221,8 +220,6 @@ export class database {
                 JOIN itemsPosition AS ip ON s.S_id = ip.S_id
                 JOIN items AS i ON ip.itemId = i.id
                 WHERE s.P_id = ${currentPatient.P_id} AND i.category="background"`;
-                console.log(currentPatient);
-                console.log(sql);
     return this.storage.query(sql);
   }
 
@@ -288,7 +285,7 @@ export class database {
     this.addItemToDatabase("Mid East Girl", "img/persons/mid_east_girl.png", "person");
     this.addItemToDatabase("Mid East Teen", "img/persons/mid_east_teen.png", "person");
     this.addItemToDatabase("Mid East Woman", "img/persons/mid_east_woman.png", "person");
-    this.addItemToDatabase("Old Man", "img/persons/old_man.png", "person");
+    this.addItemToDatabase("Old Man", "img/persons/old_man.svg", "person");
     this.addItemToDatabase("Old Woman", "img/persons/old_woman.png", "person");
 
     // Moods
@@ -367,11 +364,7 @@ export class database {
   //   if (this.sceneItems[i].category && item.category == 'background') { //checks if there is already a background
   //     break;
   //   } else {
-      console.log(item);
-      console.log(thisSituation);
-
       let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y) VALUES (${thisSituation.S_id}, ${item.id}, ${item.x || 0}, ${item.y || 0})`;
-      console.log(sql);
       return this.storage.query(sql);
     // }
   // }
