@@ -29,9 +29,6 @@ export class Page1 {
   moveStartX: number;
   moveStartY: number;
 
-  updatedX: number;
-  updatedY: number;
-
   constructor(
     public database: database, navParams: NavParams, public popoverCtrl: PopoverController) {
     this.currentSituation = navParams.get('environment');
@@ -184,21 +181,19 @@ export class Page1 {
 
     item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
     item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
-
-    this.updatedX = item.x;
-    this.updatedY = item.y;
+    // console.log(item.x, item.y);
   }
 
   moveDrop(item: ItemPosition,  e) {
 
     if (!null) {
-      console.log("move drop");
+      // console.log("move drop");
 
       this.makeUnactive(e);
 
       if (item.category == 'person' || 'mood' || 'item') {
-        if (this.updatedY > 0) {  // check if item doesnt go over status bar (top of the screen)
-          this.updateItemPositionOnScene(item, this.updatedX, this.updatedY);
+        if (item.y > 0) {  // check if item doesnt go over status bar (top of the screen)
+          this.updateItemPositionOnScene(item, item.x, item.y);
         } else {
           if (item.category != 'background') {
             this.removeItemFromScene(item);
