@@ -29,6 +29,9 @@ export class Page1 {
   moveStartX: number;
   moveStartY: number;
 
+  updatedX: number;
+  updatedY: number;
+
   constructor(
     public database: database, navParams: NavParams, public popoverCtrl: PopoverController) {
     this.currentSituation = navParams.get('environment');
@@ -80,12 +83,16 @@ export class Page1 {
 
   // // Save our item to the DB and display it in Page1
   public addToSituation(item: ItemPosition, thisSituation, e) {
-    item.x = Math.round(e.changedTouches["0"].clientX);
-    item.y = Math.round(e.changedTouches["0"].clientY - 104);
-    this.database.saveSceneItem(item, this.currentSituation);
-    this.togglePopover = false;
-    console.log(item);
-    this.sceneItems.push(item);
+    if (e.changedTouches["0"].clientY > 230) {
+      item.x = Math.round(e.changedTouches["0"].clientX);
+      item.y = Math.round(e.changedTouches["0"].clientY - 104);
+      this.togglePopover = false;
+      this.database.saveSceneItem(item, this.currentSituation);
+      console.log(this.sceneItems);
+      this.sceneItems.push(item);
+      console.log(this.sceneItems);
+      this.loadSceneItems();
+    }
   }
 
   backgroundsPopover() {
@@ -105,19 +112,19 @@ export class Page1 {
     this.togglePopover = false;
   }
 
-  personsPopover(myEvent) {
+  personsPopover() {
     this.togglePopover = true;
     this.popoverToShow = "person";
     this.loadPopoverItems();
   }
 
-  moodsPopover(myEvent) {
+  moodsPopover() {
     this.togglePopover = true;
     this.popoverToShow = "mood";
     this.loadPopoverItems();
   }
 
-  itemsPopover(myEvent) {
+  itemsPopover() {
     this.togglePopover = true;
     this.popoverToShow = "item";
     this.loadPopoverItems();
@@ -155,7 +162,6 @@ export class Page1 {
 
     if (item.category == 'person' || 'mood' || 'item') {
       // console.log("move started");
-      // console.log(e);
       this.item = item;
       this.moveStartX = e.targetTouches["0"].clientX;  // current cursor X position on screen
       this.moveStartY = e.targetTouches["0"].clientY - this.toolbarSize;  // current cursor Y position on screen minus toolbars in the top
@@ -175,64 +181,24 @@ export class Page1 {
 
   moveDragOver(item: ItemPosition, e) {
     // console.log("move over event");
-    // console.log(e);
-    var updatedX: number;
-    var updatedY: number;
 
-    // e.preventDefault();
+    item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
+    item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
 
-    // deltaX = e.clientX - this.moveStartX; // how many pixels item moved on X axis
-    // deltaY = e.clientY - this.moveStartY; // how many pixels item moved on Y axis
-
-    updatedX = e.changedTouches["0"].clientX - this.itemX;
-    updatedY = e.changedTouches["0"].clientY - this.toolbarSize - this.itemY;
-    // e.preventDefault();
-    this.makeUnactive(e);
+    this.updatedX = item.x;
+    this.updatedY = item.y;
   }
 
   moveDrop(item: ItemPosition,  e) {
 
     if (!null) {
-      // console.log("move drop");
-      // console.log(e);
+      console.log("move drop");
 
-      // console.log(sceneItems);
-      // var imageWidth: number = e.srcElement.width;
-      // var imageHeight: number = e.srcElement.height;
-      // var screenWidth: number = e.view.innerWidth;
-      // var screenHeight: number = e.view.innerHeight;
-      // var availableScreenX: number;
-      // var availableScreenY: number;
-      //
-      // var deltaX: number;
-      // var deltaY: number;
-      var updatedX: number;
-      var updatedY: number;
-
-      // e.preventDefault();
       this.makeUnactive(e);
 
-      // deltaX = e.clientX - this.moveStartX; // how many pixels item moved on X axis
-      // deltaY = e.clientY - this.moveStartY; // how many pixels item moved on Y axis
-
-      updatedX = Math.round(e.changedTouches["0"].clientX - this.itemX);
-      updatedY = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
-      // console.log(e.changedTouches["0"].clientX, e.changedTouches["0"].clientY-104);
-      // console.log(updatedX, updatedY);
-
-      // e.changedTouches["0"].clientX = this.itemX;
-      // e.changedTouches["0"].clientY = this.itemY;
-
-      // console.log(updatedX, updatedY);
-      // updatedX = e.pageX - this.itemX;
-      // updatedY = e.pageY - (this.itemY + 56);
-
-      // availableScreenX = screenWidth - imageWidth; // how many pixels left to move on X axis
-      // availableScreenY = screenHeight - imageHeight; // how many pixels left to move on Y axis
-
       if (item.category == 'person' || 'mood' || 'item') {
-        if (updatedY > 0) {  // check if item doesnt go over status bar (top of the screen)
-          this.updateItemPositionOnScene(item, updatedX, updatedY);
+        if (this.updatedY > 0) {  // check if item doesnt go over status bar (top of the screen)
+          this.updateItemPositionOnScene(item, this.updatedX, this.updatedY);
         } else {
           if (item.category != 'background') {
             this.removeItemFromScene(item);
@@ -240,16 +206,7 @@ export class Page1 {
         }
 
       } else {
-        // if ((updatedX < 0) && (updatedX > availableScreenX) &&  // checks if there is available space on X and Y axis to move background
-        //   (updatedY < 0) && (updatedY > availableScreenY)) {  //update position to image size and 0 in DB
-        //
-        //   for (let i = 0; i < this.sceneItems.length; i++) {
-        //     this.updateItemPositionOnScene(this.sceneItems[i], this.sceneItems[i].x + deltaX, this.sceneItems[i].y + deltaY); // moves all scene items together with a background
-        //   }
-        //
-        // } else {
-        //   console.log("there is no available space to move");
-        // }
+
       }
     }
 

@@ -48,7 +48,7 @@
 
   <ion-list *ngIf="togglePopover==true" class="popoverItems">
 
-    <img *ngFor="let popItem of popoverItems;" [class]="popItem.category" [src]="popItem.imgUrl" (touchend)="addToSituation(popItem, currentSituation, $event)" />
+    <img *ngFor="let popItem of popoverItems" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
 
   </ion-list>
 
