@@ -1,0 +1,57 @@
+<ion-header>
+  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
+  <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+
+  <ion-navbar>
+
+    <ion-title>
+      Patients
+    </ion-title>
+
+    <ion-buttons right>
+
+      <button ion-button color="IDA" (click)="addPatient()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row center>
+      <ion-col offset-25 width-50>
+
+        <ion-list>
+          <ion-item-sliding *ngFor="let patient of patientsList">
+
+            <ion-item (click)="openPage(patient)">
+              <ion-icon IDAGrey name="person"></ion-icon>
+              {{patient.name}}
+            </ion-item>
+
+            <ion-item-options>
+
+              <button round (click)="editPatient(patient)" color="light">
+                <ion-icon name="paper"></ion-icon>
+              </button>
+
+              <button (click)="deletePatient(patient)" color="danger">
+                <ion-icon name="trash"></ion-icon>
+              </button>
+
+            </ion-item-options>
+
+          </ion-item-sliding>
+        </ion-list>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

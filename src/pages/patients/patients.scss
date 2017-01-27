@@ -1,0 +1,20 @@
+page-patients {
+  ion-page.notes-page scroll-content {
+    overflow: auto!important;
+  }
+
+  ion-label {
+    color: #A1A19F;
+    margin-left: 25%;
+  }
+
+  img#logo {
+    float: left;
+    height: 38px;
+    padding: 4px
+  }
+  img#bubbles {
+    float: right;
+    height: 38px;
+  }
+}
