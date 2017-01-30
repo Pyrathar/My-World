@@ -23,46 +23,37 @@ export class EnvironmentsPage {
   ) {
 
     this.currentPatient = navParams.get('patient');
-    console.log(this.currentPatient);
   }
 
   public ionViewDidLoad() {
     this.getSituationsForCurrentPatient();
     this.loadPopoverItems();
-    console.log("popover items loaded");
   }
 
   public getSituationsForCurrentPatient() {
     this.database.getSituations(this.currentPatient).then( data => {
-      console.log("getSituationsForCurrentPatient");
-      console.log(this.currentPatient);
-      console.log(data);
+      console.log("getSituationsForCurrentPatient. data: ", data);
       this.environmentList = data;
     })
+    this.database.getDataFromDb();
   }
 
   public addEnvironment(environment: Environment) {
     // adds situation for current patient
-    console.log(environment);
-    console.log(this.currentPatient);
+    console.log("addEnvironment. env: ", environment);
     this.database.addSituation(this.currentPatient, environment);
-    console.log("addSituation done");
+    this.database.getDataFromDb();
+
 
     this.database.lastSituation().then(
       lastSituationIdData => {
-        console.log("lastSituation entered");
+        console.log("lastSituation entered. data: ", lastSituationIdData);
 
-        console.log(lastSituationIdData);
+        let lastSituation = lastSituationIdData;
 
-        var lastSituation = lastSituationIdData.rows[0];
-        if (lastSituation === undefined) {
-            lastSituation = 1;
-        }
-        console.log("lastSituation");
-        console.log(lastSituation);
+        // console.log("lastSituation: ", lastSituation);
 
         this.database.saveSceneItem(environment, lastSituation || 1);
-        console.log(environment);
 
         this.showBackgrounds = false;
         console.log("to start getSituationsForCurrentPatient");
@@ -97,11 +88,7 @@ export class EnvironmentsPage {
 
   public loadPopoverItems() {
     this.database.getItems("background").then( data => {
-      console.log("data in popoverItems");
-      console.log(data);
       this.popoverItems = data;
-      console.log("popoverItems" );
-      console.log( this.popoverItems );
     });
   }
 

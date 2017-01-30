@@ -17,8 +17,10 @@ export class Item {
 export class Patient {
   P_id: number;
   name: string;
-  constructor(P_id: number, name: string) {
+  photo: string;
+  constructor(P_id: number, name: string, photo: string) {
     this.P_id = P_id;
+    this.photo = photo;
     this.name = name;
   }
 }
@@ -102,13 +104,7 @@ export class Database {
                 imgUrl    TEXT,
                 category  TEXT
               )`;
-    return this.db.executeSql(sql, []).then( data => {
-
-        console.log(data);
-        this.preloadData();
-        console.log(data);
-
-    });
+    return this.db.executeSql(sql, []);
   }
 
 
@@ -118,7 +114,8 @@ export class Database {
 
     let sql = `CREATE TABLE IF NOT EXISTS Patients (
                 P_id  INTEGER PRIMARY KEY AUTOINCREMENT,
-                name  TEXT
+                name  TEXT,
+                photo TEXT
               )`;
     return this.db.executeSql(sql, [])
   }
@@ -136,8 +133,6 @@ export class Database {
               )`;
     return this.db.executeSql(sql, []).then((data) => {
 
-        console.log("sit table");
-        console.log("AAAAAAAAAAAAAAA");
     });
   }
 
@@ -158,21 +153,43 @@ export class Database {
     return this.db.executeSql(sql, [])
   }
 
+  public populateDatabase() {
+    let sql = `SELECT * FROM items`;
+    return this.db.executeSql(sql, []).then((data) => {
+      if (data.rows.length == 0) {
+        this.preloadData();
+      }
+    });
+  }
+
 
   // TEMPORARY function to delete unnecessary data from database
   public del() {
     //Check ID of user
-    let sql = `DELETE FROM items WHERE id>73`;
+    // let sql = `DELETE FROM items WHERE id>73`;
+    let sql = `DROP table Patients`;
     return this.db.executeSql(sql, []);
+  }
+
+  public getDataFromDb() {
+    let sql = `SELECT * FROM itemsPosition`;
+    return this.db.executeSql(sql, []).then((data) => {
+      console.log("get itemsPosition from DB data", data);
+    });
   }
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // PATIENT MANAGEMENT
 
   public addpatient(patient: Patient) {
     //Add Patients
-    let sql = `INSERT INTO Patients (name) VALUES (?)`;
-    console.log("patient added");
-    return this.db.executeSql(sql, [patient.name]);
+    let sql = `INSERT INTO Patients (name, photo) VALUES (?, ?)`;
+    return this.db.executeSql(sql, [patient.name, patient.photo]);
+  }
+
+  public addpatientwithpicture(patient: Patient) {
+    //Add Patients
+    let sql = `INSERT INTO Patients (name, photo) VALUES (?, ?)`;
+    return this.db.executeSql(sql, [patient.name, patient.photo]);
   }
 
   public getPatients() {
@@ -180,6 +197,7 @@ export class Database {
     let sql = "SELECT * FROM Patients ORDER BY name";
     return this.db.executeSql(sql, [])
     .then(response => {
+      console.log("get patients: ", response);
       let patients = [];
       for (let i = 0; i < response.rows.length; i++) {
         patients.push( response.rows.item(i) );
@@ -200,10 +218,12 @@ export class Database {
   }
 
   public lastPatientAdded() {
-    // let sql = `SELECT LAST(S_id) FROM Situations`;
     let sql = `SELECT P_id FROM Patients
                 ORDER BY P_id DESC LIMIT 1;`;
-    return this.db.executeSql(sql, []);
+    return this.db.executeSql(sql, []).then(response => {
+      let items = response.rows.item(0);
+      return Promise.resolve( items );
+    });
   }
 
 
@@ -212,20 +232,27 @@ export class Database {
 
   public addSituation(patient: Patient, environment: Environment) {
     let sql = `INSERT INTO Situations (P_id, Situation) VALUES (?,?);`;
-    return this.db.executeSql(sql, [patient.P_id, environment.name]);
+    return this.db.executeSql(sql, [patient.P_id, environment.name]).then(response => {
+      console.log("addSituation: ", response);
+    });
   }
 
   public getSituations(currentPatient: Patient) {
+    console.log("getSituations. currentPatient: ", currentPatient);
     let sql = `SELECT s.S_id, s.P_id, i.name, i.imgUrl
                 FROM Situations AS s
                 JOIN itemsPosition AS ip ON s.S_id = ip.S_id
                 JOIN items AS i ON ip.itemId = i.id
-                WHERE s.P_id = ? AND i.category="background"`;
-    return this.db.executeSql(sql, [currentPatient.P_id]).then(response => {
+                WHERE s.P_id = ? AND i.category = ?`;
+
+    return this.db.executeSql(sql, [currentPatient.P_id, "background"]).then(response => {
+      console.log("get situations: ", response);
       let situations = [];
       for (let i = 0; i < response.rows.length; i++) {
         situations.push( response.rows.item(i) );
       }
+      console.log("get situations. situations: ", situations);
+
       return Promise.resolve( situations );
     });
   }
@@ -245,7 +272,10 @@ export class Database {
   public lastSituation() {
     let sql = `SELECT S_id FROM Situations
                 ORDER BY S_id DESC LIMIT 1;`;
-    return this.db.executeSql(sql, []);
+    return this.db.executeSql(sql, []).then(response => {
+      let items = response.rows.item(0);
+      return Promise.resolve( items );
+    });
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,15 +287,13 @@ export class Database {
   //Get items for menu
   public getItems(category) {
     let sql = `SELECT * FROM items WHERE category = ?`;
-    console.log(sql);
     return this.db.executeSql(sql, [category]).then(response => {
       let items = [];
       for (let i = 0; i < response.rows.length; i++) {
         items.push( response.rows.item(i) );
       }
-      console.log(items);
       return Promise.resolve( items );
-    });;
+    });
   }
 
   public addItemToDatabase(name, imgUrl, category) {
@@ -274,7 +302,6 @@ export class Database {
   }
 
   public preloadData(): void {
-    console.log("preloading data");
 
     // Backgrounds
     this.addItemToDatabase("Classroom",           "assets/img/backgrounds/Classroom-shoebox.png",  "background");
@@ -382,13 +409,17 @@ export class Database {
   // Save a scene item to the DB
   // public saveSceneItem(item: ItemPosition, thisSituation: Situation) {
   public saveSceneItem(item, thisSituation) {
+    console.log("saveSceneItem", item, thisSituation);
   // for (let i = 0; i < this.sceneItems.length; i++) {
   //   if (this.sceneItems[i].category && item.category == 'background') { //checks if there is already a background
   //     break;
   //   } else {
       let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y)
                   VALUES (?, ?, ?, ?)`;
-      return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]);
+      // return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]);
+      return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]).then((data) => {
+        console.log("saveSceneItem: ", data);
+      });
     // }
   // }
   }

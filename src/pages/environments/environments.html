@@ -1,12 +1,15 @@
 <ion-header>
 
-  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.png" />
+  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
   <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
 
   <ion-navbar>
 
     <ion-buttons end>
-      <button ion-button (click)="toggleBackgrounds()"><ion-icon name="add"></ion-icon></button>
+      <button ion-button (click)="toggleBackgrounds()">
+        Add Environment
+        <ion-icon name="add" padding ></ion-icon>
+      </button>
       <!-- <button (click)="addEnvironmentPopup($event)"><ion-icon name="add"></ion-icon></button> -->
       <!-- <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button> -->
     </ion-buttons>
@@ -25,13 +28,13 @@
 
   <ion-grid *ngIf="showBackgrounds==true" class="toggleBackgrounds">
 
-    <h1 padding IDAGrey class="card-title">Add new environment</h1>
+    <h1 padding class="card-title">Add new environment</h1>
     <ion-row wrap>
 
       <ion-col width-25 *ngFor="let popItem of popoverItems">
 
         <img padding [src]="popItem.imgUrl" (click)="addEnvironment(popItem)" />
-        <p IDAGrey>{{popItem.name}}</p>
+        <p>{{popItem.name}}</p>
 
       </ion-col>
 
@@ -57,7 +60,7 @@
 
               <ion-item-options>
 
-                <button (click)="deletesituation(item)" color="danger">
+                <button ion-button padding (click)="deletesituation(item)" color="danger">
                   <ion-icon name="trash"></ion-icon>
                 </button>
 

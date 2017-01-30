@@ -13,19 +13,19 @@ $font-path: "../assets/fonts";
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
 $toolbar-background: #e63e4d;
-
+$tabs-background: #e63e4d;
 // IOS
 // Tabs
-$tabs-ios-tab-color: #ffffff;
+$tabs-ios-tab-color-inactive: #F2F2F2;
 $tabs-ios-tab-color-active: #ffffff;
-$background-ios-color	: #e63e4d;
+$background-ios-color	: #F2F2F2;
 
 
 // Tabs
 // Android
-$tabs-md-tab-color: #ffffff;
+$tabs-md-tab-color-inactive: #F2F2F2;
 $tabs-md-tab-color-active: #ffffff;
-$background-md-color	: #e63e4d;
+$background-md-color	: #F2F2F2;
 
 
 // Named Color Variables
@@ -97,6 +97,21 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-//@import "gotham";
 @import "roboto";
 @import "noto-sans";
+
+@font-face {
+  font-family: "Gotham Book";
+  font-style: normal;
+  src: local("Gotham Book"), local("Gotham-Book"), url("../assets/fonts/Gotham-Book.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham Light";
+  font-style: normal;
+  src: local("Gotham Light"), local("Gotham-Light"), url("../assets/fonts/Gotham-Light.ttf") format("truetype");
+}
+
+$font-family-md-base: "Gotham Book";
+$font-family-ios-base: "Gotham Book";
+$font-family-wp-base: "Gotham Book";

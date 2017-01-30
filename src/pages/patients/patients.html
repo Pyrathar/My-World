@@ -8,10 +8,11 @@
       Patients
     </ion-title>
 
-    <ion-buttons right>
+    <ion-buttons end>
 
-      <button ion-button color="IDA" (click)="addPatient()">
-        <ion-icon name="add"></ion-icon>
+      <button ion-button (click)="addPatient()">
+        Add Patient
+        <ion-icon name="add" padding></ion-icon>
       </button>
 
     </ion-buttons>
@@ -31,17 +32,19 @@
           <ion-item-sliding *ngFor="let patient of patientsList">
 
             <ion-item (click)="openPage(patient)">
-              <ion-icon IDAGrey name="person"></ion-icon>
+              <ion-avatar item-left>
+                <img [src]="'data:image/jpeg;base64,'+patient.photo">
+              </ion-avatar>
               {{patient.name}}
             </ion-item>
 
             <ion-item-options>
 
-              <button round (click)="editPatient(patient)" color="light">
+              <button ion-button padding (click)="editPatient(patient)" color="light">
                 <ion-icon name="paper"></ion-icon>
               </button>
 
-              <button (click)="deletePatient(patient)" color="danger">
+              <button ion-button padding (click)="deletePatient(patient)" color="danger">
                 <ion-icon name="trash"></ion-icon>
               </button>
 

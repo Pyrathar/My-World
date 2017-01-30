@@ -19,18 +19,13 @@ export class MyApp {
       Splashscreen.hide();
 
       db.openDatabase().then(() => {
-        console.log("loading app v2");
-
-
+        //this.db.del()
         this.db.generatepatients()
-        console.log("patients table generated");
         this.db.generatesituations()
-        console.log("situations table generated");
         this.db.generateitemposition()
-        console.log("positions table generated");
         this.db.generateitems()
-        this.db.del()
-        console.log("items table generated");
+
+        this.db.populateDatabase()
       })
 
     });

@@ -34,6 +34,15 @@ page-mainframe {
     position: absolute;
   }
 
+  ion-toolbar {
+    button {
+      color: #A1A19F!important;
+    }
+    ion-icon {
+      color: #e63e4d;
+    }
+  }
+
   ion-page.page1 ion-tabbar.show-tabbar {
       display: none;
   }
@@ -137,7 +146,7 @@ page-mainframe {
       max-width: 160px!important;
     }
     img.item[src*="microphone"]{
-      max-width: 33px!important;
+      max-width: 25px!important;
     }
     img.item[src*="mobile"]{
       max-width: 60px!important;
