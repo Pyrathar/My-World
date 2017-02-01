@@ -10,8 +10,6 @@
         Add Environment
         <ion-icon name="add" padding ></ion-icon>
       </button>
-      <!-- <button (click)="addEnvironmentPopup($event)"><ion-icon name="add"></ion-icon></button> -->
-      <!-- <button (click)="addsituation(situation)"><ion-icon name="add"></ion-icon></button> -->
     </ion-buttons>
 
     <ion-title>{{currentPatient.name}} Enviroments</ion-title>
@@ -31,10 +29,10 @@
     <h1 padding class="card-title">Add new environment</h1>
     <ion-row wrap>
 
-      <ion-col width-25 *ngFor="let popItem of popoverItems">
+      <ion-col width-25 *ngFor="let popItem of database.popoverBackgrounds">
 
         <img padding [src]="popItem.imgUrl" (click)="addEnvironment(popItem)" />
-        <p>{{popItem.name}}</p>
+        <p ion-text color="IDAGrey">{{popItem.name}}</p>
 
       </ion-col>
 

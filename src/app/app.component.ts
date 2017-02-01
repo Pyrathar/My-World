@@ -19,13 +19,17 @@ export class MyApp {
       Splashscreen.hide();
 
       db.openDatabase().then(() => {
-        //this.db.del()
+        // this.db.del()
         this.db.generatepatients()
         this.db.generatesituations()
         this.db.generateitemposition()
         this.db.generateitems()
 
         this.db.populateDatabase()
+        this.db.getPopoverBackgrounds()
+        this.db.getPopoverPersons()
+        this.db.getPopoverMoods()
+        this.db.getPopoverItems()
       })
 
     });

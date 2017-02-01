@@ -3,25 +3,37 @@
 
     <ion-title>{{currentSituation.name}} situation</ion-title>
 
+    <ion-buttons end *ngIf="pregenerateBtn">
+      <button ion-button (click)="pregenerateItems()">
+        Pregenerate items
+      </button>
+    </ion-buttons>
+
+    <ion-buttons end>
+      <button ion-button>
+        <ion-icon *ngIf="isActive" name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 
   <ion-toolbar>
     <ion-grid>
       <ion-row>
 
-        <ion-col>
+        <!-- <ion-col>
           <ion-buttons>
             <button ion-button (click)="backgroundsPopover()" light>
               <ion-icon padding name="image" danger></ion-icon>
               Environments
             </button>
           </ion-buttons>
-        </ion-col>
+        </ion-col> -->
 
         <ion-col>
           <ion-buttons>
-            <button ion-button (click)="personsPopover()" light>
-              <ion-icon padding name="person" danger></ion-icon>
+            <button ion-button (click)="togglePopover('persons')" color="light">
+              <ion-icon padding name="person" color="danger"></ion-icon>
               Persons
             </button>
           </ion-buttons>
@@ -29,8 +41,8 @@
 
         <ion-col>
           <ion-buttons>
-            <button ion-button (click)="moodsPopover()" light>
-              <ion-icon padding name="happy" danger></ion-icon>
+            <button ion-button (click)="togglePopover('moods')" color="light">
+              <ion-icon padding name="happy" color="danger"></ion-icon>
               Moods
             </button>
           </ion-buttons>
@@ -38,8 +50,8 @@
 
         <ion-col>
           <ion-buttons>
-            <button ion-button (click)="itemsPopover()" light>
-              <ion-icon padding name="football" danger></ion-icon>
+            <button ion-button (click)="togglePopover('items')" color="light">
+              <ion-icon padding name="football" color="danger"></ion-icon>
               Items
             </button>
           </ion-buttons>
@@ -56,11 +68,24 @@
 </ion-header>
 
 
-<ion-content isScrolling="false" cache-view="false" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)" (click)="closePopup()">
+<ion-content [class]="allowScroll" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)" (click)="closePopup()">
 
-  <ion-list *ngIf="togglePopover==true" class="popoverItems">
+  <ion-list *ngIf="togglePersons" class="popoverItems">
 
-    <img *ngFor="let popItem of popoverItems" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
+    <img *ngFor="let popItem of database.popoverPersons" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)"
+    />
+
+  </ion-list>
+
+  <ion-list *ngIf="toggleMoods" class="popoverItems">
+
+    <img *ngFor="let popItem of database.popoverMoods" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
+
+  </ion-list>
+
+  <ion-list *ngIf="toggleItems" class="popoverItems">
+
+    <img *ngFor="let popItem of database.popoverItems" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
 
   </ion-list>
 
@@ -68,9 +93,9 @@
   <div class="situationItems">
     <div *ngFor="let item of sceneItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
 
-      <ion-icon *ngIf="isActive === true" (click)="removeItemFromScene(item)" name="close" role="img" class="ion-ios-close item-icon" aria-label="close" ng-reflect-name="close" danger [id]="item.id"></ion-icon>
+      <!-- <ion-icon name="close" *ngIf="isActive" (click)="removeItemFromScene(item)" class="ion-ios-close" color="danger"></ion-icon> -->
 
-      <img [src]="item.imgUrl" [id]="item.id" [class]="item.category" />
+      <img [src]="item.imgUrl" [class]="item.category" />
 
     </div>
   </div>

@@ -75,6 +75,35 @@ export class Environment {
 export class Database {
 
   public db: SQLite;
+  public popoverBackgrounds: Item[] = [
+    {
+      "id": 1,
+      "name": "Classroom",
+      "imgUrl": "assets/img/backgrounds/classroom_tn.png",
+      "category": "background"
+    },
+    {
+      "id": 2,
+      "name": "At Home",
+      "imgUrl": "assets/img/backgrounds/home_tn.png",
+      "category": "background"
+    },
+    {
+      "id": 3,
+      "name": "The Great Outdoors",
+      "imgUrl": "assets/img/backgrounds/outdoors_tn.jpg",
+      "category": "background"
+    },
+    {
+      "id": 4,
+      "name": "Station and Metro",
+      "imgUrl": "assets/img/backgrounds/station_and_metro_tn.png",
+      "category": "background"
+    }
+  ];
+  public popoverPersons: Item[] = [];
+  public popoverMoods: Item[] = [];
+  public popoverItems: Item[] = [];
 
   constructor() {
     this.db = new SQLite();
@@ -159,6 +188,7 @@ export class Database {
       if (data.rows.length == 0) {
         this.preloadData();
       }
+      console.log("items form db", data);
     });
   }
 
@@ -167,8 +197,10 @@ export class Database {
   public del() {
     //Check ID of user
     // let sql = `DELETE FROM items WHERE id>73`;
-    let sql = `DROP table Patients`;
-    return this.db.executeSql(sql, []);
+    let sql = `DROP table items`;
+    return this.db.executeSql(sql, []).then((data) => {
+      console.log("dropped tables", data);
+    });;
   }
 
   public getDataFromDb() {
@@ -296,6 +328,48 @@ export class Database {
     });
   }
 
+  public getPopoverBackgrounds() {
+
+      this.popoverBackgrounds;
+      console.log(this.popoverBackgrounds);
+  }
+
+  public getPopoverPersons() {
+    let sql = `SELECT * FROM items WHERE category = "person"`;
+    return this.db.executeSql(sql, []).then( data => {
+
+      this.popoverPersons = [];
+      for (let i = 0; i < data.rows.length; i++) {
+        this.popoverPersons.push( data.rows.item(i) );
+      }
+      return Promise.resolve( this.popoverPersons );
+    });
+  }
+
+  public getPopoverMoods() {
+    let sql = `SELECT * FROM items WHERE category = "mood"`;
+    return this.db.executeSql(sql, []).then( data => {
+
+      this.popoverMoods = [];
+      for (let i = 0; i < data.rows.length; i++) {
+        this.popoverMoods.push( data.rows.item(i) );
+      }
+      return Promise.resolve( this.popoverMoods );
+    });
+  }
+
+  public getPopoverItems() {
+    let sql = `SELECT * FROM items WHERE category = "item"`;
+    return this.db.executeSql(sql, []).then( data => {
+
+      this.popoverItems = [];
+      for (let i = 0; i < data.rows.length; i++) {
+        this.popoverItems.push( data.rows.item(i) );
+      }
+      return Promise.resolve( this.popoverItems );
+    });
+  }
+
   public addItemToDatabase(name, imgUrl, category) {
     let sql = `INSERT INTO items (name, imgUrl, category) VALUES (?, ?, ?)`;
     return this.db.executeSql(sql, [name, imgUrl, category]);
@@ -341,7 +415,7 @@ export class Database {
     this.addItemToDatabase("Sad",             "assets/img/moods/sad.png",            "mood");
     this.addItemToDatabase("Vred",            "assets/img/moods/vred.png",           "mood");
 
-    // Items
+    // Items 32
     this.addItemToDatabase("Action Man",            "assets/img/items/action_man.png",         "item");
     this.addItemToDatabase("Arm Chair",             "assets/img/items/arm_chair.png",          "item");
     this.addItemToDatabase("Baseball Mit",          "assets/img/items/baseball_mit.png",       "item");
