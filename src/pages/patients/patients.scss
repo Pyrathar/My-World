@@ -8,13 +8,11 @@ page-patients {
     margin-left: 25%;
   }
 
-  img#logo {
-    float: left;
-    height: 38px;
-    padding: 4px
-  }
-  img#bubbles {
-    float: right;
-    height: 38px;
+  ion-buttons button {
+    background-color: #0098AA!important;
+
+      span {
+        text-transform: none;
+      }  
   }
 }

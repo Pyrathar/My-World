@@ -1,12 +1,21 @@
 page-getting-started {
+    
+    .scroll-content {
+        background: url(../assets/img/various/trees.jpg) no-repeat right bottom;
+        background-size: cover;
+    }
 
-  img#logo {
-    float: left;
-    height: 38px;
-    padding: 4px
-  }
-  img#bubbles {
-    float: right;
-    height: 38px;
-  }
+    img.animated {
+        width: 70%;
+        display: block;
+        margin: 5% auto 0;
+    }
+    
+    h1 {
+        font-size: 5rem;
+    }
+
+    ion-buttons button {
+        font-size: 3rem;
+    }
 }

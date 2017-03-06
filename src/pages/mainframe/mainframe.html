@@ -3,16 +3,16 @@
 
     <ion-title>{{currentSituation.name}} situation</ion-title>
 
-    <ion-buttons end *ngIf="pregenerateBtn">
-      <button ion-button (click)="pregenerateItems()">
+    <ion-buttons right>
+
+      <button ion-button padding *ngIf="pregenerateBtn" class="btnPregenerate" (click)="pregenerateItems()">
         Pregenerate items
       </button>
-    </ion-buttons>
 
-    <ion-buttons end>
-      <button ion-button>
-        <ion-icon *ngIf="isActive" name="trash"></ion-icon>
+      <button ion-button *ngIf="isActive" class="btnTrash">
+        <ion-icon name="trash" color="danger"></ion-icon>
       </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -21,38 +21,29 @@
     <ion-grid>
       <ion-row>
 
-        <!-- <ion-col>
+        <ion-col (click)="togglePopover('persons')">
           <ion-buttons>
-            <button ion-button (click)="backgroundsPopover()" light>
-              <ion-icon padding name="image" danger></ion-icon>
-              Environments
-            </button>
-          </ion-buttons>
-        </ion-col> -->
-
-        <ion-col>
-          <ion-buttons>
-            <button ion-button (click)="togglePopover('persons')" color="light">
+            <button ion-button color="light">
               <ion-icon padding name="person" color="danger"></ion-icon>
-              Persons
+              Add Person
             </button>
           </ion-buttons>
         </ion-col>
 
-        <ion-col>
+        <ion-col (click)="togglePopover('moods')">
           <ion-buttons>
-            <button ion-button (click)="togglePopover('moods')" color="light">
+            <button ion-button color="light">
               <ion-icon padding name="happy" color="danger"></ion-icon>
-              Moods
+              Add Mood
             </button>
           </ion-buttons>
         </ion-col>
 
-        <ion-col>
+        <ion-col (click)="togglePopover('items')">
           <ion-buttons>
-            <button ion-button (click)="togglePopover('items')" color="light">
+            <button ion-button color="light">
               <ion-icon padding name="football" color="danger"></ion-icon>
-              Items
+              Add Item
             </button>
           </ion-buttons>
         </ion-col>
@@ -63,45 +54,74 @@
   </ion-toolbar>
 
 
+  <ion-list *ngIf="togglePersons" [ngClass]="animationClasses">
+    <div *ngFor="let popItem of db.popoverPersons" >
+      <img 
+        [src]="popItem.imgUrl" 
+        [class]="popItem.category" 
+        (touchstart)="moveStart(popItem, $event)" 
+        (touchmove)="moveDragOver(popItem, $event)" 
+        (touchend)="addToSituation(popItem, currentSituation, $event)"
+        (dblclick)="addToSituationToDefaultPosition(popItem, currentSituation, $event)" />
+    </div>
+  </ion-list>
+
+
+  <ion-list *ngIf="toggleMoods" [ngClass]="animationClasses">
+    <div *ngFor="let popItem of db.popoverMoods">
+      <img 
+        [src]="popItem.imgUrl" 
+        [class]="popItem.category" 
+        (touchstart)="moveStart(popItem, $event)" 
+        (touchmove)="moveDragOver(popItem, $event)" 
+        (touchend)="addToSituation(popItem, currentSituation, $event)"
+        (dblclick)="addToSituationToDefaultPosition(popItem, currentSituation, $event)" />
+    </div>
+  </ion-list>
+
+
+  <ion-list *ngIf="toggleItems" [ngClass]="animationClasses">
+    <div  *ngFor="let popItem of db.popoverItems">
+      <img 
+        [src]="popItem.imgUrl" 
+        [class]="popItem.category" 
+        (touchstart)="moveStart(popItem, $event)" 
+        (touchmove)="moveDragOver(popItem, $event)" 
+        (touchend)="addToSituation(popItem, currentSituation, $event)"
+        (dblclick)="addToSituationToDefaultPosition(popItem, currentSituation, $event)" />
+    </div>
+  </ion-list>
 
 
 </ion-header>
 
 
-<ion-content [class]="allowScroll" (touchmove)="moveDragOver(item, $event)" (touchend)="moveDrop(item, $event)" (click)="closePopup()">
 
-  <ion-list *ngIf="togglePersons" class="popoverItems">
-
-    <img *ngFor="let popItem of database.popoverPersons" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)"
-    />
-
-  </ion-list>
-
-  <ion-list *ngIf="toggleMoods" class="popoverItems">
-
-    <img *ngFor="let popItem of database.popoverMoods" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
-
-  </ion-list>
-
-  <ion-list *ngIf="toggleItems" class="popoverItems">
-
-    <img *ngFor="let popItem of database.popoverItems" [class]="popItem.category" [src]="popItem.imgUrl" (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, currentSituation, $event)" />
-
-  </ion-list>
-
+<ion-content 
+  [class]="allowScroll" 
+  (touchmove)="moveDragOver(item, $event)" 
+  (touchend)="moveDrop(item, $event)" 
+  (click)="closePopup()">
 
   <div class="situationItems">
-    <div *ngFor="let item of sceneItems" [class]="item.category" (touchstart)="moveStart(item, $event)" (dblclick)="makeActive($event)" [style.top]="item.y + 'px'" [style.left]="item.x + 'px'">
+    <div *ngFor="let item of sceneItems" 
+      [class]="item.category" 
+      (touchstart)="moveStart(item, $event)" 
+      (dblclick)="makeActive($event)" 
+      [style.left]="item.x + 'px'" 
+      [style.top]="item.y + 'px'" >
 
-      <!-- <ion-icon name="close" *ngIf="isActive" (click)="removeItemFromScene(item)" class="ion-ios-close" color="danger"></ion-icon> -->
+      <ion-icon 
+        *ngIf="isActive && item.category !='background'" 
+        name="close-circle" 
+        color="danger"
+        class="ion-ios-close" 
+        (click)="removeItemFromScene(item)" >
+      </ion-icon>
 
       <img [src]="item.imgUrl" [class]="item.category" />
 
     </div>
   </div>
-
-
-  <!-- (mousedown)="startInterval()" (mouseup)="makeUnactive()"-->
-
 
 </ion-content>

@@ -1,12 +1,11 @@
 page-about {
 
-  img#logo {
-    float: left;
-    height: 38px;
-    padding: 4px
-  }
-  img#bubbles {
-    float: right;
-    height: 38px;
-  }
+    .scroll-content {
+        background: url(../assets/img/various/trees.jpg) no-repeat right bottom;
+        background-size: cover;
+    }
+
+    ion-card {
+        background: rgba(255, 255, 255, 0.8)!important;
+    }
 }

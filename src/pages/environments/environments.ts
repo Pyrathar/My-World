@@ -15,6 +15,12 @@ export class EnvironmentsPage {
   environmentList: Array<Environment>;
   showBackgrounds: boolean = false;
 
+  animationClasses: any = {
+    'toggleBackgrounds': true,
+    'animated': true,
+    'fadeInDown': true
+  };
+
   constructor(
     private database: Database,
     private navController: NavController,
@@ -32,19 +38,17 @@ export class EnvironmentsPage {
     this.database.getSituations(this.currentPatient).then( data => {
       this.environmentList = data;
     })
-    this.database.getDataFromDb();
   }
 
   public addEnvironment(environment: Environment) {
     // adds situation for current patient
-    console.log("addEnvironment. env: ", environment);
+    // console.log("addEnvironment. env: ", environment);
     this.database.addSituation(this.currentPatient, environment);
-    this.database.getDataFromDb();
 
 
     this.database.lastSituation().then(
       lastSituationIdData => {
-        console.log("lastSituation entered. data: ", lastSituationIdData);
+        // console.log("lastSituation entered. data: ", lastSituationIdData);
 
         let lastSituation = lastSituationIdData;
 

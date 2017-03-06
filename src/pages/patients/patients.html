@@ -8,13 +8,10 @@
       Patients
     </ion-title>
 
-    <ion-buttons end>
-
-      <button ion-button (click)="addPatient()">
-        Add Patient
-        <ion-icon name="add" padding></ion-icon>
+    <ion-buttons right>
+      <button ion-button padding (click)="addPatient()">
+        Add patient
       </button>
-
     </ion-buttons>
 
   </ion-navbar>
@@ -27,6 +24,11 @@
   <ion-grid>
     <ion-row center>
       <ion-col offset-25 width-50>
+
+        <button ion-button padding full large (click)="addPatient()" color="light" *ngIf="addPatientBtn" >
+          ADD PATIENT        
+          <ion-icon name="add" padding></ion-icon>
+        </button>
 
         <ion-list>
           <ion-item-sliding *ngFor="let patient of patientsList">

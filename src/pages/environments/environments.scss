@@ -1,16 +1,12 @@
 page-environments {
+  
+  ion-buttons button {
+    background-color: #0098AA!important;
 
-  img#logo {
-    float: left;
-    height: 38px;
-    padding: 4px
+      span {
+        text-transform: none;
+      }
   }
-  img#bubbles {
-    float: right;
-    height: 38px;
-  }
-
-  .card-background-page {
 
     ion-card {
       padding: 1.8em;
@@ -34,7 +30,7 @@ page-environments {
       color: #A1A19F;
     }
     ion-col img {
-      max-width: 70%;
+      // max-width: 70%;
       display: block;
       margin: 0 auto;
     }
@@ -42,7 +38,7 @@ page-environments {
       margin: 12px 8px 0 0;
   }
 
-  }
+  
 
   .toggleBackgrounds{
     position: absolute;

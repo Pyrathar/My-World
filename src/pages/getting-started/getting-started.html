@@ -2,25 +2,31 @@
   <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
   <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
 
-  <ion-navbar>
+  <!--<ion-navbar>
     <ion-title>Introduction</ion-title>
-  </ion-navbar>
+  </ion-navbar>-->
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-  <ion-card>
+  <img [ngClass]="animationKids" src="assets/img/various/kids.png" />
+  
+  <h1 text-center	[ngClass]="animationText" color="danger">WELCOME TO MY WORLD</h1>
 
-    <ion-card-header></ion-card-header>
+  <ion-buttons [ngClass]="animationText" text-center>
 
-    <ion-card-content>
+    <button 
+      ion-button 
+      large 
+      color="danger"
+      (click)="openPage()">
+    
+      Get started
 
-      <img src="assets/img/various/Introductionscreen.png" />
+    </button>
 
-    </ion-card-content>
-
-  </ion-card>
+  </ion-buttons>
 
 </ion-content>

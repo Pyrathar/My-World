@@ -188,14 +188,12 @@ export class Database {
       if (data.rows.length == 0) {
         this.preloadData();
       }
-      console.log("items form db", data);
     });
   }
 
 
   // TEMPORARY function to delete unnecessary data from database
   public del() {
-    //Check ID of user
     // let sql = `DELETE FROM items WHERE id>73`;
     let sql = `DROP table items`;
     return this.db.executeSql(sql, []).then((data) => {
@@ -229,7 +227,6 @@ export class Database {
     let sql = "SELECT * FROM Patients ORDER BY name";
     return this.db.executeSql(sql, [])
     .then(response => {
-      console.log("get patients: ", response);
       let patients = [];
       for (let i = 0; i < response.rows.length; i++) {
         patients.push( response.rows.item(i) );
@@ -265,12 +262,10 @@ export class Database {
   public addSituation(patient: Patient, environment: Environment) {
     let sql = `INSERT INTO Situations (P_id, Situation) VALUES (?,?);`;
     return this.db.executeSql(sql, [patient.P_id, environment.name]).then(response => {
-      console.log("addSituation: ", response);
     });
   }
 
   public getSituations(currentPatient: Patient) {
-    console.log("getSituations. currentPatient: ", currentPatient);
     let sql = `SELECT s.S_id, s.P_id, i.name, i.imgUrl
                 FROM Situations AS s
                 JOIN itemsPosition AS ip ON s.S_id = ip.S_id
@@ -278,9 +273,19 @@ export class Database {
                 WHERE s.P_id = ? AND i.category = ?`;
 
     return this.db.executeSql(sql, [currentPatient.P_id, "background"]).then(response => {
-      console.log("get situations: ", response);
       let situations = [];
       for (let i = 0; i < response.rows.length; i++) {
+        if (response.rows.item(i).imgUrl == "assets/img/backgrounds/The-Great-Outdoors.png" ) {
+          response.rows.item(i).imgUrl = "assets/img/backgrounds/outdoors_tn.jpg";
+        } else if (response.rows.item(i).imgUrl == "assets/img/backgrounds/Classroom-shoebox.png") {
+          response.rows.item(i).imgUrl = "assets/img/backgrounds/classroom_tn.png";
+        } else if (response.rows.item(i).imgUrl == "assets/img/backgrounds/At-Home-shoebox.png") {
+          response.rows.item(i).imgUrl = "assets/img/backgrounds/home_tn.png";
+        } else if (response.rows.item(i).imgUrl == "assets/img/backgrounds/Station-and-Metro.png") {
+          response.rows.item(i).imgUrl = "assets/img/backgrounds/station_and_metro_tn.png";
+        }
+
+
         situations.push( response.rows.item(i) );
       }
       console.log("get situations. situations: ", situations);
@@ -329,9 +334,7 @@ export class Database {
   }
 
   public getPopoverBackgrounds() {
-
       this.popoverBackgrounds;
-      console.log(this.popoverBackgrounds);
   }
 
   public getPopoverPersons() {
@@ -483,7 +486,6 @@ export class Database {
   // Save a scene item to the DB
   // public saveSceneItem(item: ItemPosition, thisSituation: Situation) {
   public saveSceneItem(item, thisSituation) {
-    console.log("saveSceneItem", item, thisSituation);
   // for (let i = 0; i < this.sceneItems.length; i++) {
   //   if (this.sceneItems[i].category && item.category == 'background') { //checks if there is already a background
   //     break;

@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Database } from '../database';
+import { AbsoluteDrag } from '../components/absolute-drag/absolute-drag';
 
 import { MyApp } from './app.component';
 
@@ -20,7 +21,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     GettingStartedPage,
     MainframePage,
     PatientsPage,
-    TabsPage
+    TabsPage,
+    AbsoluteDrag
   ],
   imports: [
     IonicModule.forRoot(MyApp)
