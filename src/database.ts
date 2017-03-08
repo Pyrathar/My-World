@@ -160,9 +160,7 @@ export class Database {
                 P_id        INTEGER,
                 FOREIGN KEY (P_Id) REFERENCES Patients(P_Id)
               )`;
-    return this.db.executeSql(sql, []).then((data) => {
-
-    });
+    return this.db.executeSql(sql, [])
   }
 
 
@@ -261,8 +259,7 @@ export class Database {
 
   public addSituation(patient: Patient, environment: Environment) {
     let sql = `INSERT INTO Situations (P_id, Situation) VALUES (?,?);`;
-    return this.db.executeSql(sql, [patient.P_id, environment.name]).then(response => {
-    });
+    return this.db.executeSql(sql, [patient.P_id, environment.name]);
   }
 
   public getSituations(currentPatient: Patient) {
@@ -334,7 +331,7 @@ export class Database {
   }
 
   public getPopoverBackgrounds() {
-      this.popoverBackgrounds;
+    return this.popoverBackgrounds;
   }
 
   public getPopoverPersons() {
@@ -493,9 +490,7 @@ export class Database {
       let sql = `INSERT INTO itemsPosition (S_id, itemId, x, y)
                   VALUES (?, ?, ?, ?)`;
       // return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]);
-      return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]).then((data) => {
-        console.log("saveSceneItem: ", data);
-      });
+      return this.db.executeSql(sql, [thisSituation.S_id, item.id, item.x || 0, item.y || 0]);
     // }
   // }
   }

@@ -21,7 +21,7 @@
     <ion-grid>
       <ion-row>
 
-        <ion-col (click)="togglePopover('persons')">
+        <ion-col (click)="togglePopover('persons', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="person" color="danger"></ion-icon>
@@ -30,7 +30,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('moods')">
+        <ion-col (click)="togglePopover('moods', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="happy" color="danger"></ion-icon>
@@ -39,7 +39,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('items')">
+        <ion-col (click)="togglePopover('items', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="football" color="danger"></ion-icon>
@@ -54,7 +54,7 @@
   </ion-toolbar>
 
 
-  <ion-list *ngIf="togglePersons" [ngClass]="animationClasses">
+  <ion-list *ngIf="togglePersons" [ngClass]="animationPopoverClasses">
     <div *ngFor="let popItem of db.popoverPersons" >
       <img 
         [src]="popItem.imgUrl" 
@@ -67,7 +67,7 @@
   </ion-list>
 
 
-  <ion-list *ngIf="toggleMoods" [ngClass]="animationClasses">
+  <ion-list *ngIf="toggleMoods" [ngClass]="animationPopoverClasses">
     <div *ngFor="let popItem of db.popoverMoods">
       <img 
         [src]="popItem.imgUrl" 
@@ -80,7 +80,7 @@
   </ion-list>
 
 
-  <ion-list *ngIf="toggleItems" [ngClass]="animationClasses">
+  <ion-list *ngIf="toggleItems" [ngClass]="animationPopoverClasses">
     <div  *ngFor="let popItem of db.popoverItems">
       <img 
         [src]="popItem.imgUrl" 
@@ -99,24 +99,24 @@
 
 <ion-content 
   [class]="allowScroll" 
-  (touchmove)="moveDragOver(item, $event)" 
-  (touchend)="moveDrop(item, $event)" 
   (click)="closePopup()">
 
   <div class="situationItems">
-    <div *ngFor="let item of sceneItems" 
+    <div *ngFor="let item of sceneItems"
       [class]="item.category" 
       (touchstart)="moveStart(item, $event)" 
+      (touchmove)="moveDragOver(item, $event)" 
+      (touchend)="moveDrop(item, $event)" 
       (dblclick)="makeActive($event)" 
       [style.left]="item.x + 'px'" 
       [style.top]="item.y + 'px'" >
 
       <ion-icon 
-        *ngIf="isActive && item.category !='background'" 
+        *ngIf="isActive && item.category !='background' && isPaused" 
         name="close-circle" 
         color="danger"
         class="ion-ios-close" 
-        (click)="removeItemFromScene(item)" >
+        (tap)="removeItemFromScene(item, $event)" >
       </ion-icon>
 
       <img [src]="item.imgUrl" [class]="item.category" />

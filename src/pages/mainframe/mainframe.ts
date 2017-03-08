@@ -20,6 +20,7 @@ export class MainframePage {
   allowScroll: string = "scroll";
 
   isActive: boolean = false;
+  isPaused: boolean = false;
   waitToDeleteTimer: number;
   toolbarSize: number = 104;
 
@@ -29,10 +30,16 @@ export class MainframePage {
   moveStartX: number;
   moveStartY: number;
     
-  animationClasses: any = {
+  animationPopoverClasses: any = {
     'popoverItems': true,
     'animated': true,
     'fadeIn': true
+  };
+
+  animationDeleteClasses: any = {
+    'animated': true,
+    'pulse': true,
+    'infinite': true
   };
 
   itemPressedTimer: number = 0;
@@ -49,6 +56,7 @@ export class MainframePage {
 
       console.log("observable");
       this.loadSceneItems();
+      observer.next("hello");
       // myObservable = observer;
       // console.log(myObservable);
     });
@@ -72,7 +80,7 @@ export class MainframePage {
     this.pregenerateBtn = (this.sceneItems.length == 1) ? true : false;
   }
 
-  public togglePopover(category) {
+  public togglePopover(category, e) {
     this.closePopup();
     if (category == "persons") {
       this.togglePersons = !this.togglePersons;
@@ -81,6 +89,13 @@ export class MainframePage {
     }  else if (category == "items") {
       this.toggleItems = !this.toggleItems;
     }
+
+    // this.sceneItemsObserver.subscribe((data) => {
+    //   console.log("subscribe");
+    //   console.log(data);
+    // })
+
+
   }
 
   // Save our item to the DB and display it in Page1
@@ -91,8 +106,6 @@ export class MainframePage {
       this.closePopup();
       this.db.saveSceneItem(item, this.currentSituation);
       this.sceneItems.push(item);
-      //this.loadSceneItems();
-      this.sceneItemsObserver.next(true);
     }
   }
 
@@ -102,8 +115,9 @@ export class MainframePage {
       this.closePopup();
       this.db.saveSceneItem(item, this.currentSituation);
       this.sceneItems.push(item);
+      console.log("default possition");
       // this.loadSceneItems();
-      this.sceneItemsObserver.next(true);
+      // this.sceneItemsObserver.next(true);
   }
 
   public pregenerateItems() {
@@ -130,9 +144,7 @@ export class MainframePage {
         let largeTable3 = new ItemPosition(58, null, null, null, null, null, 571, 200);
         this.db.saveSceneItem(largeTable3, this.currentSituation);
 
-        // this.loadSceneItems();
-        this.sceneItemsObserver.next(true);
-        console.log(this.sceneItems);
+        this.loadSceneItems();
 
 
         // Pregenerate items for HOME Situation
@@ -179,9 +191,7 @@ export class MainframePage {
         let car = new ItemPosition(42, null, null, null, null, null, 471, 309);
         this.db.saveSceneItem(car, this.currentSituation);
 
-        // this.loadSceneItems();
-        this.sceneItemsObserver.next(true);
-        console.log(this.sceneItems);
+        this.loadSceneItems();
 
 
         // Pregenerate items for STATION Situation
@@ -193,9 +203,7 @@ export class MainframePage {
         let train = new ItemPosition(73, null, null, null, null, null, 708, 340);
         this.db.saveSceneItem(train, this.currentSituation);
 
-        // this.loadSceneItems();
-        this.sceneItemsObserver.next(true);
-        console.log(this.sceneItems);
+        this.loadSceneItems();
 
       }
     }
@@ -207,17 +215,21 @@ export class MainframePage {
     this.toggleItems = false;
 
     this.isActive = false;
+    this.isPaused = false;
+    console.log("closePopup NOOOOOOO ACTIVE");
   }
 
   // Remove the item from the DB and our current this.sceneItems
-  public removeItemFromScene(item: ItemPosition) {
+  public removeItemFromScene(item: ItemPosition, e) {
     console.log("delete me");
+    e.stopPropagation();
     this.db.removeSceneItem(item);
     let index = this.sceneItems.indexOf(item);
 
     if (index > -1) {
       this.sceneItems.splice(index, 1);
     }
+    this.isActive = true;
     this.checkPregenerateBtn();
     this.sceneItemsObserver.next(true);
   }
@@ -226,25 +238,23 @@ export class MainframePage {
     // e.stopPropagation();
     e.preventDefault;
     this.itemPressedTimer = e.timeStamp;
-    console.log(e.timeStamp, this.itemPressedTimer);
-
 
     if (!this.isActive) {
       
       this.waitToDeleteTimer = setTimeout(() => { 
         this.isActive = true;
-      }, 1200); //1200
+        this.isPaused = true;
+        console.log("makeActive ITSELF");
+      }, 1200);
 
     }
   }
 
   makeUnactive(e) {
-    // e.stopPropagation();
+    e.stopPropagation();
     this.isActive = false;
     clearTimeout(this.waitToDeleteTimer);
-
-    // console.log(e.timeStamp, this.itemPressedTimer);
-    // this.itemPressedTimer = 0; // reset after each release
+    console.log("makeUnactive function");
   }
 
   updateItemPositionOnScene(item: ItemPosition, newX, newY) {
@@ -255,12 +265,8 @@ export class MainframePage {
 
   moveStart(item: ItemPosition, e) {
       // console.log("moveStart category",item.category);
-
-
-
-    if (item.category == 'person' || 'mood' || 'item') {
-      // console.log("move started");
-      console.log("moveStart IF TRUE. item is ",item.category, this.allowScroll);
+      e.stopPropagation();
+      console.log(e);
       
       this.makeActive(e);
 
@@ -270,17 +276,22 @@ export class MainframePage {
 
       this.itemX = this.moveStartX - item.x; // item position X center
       this.itemY = this.moveStartY - item.y; // item position Y center
-
-    } else {
-      this.allowScroll = "scroll";      
-      console.log("moveStart ELSE. item is ",item.category, this.allowScroll);
-    }
-
-
   }
 
   moveDragOver(item: ItemPosition, e) {
-    console.log("move over event");
+
+    if (item.category == 'background') {
+      this.allowScroll = "scroll";      
+    } else {
+    
+      this.allowScroll = 'no-scroll';
+      e.stopPropagation();
+      this.makeUnactive(e);
+      
+      item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
+      item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
+
+    }
 
     // if (item.x ==  Math.round(e.changedTouches["0"].clientX - this.itemX) && item.y ==  Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY)) {
     //   console.log(item.x, item.y);
@@ -290,37 +301,28 @@ export class MainframePage {
     //   console.log("NO");
     //   console.log(item.x, Math.round(e.changedTouches["0"].clientX - this.itemX));
     // }
-      this.makeUnactive(e);
-    
-    item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
-    item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
-
-    this.allowScroll = (item.category !== 'background') ? 'no-scroll' : 'scroll';
   }
 
   moveDrop(item: ItemPosition,  e) {
 
 
-    if (e.timeStamp - this.itemPressedTimer > 3000 && this.isActive == true) {
-      console.log('Hooray! They held for 3 seconds')
-      this.isActive = true;
-    } else {
-      this.makeUnactive(e);
-    }
-
 
     if (!undefined) {
-      console.log("move drop");
-      console.log(item.category);
-
-      // this.makeUnactive(e);
 
       if (item.category == 'person' || 'mood' || 'item') {
+
+        if (e.timeStamp - this.itemPressedTimer > 1200 && this.isPaused) {
+          console.log("moveDrop ACTIVE");
+          this.isActive = true;
+        } 
+
         if (item.y > 0) {  // check if item doesnt go over status bar (top of the screen)
           this.updateItemPositionOnScene(item, item.x, item.y);
         } else {
           if (item.category != 'background') {
-            this.removeItemFromScene(item);
+            this.removeItemFromScene(item, e);
+            // this.isActive = false;
+            // this.isPaused = false;
           }
         }
         this.allowScroll = "scroll";
