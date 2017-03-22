@@ -105,7 +105,6 @@
       (touchstart)="moveStart(item, $event)" 
       (touchmove)="moveDragOver(item, $event)" 
       (touchend)="moveDrop(item, $event)" 
-      (dblclick)="makeActive($event)" 
       [style.left]="item.x + 'px'" 
       [style.top]="item.y + 'px'" >
 
@@ -117,7 +116,10 @@
         (tap)="removeItemFromScene(item, $event)" >
       </ion-icon>
 
-      <img [src]="item.imgUrl" [class]="item.category" />
+      <img 
+        [src]="item.imgUrl" 
+        [class]="item.category" 
+      />
 
     </div>
   </div>

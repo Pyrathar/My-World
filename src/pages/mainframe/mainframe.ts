@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { Database, Environment, ItemPosition } from '../../database';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'page-mainframe',
@@ -11,7 +10,6 @@ export class MainframePage {
 
   item: ItemPosition;
   sceneItems: any;
-  sceneItemsObserver: any;
   currentSituation: Environment;
   togglePersons: boolean = false;
   toggleMoods: boolean = false;
@@ -50,74 +48,69 @@ export class MainframePage {
   }
 
   public ionViewDidLoad() {
-    // this.loadSceneItems();
-
-    this.sceneItemsObserver = Observable.create(observer => {
-
-      console.log("observable");
-      this.loadSceneItems();
-      observer.next("hello");
-      // myObservable = observer;
-      // console.log(myObservable);
-    });
-
-    this.sceneItemsObserver.subscribe((data) => {
-      console.log("subscribe");
-      console.log(data);
-    })
+    this.loadSceneItems();
   }
 
   public loadSceneItems() {
+
     this.db.getSceneItems(this.currentSituation).then( data => {
       this.sceneItems = data;
       this.checkPregenerateBtn();
     });
+
   }
 
   public checkPregenerateBtn() {
-    console.log("checkPregenerateBtn scene items ", this.sceneItems);
-
     this.pregenerateBtn = (this.sceneItems.length == 1) ? true : false;
   }
 
   public togglePopover(category, e) {
+
     this.closePopup();
-    if (category == "persons") {
-      this.togglePersons = !this.togglePersons;
-    } else if (category == "moods") {
-      this.toggleMoods = !this.toggleMoods;
-    }  else if (category == "items") {
-      this.toggleItems = !this.toggleItems;
+
+    switch (category) {
+
+      case "persons":
+        this.togglePersons = !this.togglePersons;
+        break;
+
+      case "moods":
+        this.toggleMoods = !this.toggleMoods;
+        break;
+    
+      default:
+        this.toggleItems = !this.toggleItems;
+        break;
     }
-
-    // this.sceneItemsObserver.subscribe((data) => {
-    //   console.log("subscribe");
-    //   console.log(data);
-    // })
-
 
   }
 
   // Save our item to the DB and display it in Page1
   public addToSituation(item: ItemPosition, thisSituation, e) {
+
     if (e.changedTouches["0"].clientY > 284) {  // 284 is the height of header + toolbar + popover bar
+
       item.x = Math.round(e.changedTouches["0"].clientX);
       item.y = Math.round(e.changedTouches["0"].clientY - 104); // 104 is the height of header + toolbar
       this.closePopup();
       this.db.saveSceneItem(item, this.currentSituation);
       this.sceneItems.push(item);
+
+    } else {
+
+      this.makeUnactive(e);
+
     }
   }
 
   public addToSituationToDefaultPosition(item: ItemPosition, thisSituation, e) {
-      item.x = 0;
-      item.y = 0;
+
+      item.x = 150;
+      item.y = 150;
       this.closePopup();
       this.db.saveSceneItem(item, this.currentSituation);
       this.sceneItems.push(item);
-      console.log("default possition");
-      // this.loadSceneItems();
-      // this.sceneItemsObserver.next(true);
+
   }
 
   public pregenerateItems() {
@@ -175,8 +168,6 @@ export class MainframePage {
         this.db.saveSceneItem(table, this.currentSituation);
 
         this.loadSceneItems();
-        // this.sceneItemsObserver.next(true);
-        // console.log(this.sceneItems);
 
 
         // Pregenerate items for GREAT OUTDOORS Situation
@@ -219,15 +210,17 @@ export class MainframePage {
   public removeItemFromScene(item: ItemPosition, e) {
 
     this.db.removeSceneItem(item);
+
     let index = this.sceneItems.indexOf(item);
 
     if (index > -1) {
       this.sceneItems.splice(index, 1);
     }
+
     this.isActive = true;
     this.isPaused = true;
     this.checkPregenerateBtn();
-    // this.sceneItemsObserver.next(true);
+
   }
 
   makeActive(e) {
@@ -285,7 +278,6 @@ export class MainframePage {
       
       item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
       item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
-      console.log(this.allowScroll, "this.allowScroll");   
       
   }
 
@@ -293,15 +285,7 @@ export class MainframePage {
 
       if (e.target.className !== 'background') {
 
-        if (e.timeStamp - this.itemPressedTimer > 1200 && this.isPaused) {
-
-          this.isActive = true;
-
-        } else {
-
-          this.makeUnactive(e);
-
-        }
+        (e.timeStamp - this.itemPressedTimer > 1200 && this.isPaused) ? this.isActive = true : this.makeUnactive(e) ;
 
         this.updateItemPositionOnScene(item, item.x, item.y);
 
