@@ -174,9 +174,9 @@ export class MainframePage {
         let table = new ItemPosition(70, null, null, null, null, null, 597, 629);
         this.db.saveSceneItem(table, this.currentSituation);
 
-        // this.loadSceneItems();
-        this.sceneItemsObserver.next(true);
-        console.log(this.sceneItems);
+        this.loadSceneItems();
+        // this.sceneItemsObserver.next(true);
+        // console.log(this.sceneItems);
 
 
         // Pregenerate items for GREAT OUTDOORS Situation
@@ -213,16 +213,11 @@ export class MainframePage {
     this.togglePersons = false;
     this.toggleMoods = false;
     this.toggleItems = false;
-
-    this.isActive = false;
-    this.isPaused = false;
-    console.log("closePopup NOOOOOOO ACTIVE");
   }
 
   // Remove the item from the DB and our current this.sceneItems
   public removeItemFromScene(item: ItemPosition, e) {
-    console.log("delete me");
-    e.stopPropagation();
+
     this.db.removeSceneItem(item);
     let index = this.sceneItems.indexOf(item);
 
@@ -230,13 +225,13 @@ export class MainframePage {
       this.sceneItems.splice(index, 1);
     }
     this.isActive = true;
+    this.isPaused = true;
     this.checkPregenerateBtn();
-    this.sceneItemsObserver.next(true);
+    // this.sceneItemsObserver.next(true);
   }
 
   makeActive(e) {
-    // e.stopPropagation();
-    e.preventDefault;
+
     this.itemPressedTimer = e.timeStamp;
 
     if (!this.isActive) {
@@ -244,17 +239,15 @@ export class MainframePage {
       this.waitToDeleteTimer = setTimeout(() => { 
         this.isActive = true;
         this.isPaused = true;
-        console.log("makeActive ITSELF");
       }, 1200);
+    } 
 
-    }
   }
 
   makeUnactive(e) {
     e.stopPropagation();
     this.isActive = false;
     clearTimeout(this.waitToDeleteTimer);
-    console.log("makeUnactive function");
   }
 
   updateItemPositionOnScene(item: ItemPosition, newX, newY) {
@@ -264,9 +257,14 @@ export class MainframePage {
   }
 
   moveStart(item: ItemPosition, e) {
-      // console.log("moveStart category",item.category);
-      e.stopPropagation();
-      console.log(e);
+
+    if (e.target.className === 'background') {
+
+      this.allowScroll = "scroll";
+
+    } else {
+    
+      this.allowScroll = 'no-scroll';
       
       this.makeActive(e);
 
@@ -276,61 +274,38 @@ export class MainframePage {
 
       this.itemX = this.moveStartX - item.x; // item position X center
       this.itemY = this.moveStartY - item.y; // item position Y center
+    }
+
   }
 
   moveDragOver(item: ItemPosition, e) {
 
-    if (item.category == 'background') {
-      this.allowScroll = "scroll";      
-    } else {
-    
-      this.allowScroll = 'no-scroll';
-      e.stopPropagation();
       this.makeUnactive(e);
+      this.isPaused = false;
       
       item.x = Math.round(e.changedTouches["0"].clientX - this.itemX);
       item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY);
-
-    }
-
-    // if (item.x ==  Math.round(e.changedTouches["0"].clientX - this.itemX) && item.y ==  Math.round(e.changedTouches["0"].clientY - this.toolbarSize - this.itemY)) {
-    //   console.log(item.x, item.y);
-    //   console.log("YES");
-    // } else {
-
-    //   console.log("NO");
-    //   console.log(item.x, Math.round(e.changedTouches["0"].clientX - this.itemX));
-    // }
+      console.log(this.allowScroll, "this.allowScroll");   
+      
   }
 
   moveDrop(item: ItemPosition,  e) {
 
-
-
-    if (!undefined) {
-
-      if (item.category == 'person' || 'mood' || 'item') {
+      if (e.target.className !== 'background') {
 
         if (e.timeStamp - this.itemPressedTimer > 1200 && this.isPaused) {
-          console.log("moveDrop ACTIVE");
+
           this.isActive = true;
-        } 
 
-        if (item.y > 0) {  // check if item doesnt go over status bar (top of the screen)
-          this.updateItemPositionOnScene(item, item.x, item.y);
         } else {
-          if (item.category != 'background') {
-            this.removeItemFromScene(item, e);
-            // this.isActive = false;
-            // this.isPaused = false;
-          }
+
+          this.makeUnactive(e);
+
         }
-        this.allowScroll = "scroll";
-      } else {
 
-      }
-    }
+        this.updateItemPositionOnScene(item, item.x, item.y);
 
+      } 
   }
 
 }

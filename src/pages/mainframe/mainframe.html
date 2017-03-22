@@ -9,10 +9,6 @@
         Pregenerate items
       </button>
 
-      <button ion-button *ngIf="isActive" class="btnTrash">
-        <ion-icon name="trash" color="danger"></ion-icon>
-      </button>
-
     </ion-buttons>
 
   </ion-navbar>
@@ -98,8 +94,10 @@
 
 
 <ion-content 
+  fullscreen
   [class]="allowScroll" 
-  (click)="closePopup()">
+  (click)="closePopup()"
+  >
 
   <div class="situationItems">
     <div *ngFor="let item of sceneItems"
