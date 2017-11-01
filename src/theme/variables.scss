@@ -14,21 +14,31 @@ $font-path: "../assets/fonts";
 
 $toolbar-background: #9ecbd3;
 $tabs-background: #9ecbd3;
-// IOS
-// Tabs
-$tabs-ios-tab-color-inactive: #fff;
-$tabs-ios-tab-color-active: #e63e4d;
-$background-ios-color	: #F2F2F2;
-$toolbar-ios-title-font-size: 2rem; // 1.7
-$tabs-ios-tab-font-size: 14px;
-// Tabs
-// Android
-$tabs-md-tab-color-inactive: #fff;
-$tabs-md-tab-color-active: #e63e4d;
-$background-md-color	: #F2F2F2;
-$toolbar-md-title-font-size	: 2.3rem; // 2
-$tabs-ios-tab-font-size: 1.4rem;
-$tabs-md-tab-font-size-active: 1.6rem;
+
+ion-modal {
+  ion-item {
+    background-color: #F2F2F2 !important;
+  }
+  .selected {
+    opacity: 1!important;
+  }
+
+  .avatars {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    .modal-img {
+      width: 40px;
+      margin: 10px;
+      opacity: 0.6;
+    }
+  }
+  button {
+    background-color: #0098aa !important;
+  }
+}
+
 
 // Named Color Variables
 // --------------------------------------------------
@@ -57,20 +67,28 @@ $colors: (
   IDAmenu:    #F2F2F2
 );
 
-
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
-
+$tabs-ios-tab-color-inactive: #fff;
+$tabs-ios-tab-color-active: #e63e4d;
+$background-ios-color: #F2F2F2;
+$toolbar-ios-title-font-size: 2rem; // 1.7
+$tabs-ios-tab-font-size: 14px;
+$popover-ios-width: 360px;
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
-
+$tabs-md-tab-color-inactive: #fff;
+$tabs-md-tab-color-active: #e63e4d;
+$background-md-color: #F2F2F2;
+$toolbar-md-title-font-size: 2.3rem; // 2
+$tabs-ios-tab-font-size: 1.4rem;
+$tabs-md-tab-font-size-active: 1.6rem;
+$popover-md-width: 360px;
 
 // App Windows Variables
 // --------------------------------------------------
@@ -99,22 +117,10 @@ $colors: (
 
 // Fonts
 // --------------------------------------------------
+// @import "noto-sans";
+// @import "gotham";
 
-@import "roboto";
-@import "noto-sans";
-
-@font-face {
-  font-family: "Gotham Book";
-  font-style: normal;
-  src: local("Gotham Book"), local("Gotham-Book"), url("../assets/fonts/Gotham-Book.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Gotham Light";
-  font-style: normal;
-  src: local("Gotham Light"), local("Gotham-Light"), url("../assets/fonts/Gotham-Light.ttf") format("truetype");
-}
-
-$font-family-md-base: "Gotham Book";
-$font-family-ios-base: "Gotham Book";
-$font-family-wp-base: "Gotham Book";
+$font-family-base: "Gotham Book";
+$font-family-ios-base: $font-family-base;
+$font-family-md-base: $font-family-base;
+$font-family-wp-base: $font-family-base;

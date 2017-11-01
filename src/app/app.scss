@@ -15,14 +15,39 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-ion-header{
+$gotham-font-path: $font-path !default;
+
+@font-face {
+  font-family: "Gotham Book";
+  font-style: normal;
+  src: local("Gotham Book"),
+       local("Gotham-Book"),
+       url("#{$gotham-font-path}/Gotham-Book.woff") format("woff"),
+       url("#{$gotham-font-path}/Gotham-Book.woff2") format("woff2"),
+       url("#{$gotham-font-path}/Gotham-Book.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham Light";
+  font-style: normal;
+  src: local("Gotham Light"),
+       local("Gotham-Light"),
+       url("#{$gotham-font-path}/Gotham-Light.ttf") format("truetype");
+}
+
+
+div.branding {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
   img#logo {
-    float: left;
+    // float: left;
     height: 34px;
     margin: 20px;
   }
   img#bubbles {
-    float: right;
+    // float: right;
     height: 38px;
   }
 
@@ -40,14 +65,10 @@ p {
   font-family: "Gotham Light";
 }
 
-.invisible {
-  opacity: 0;
-}
-
-.hideFooter {
-  display: none!important;
-}
-
 .alert-md .alert-input-group, .alert-md .alert-message {
     padding: 0 24px 0px;
+}
+
+ion-label {
+  white-space: initial;
 }

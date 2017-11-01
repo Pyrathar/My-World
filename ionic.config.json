@@ -1,6 +1,8 @@
 {
   "name": "My World",
-  "app_id": "fd7f23fc",
-  "v2": true,
-  "typescript": true
+  "app_id": "55010440",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

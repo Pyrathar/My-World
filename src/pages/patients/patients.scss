@@ -1,18 +1,37 @@
 page-patients {
+  ion-header {
+    background-color: #f2f2f2;
+  }
+
   ion-page.notes-page scroll-content {
     overflow: auto!important;
   }
 
   ion-label {
     color: #A1A19F;
-    margin-left: 25%;
   }
 
-  ion-buttons button {
-    background-color: #0098AA!important;
+  ion-buttons {
+    button {
+      background-color: #0098AA!important;
 
-      span {
-        text-transform: none;
-      }  
+        span {
+          text-transform: none;
+        }
+    }
   }
+
+  ion-thumbnail {
+    img {
+      width: 32px!important;
+      height: 100%!important;
+      border-radius: 0!important;
+      margin: 0 10px!important;
+    }
+  }
+
+  img.modal-img {
+    width: 30px;
+  }
+
 }

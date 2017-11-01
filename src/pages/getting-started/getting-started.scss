@@ -1,21 +1,27 @@
 page-getting-started {
-    
-    .scroll-content {
-        background: url(../assets/img/various/trees.jpg) no-repeat right bottom;
-        background-size: cover;
+
+  .scroll-content {
+      background: url(../assets/img/various/trees.jpg) no-repeat center center;
+      background-size: cover;
+  }
+
+  div.content {
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10%;
+
+    img {
+      width: 60%;
     }
 
-    img.animated {
-        width: 70%;
-        display: block;
-        margin: 5% auto 0;
-    }
-    
     h1 {
-        font-size: 5rem;
+      font-size: 5rem;
     }
 
-    ion-buttons button {
-        font-size: 3rem;
-    }
+  }
 }

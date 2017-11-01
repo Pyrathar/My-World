@@ -1,5 +1,6 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Start" tabIcon="book"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Patients" tabIcon="contacts"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="About IDA" tabIcon="globe"></ion-tab>
+<ion-tabs [selectedIndex]="selectedTab">
+  <ion-tab [root]="tab1Root" tabTitle="Start" tabIcon="play"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Profile" tabIcon="contacts" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="About" tabIcon="globe"></ion-tab>
+  <ion-tab [root]="tab4Root" tabTitle="Instructions" tabIcon="book"></ion-tab>
 </ion-tabs>

@@ -1,0 +1,38 @@
+// Gotham Book Font
+// Google
+// Apache License, version 2.0
+// http://www.apache.org/licenses/LICENSE-2.0.html
+
+$gotham-font-path: $font-path !default;
+
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  src: local("Gotham Book"),
+       local("Gotham-Book"),
+       url("#{$gotham-font-path}/Gotham-Book.woff") format("woff"),
+       url("#{$gotham-font-path}/Gotham-Book.woff2") format("woff2"),
+       url("#{$gotham-font-path}/Gotham-Book.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: local("Gotham Bold"),
+       local("Gotham-Bold"),
+       url("#{$gotham-font-path}/Gotham-Bold.woff2") format("woff2"),
+       url("#{$gotham-font-path}/Gotham-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: local("Gotham Medium"),
+       local("Gotham-Medium"),
+       url("#{$gotham-font-path}/Gotham-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: local("Gotham Light"),
+       local("Gotham-Light"),
+       url("#{$gotham-font-path}/Gotham-Light.ttf") format("truetype");
+}
