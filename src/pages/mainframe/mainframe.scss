@@ -1,24 +1,24 @@
 page-mainframe {
 
-  // .btnTrash {
-  //   margin-right: 1%;
-  // }
+  p.action {
+    color: white;
+    margin: 0;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  button.btnPregenerate {
+  background-color: #0098AA!important;
+
+    span {
+      text-transform: none;
+    }
+  }
 
   ion-toolbar .toolbar-background {
     background-color: #fff;
     border-top: 0;
-  }
-
-  .tabbar.show-tabbar {
-    display: none;
-  }
-
-   button.btnPregenerate {
-    background-color: #0098AA!important;
-
-      span {
-        text-transform: none;
-      }  
+    border-bottom: 1px solid transparent !important;
   }
 
   .popoverItems {
@@ -27,31 +27,65 @@ page-mainframe {
     background-color: #fff;
     width: 100%;
     display: flex;
+    justify-content: flex-start;
+    align-ITEMS: flex-end;
     overflow-x: scroll;
     border-top: 2px solid #e63e4d;
 
     div {
-      align-self: baseline;
-
       img {
         position: initial;
         max-width: 200px!important;
         flex: 0 0 auto;
         margin: 15px;
       }
-      img.background{
-        max-width: 150px!important;
-      }
       img.person{
-        max-width: 30px!important;
+        max-width: 35px!important;
       }
-      img.mood{
-        max-width: 50px!important;
+      img.mood {
+        max-width: 70px!important;
       }
-      img.item{
+      img.item {
         max-width: 100px!important;
       }
-      img.item[src*="action_man"]{
+
+
+      // Customized single item sizes in popover
+      img.person[src*="old_man"]{
+        max-width: 42px!important;
+        border: 0;
+      }
+      img.person[src*="asian_man"]{
+        max-width: 42px!important;
+        border: 0;
+      }
+      img.person[src*="caucasis_woman"]{
+        max-width: 37px!important;
+        border: 0;
+      }
+      img.person[src*="teen"]{
+        max-width: 32px!important;
+        border: 0;
+      }
+      img.person[src*="boy"]{
+        max-width: 28px!important;
+        border: 0;
+      }
+      img.person[src*="girl"]{
+        max-width: 28px!important;
+        border: 0;
+      }
+      img.person[src*="afro_girl"]{
+        max-width: 38px!important;
+        border: 0;
+      }
+      img.person[src*="baby"]{
+        max-width: 58px!important;
+        border: 0;
+      }
+
+
+      img.item[src*="action_man"] {
         max-width: 75px!important;
         border: 0;
       }
@@ -156,11 +190,16 @@ page-mainframe {
   }
 
   ion-content {
+    background-color: #fff;
     background-repeat: no-repeat;
-  }
 
-  .scroll-content{
-    margin-bottom: 0px;
+    .iconQuestionmark {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 64px;
+    }
+
   }
 
   .no-scroll .scroll-content{
@@ -171,11 +210,10 @@ page-mainframe {
     overflow-y: scroll;
   }
 
-  .background {
-    // overflow: hidden!important;
-    // overflow-y: scroll;
-    max-width: 100%;
-    max-height: 100%;
+  .situationItems .background {
+    background-color: #fff;
+    width: 100%;
+    // max-height: 100%;
     z-index: -1;
     margin-top: 0;
   }
@@ -186,18 +224,33 @@ page-mainframe {
 
   .situationItems .person, .situationItems .mood, .situationItems .item {
     position: absolute!important;
-    // overflow: visible;
-    // overflow-y: hidden;
     min-height: 0;
     background-color: transparent;
 
+    // Icons: delete and rotate
     .ion-ios-close {
       position: absolute;
-      bottom: -10px;
-      right: -10px;
-      font-size: 36px;
+      bottom: 8px;
+      right: -20px;
+      font-size: 34px;
       z-index: 5;
     }
+    .ion-ios-undo {
+      position: absolute;
+      bottom: 0px;
+      right: -60px;
+      font-size: 44px;
+      z-index: 5;
+    }
+    .ion-ios-redo {
+      position: absolute;
+      bottom: 0px;
+      right: -100px;
+      font-size: 44px;
+      z-index: 5;
+    }
+
+
     .person {
       max-width: 30px;
     }
@@ -205,9 +258,9 @@ page-mainframe {
       max-width: 50px;
     }
     .item {
-      transition-duration: initial;
       max-width: 80px;
     }
+
     img.item[src*="action_man"]{
       max-width: 50px!important;
     }
@@ -272,7 +325,13 @@ page-mainframe {
       max-width: 50px!important;
     }
     img.item[src*="table"]{
-      max-width: 120px!important;
+      max-width: 140px!important;
+    }
+    img.item[src*="small_table"]{
+      max-width: 100px!important;
+    }
+    img.item[src*="large_table"]{
+      max-width: 180px!important;
     }
     img.item[src*="microphone"]{
       max-width: 30px!important;

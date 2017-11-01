@@ -1,16 +1,19 @@
 <ion-header>
-  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
-  <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+
+  <div class="branding">
+    <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
+    <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+  </div>
 
   <ion-navbar>
 
     <ion-title>
-      Patients
+      Profiles
     </ion-title>
 
     <ion-buttons right>
-      <button ion-button padding (click)="addPatient()">
-        Add patient
+      <button ion-button padding (click)="openAddPatienModal()">
+        Add profile
       </button>
     </ion-buttons>
 
@@ -23,36 +26,49 @@
 
   <ion-grid>
     <ion-row center>
-      <ion-col offset-25 width-50>
+      <ion-col offset-2 col-8>
 
-        <button ion-button padding full large (click)="addPatient()" color="light" *ngIf="addPatientBtn" >
-          ADD PATIENT        
+        <button
+          [hidden]="patients !== []"
+          ion-button
+          full
+          color="light"
+          large
+          padding
+          (click)="openAddPatienModal()"
+          >
+          ADD PROFILE
           <ion-icon name="add" padding></ion-icon>
         </button>
 
-        <ion-list>
-          <ion-item-sliding *ngFor="let patient of patientsList">
+        <!-- <ion-searchbar (ionInput)="searchPatients($event)"></ion-searchbar> -->
 
-            <ion-item (click)="openPage(patient)">
-              <ion-avatar item-left>
-                <img [src]="'data:image/jpeg;base64,'+patient.photo">
-              </ion-avatar>
-              {{patient.name}}
+        <ion-buttons right>
+          <button ion-button padding (click)="sortBy('name')">
+            Order by name
+          </button>
+          <button ion-button padding (click)="sortBy('id')">
+            Order by date modified
+          </button>
+        </ion-buttons>
+
+
+        <ion-list>
+
+            <ion-item *ngFor="let patient of db.patients; let i = index;">
+              <ion-thumbnail item-start>
+                <img [src]="'assets/img/person' + patient.avatar" (click)="openPage(patient)">
+              </ion-thumbnail>
+              <h2 (click)="openPage(patient)">{{ patient.name }}</h2>
+              <p>{{ patient.id | date: 'yMMMd'}}</p>
+
+              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="paper" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="trash" item-end (click)="deletePatient(patient)" color="danger" [@slowFading]></ion-icon>
+
+              <ion-icon padding name="more" item-end (click)="openSlidingItem(patient)"></ion-icon>
+
             </ion-item>
 
-            <ion-item-options>
-
-              <button ion-button padding (click)="editPatient(patient)" color="light">
-                <ion-icon name="paper"></ion-icon>
-              </button>
-
-              <button ion-button padding (click)="deletePatient(patient)" color="danger">
-                <ion-icon name="trash"></ion-icon>
-              </button>
-
-            </ion-item-options>
-
-          </ion-item-sliding>
         </ion-list>
 
       </ion-col>

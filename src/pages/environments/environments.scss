@@ -1,5 +1,11 @@
 page-environments {
-  
+
+    ion-header {
+      background-color: #f2f2f2;
+
+    }
+
+
   ion-buttons button {
     background-color: #0098AA!important;
 
@@ -12,16 +18,21 @@ page-environments {
       padding: 1.8em;
       position: relative;
 
+      ion-icon.ion-ios-close {
+        font-size: 3em;
+        font-size: 3em;
+        position: absolute;
+        right: 20px;
+        top: 10px;
+      }
+
       img {
-        // width: 80px;
         width: 250px;
         margin: 0 auto 0.5em;
       }
     }
 
     .card-title {
-      // position: absolute;
-      // top: 30%;
       width: 100%;
       font-size: 1.6em;
       font-weight: bold;
@@ -30,15 +41,13 @@ page-environments {
       color: #A1A19F;
     }
     ion-col img {
-      // max-width: 70%;
       display: block;
       margin: 0 auto;
     }
     ion-label {
       margin: 12px 8px 0 0;
+      font-size: 18px;
   }
-
-  
 
   .toggleBackgrounds{
     position: absolute;

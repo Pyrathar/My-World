@@ -1,91 +1,108 @@
-import { Component } from '@angular/core';
-import { NavParams, NavController } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { AlertController, ItemSliding, NavController, NavParams } from "ionic-angular";
 
-import { Database, Environment, Patient } from '../../database';
-import { MainframePage } from '../mainframe/mainframe';
+import { DatabaseNoSQL } from "../../db-nosql";
+import { Environment, Patient } from "../../models";
+import { MainframePage } from "../mainframe/mainframe";
+
+import { SlowFadingAnimation } from "./../../animations";
 
 @Component({
-  selector: 'page-environments',
-  templateUrl: 'environments.html'
+  animations: [SlowFadingAnimation],
+  selector: "page-environments",
+  templateUrl: "environments.html",
 })
 export class EnvironmentsPage {
 
-  currentPatient: Patient;
-  environment: Environment;
-  environmentList: Array<Environment>;
-  showBackgrounds: boolean = false;
+  private currentPatient: Patient;
+  private isPopup = false;
+  private patientId;
 
-  animationClasses: any = {
-    'toggleBackgrounds': true,
-    'animated': true,
-    'fadeInDown': true
+  private animationClasses: any = {
+    toggleBackgrounds: true,
   };
 
   constructor(
-    private database: Database,
+    private alertCtrl: AlertController,
     private navController: NavController,
-    private navParams: NavParams
+    private navParams: NavParams,
+    private db: DatabaseNoSQL,
   ) {
-
-    this.currentPatient = navParams.get('patient');
+    this.currentPatient = navParams.get("patient");
   }
 
   public ionViewDidLoad() {
-    this.getSituationsForCurrentPatient();
+
+    this.patientId = `p${this.currentPatient.id}`;
+    this.db.getEnvironments(this.patientId);
   }
 
-  public getSituationsForCurrentPatient() {
-    this.database.getSituations(this.currentPatient).then( data => {
-      this.environmentList = data;
-    })
+  private addEnvironment(environment: Environment, i) {
+    const items = [];
+    items.push(this.db.C.BACKGROUNDS[i]);
+
+    this.db.C.AVATARS.map((avatar) => {
+      if (avatar.imgUrl === this.currentPatient.avatar) {
+        items.push(avatar);
+      }
+    });
+    // FIXME: find out how to use only BACKGROUNDS instead BACKGROUNDTHUMBS array
+
+    this.db.addEnvironment(this.patientId, environment.name, environment.imgUrl, items);
+    this.isPopup = false;
+    this.openPage(environment, this.patientId, this.db.environments.length - 1);
   }
 
-  public addEnvironment(environment: Environment) {
-    // adds situation for current patient
-    // console.log("addEnvironment. env: ", environment);
-    this.database.addSituation(this.currentPatient, environment);
+  private editEnvironment(environment: Environment, itemSliding: ItemSliding) {
 
+    const prompt = this.alertCtrl.create({
+      buttons: [
+        {
+          handler: (data) => {
+            itemSliding.close();
+          },
+          role: "cancel",
+          text: "Cancel",
+        },
+        {
+          handler: (data) => {
+            environment.name = data.name;
+            this.db.save(this.patientId, this.db.environments);
+            itemSliding.close();
+          },
+          text: "Save",
+        },
+      ],
+      inputs: [
+        {
+          name: "name",
+          value: `${environment.name}`,
+        },
+      ],
+      title: "Rename environment",
+    });
+    prompt.present();
 
-    this.database.lastSituation().then(
-      lastSituationIdData => {
-        // console.log("lastSituation entered. data: ", lastSituationIdData);
+  }
 
-        let lastSituation = lastSituationIdData;
+  private deleteEnvironment(environment: Environment, index: number) {
+    this.db.deleteEnvironment(this.patientId, index);
+  }
 
-        // console.log("lastSituation: ", lastSituation);
+  private togglePopup() {
+    this.isPopup = !this.isPopup;
+  }
 
-        this.database.saveSceneItem(environment, lastSituation || 1);
-
-        this.showBackgrounds = false;
-
-        this.getSituationsForCurrentPatient();
-
-      });
-    (error) => {
-      console.log(error);
+  private closePopup() {
+    if (this.isPopup) {
+      this.isPopup = false;
     }
   }
 
-  public deletesituation(situation: Environment) {
-
-    this.database.deleteSituation(situation)
-    let index = this.environmentList.indexOf(situation);
-
-    if (index > -1) {
-      this.environmentList.splice(index, 1);
-    }
-  }
-
-  public toggleBackgrounds() {
-    this.showBackgrounds = !this.showBackgrounds;
-  }
-
-  public closePopup() {
-    this.showBackgrounds = false;
-  }
-
-  openPage(environment: Environment) {
-    this.navController.push( MainframePage, { environment });
+  private openPage(environment: Environment, patientId: string, index: number) {
+    patientId = this.patientId;
+    this.db.envIndex = index;
+    this.navController.push(MainframePage, { environment, index, patientId });
   }
 
 }

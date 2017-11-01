@@ -1,0 +1,41 @@
+<ion-header>
+
+  <div class="branding">
+    <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
+    <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+  </div>
+
+  <ion-navbar>
+    <ion-title>Instructions</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-slides pager>
+
+    <ion-slide *ngFor="let slide of slides">
+      <div>
+        <ion-buttons end>
+          <button ion-button outline color="primary" (click)="skipTutorial()" >Skip</button>
+        </ion-buttons>
+      </div>
+      <img [src]="slide.image" class="slide-image" />
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="../../assets/img/background/metro_tn.png" class="slide-image" />
+      <h2 class="slide-title">Ready to Play?</h2>
+      <button ion-button large clear icon-end color="primary" (click)="skipTutorial()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

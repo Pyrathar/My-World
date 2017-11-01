@@ -1,6 +1,9 @@
 <ion-header>
-  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
-  <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+
+  <div class="branding">
+    <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
+    <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+  </div>
 
 </ion-header>
 
@@ -10,24 +13,49 @@
   <ion-grid>
     <ion-row>
 
-      <ion-col offset-25 width-50>
+      <ion-col offset-3 col-6>
+
+        <ion-segment [(ngModel)]="pet" padding-top>
+          <ion-segment-button value="ida">
+            About Ida
+          </ion-segment-button>
+          <ion-segment-button value="tool">
+            The My World Tool
+          </ion-segment-button>
+        </ion-segment>
+
         <ion-card>
           <ion-card-content>
 
             <ion-card-title text-center> About IDA Institute </ion-card-title>
 
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic dicta, vero illo, consequatur doloribus voluptatem, facere facilis error nulla cumque aperiam dolore distinctio iste unde reiciendis, nesciunt adipisci repudiandae tempore.
-            </p><br>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic dicta, vero illo, consequatur doloribus voluptatem, facere facilis error nulla cumque aperiam dolore distinctio iste unde reiciendis, nesciunt adipisci repudiandae tempore.
-            </p><br>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic dicta, vero illo, consequatur doloribus voluptatem, facere facilis error nulla cumque aperiam dolore distinctio iste unde reiciendis, nesciunt adipisci repudiandae tempore.
-            </p><br>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic dicta, vero illo, consequatur doloribus voluptatem, facere facilis error nulla cumque aperiam dolore distinctio iste unde reiciendis, nesciunt adipisci repudiandae tempore.
-            </p><br>
+              <div [ngSwitch]="about">
+                  <ion-list *ngSwitchCase="'ida'">
+                    <p>
+                      The Ida Institute is an independent, non-profit organization working to integrate person-centered care in hearing rehabilitation. We aim to enable people with hearing loss to take an active role in their care by expressing their needs and preferences.
+                    </p>
+                    <p >
+                      Together with hearing care professionals around the world, we develop free tools and resources to strengthen the counseling process.
+                    </p>
+                  </ion-list>
+
+                  <ion-list *ngSwitchCase="'tool'">
+                    <p>
+                       In a consultation, audiologists often manage to gain the perspective of the parent or the teacher, but it is not as easy
+                      to engage the child and gain their perspective in the rehabilitation process. In order to address the challenges of the hearing
+                      loss in a holistic way, the child’s perspective is essential and central to effective management. The My World tool facilitates
+                      an understanding of hearing loss from the child’s point of view. By manipulating the tool components and creating the scene
+                      themselves, the child can externalize the hearing loss and discuss the successes and challenges related to communication
+                      in a concrete and non-threatening way. This gives the child a voice and makes them an active participant in the rehabilitation
+                      process. For the audiologist the tool facilitates open-ended questioning and provides a creative way to stimulate curiosity,
+                      joint attention and shared understanding about aspects of communication most relevant to the child. The tool consists of
+                      three different environments: A classroom, a home, and an outdoor area as well as a set of movable figures and everyday objects
+                      that the child can use to describe communication successes and challenges in daily life.
+
+                    </p>
+                  </ion-list>
+
+                </div>
 
           </ion-card-content>
         </ion-card>

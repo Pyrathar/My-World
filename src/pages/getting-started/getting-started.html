@@ -1,32 +1,36 @@
 <ion-header>
-  <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
-  <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
 
-  <!--<ion-navbar>
-    <ion-title>Introduction</ion-title>
-  </ion-navbar>-->
+  <div class="branding">
+    <img id="logo" class="title-image" src="assets/img/iconslogos/logo.svg" />
+    <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
+  </div>
 
 </ion-header>
 
-
 <ion-content>
 
-  <img [ngClass]="animationKids" src="assets/img/various/kids.png" />
-  
-  <h1 text-center	[ngClass]="animationText" color="danger">WELCOME TO MY WORLD</h1>
+  <div class="content">
 
-  <ion-buttons [ngClass]="animationText" text-center>
+    <!-- <h3>20 09 2017   V3</h3> -->
 
-    <button 
-      ion-button 
-      large 
-      color="danger"
-      (click)="openPage()">
-    
-      Get started
+    <img src="assets/img/various/kids.png" [@fadeInRight]/>
 
-    </button>
+    <h1 text-center color="danger" [@fadeInLeft]>WELCOME TO MY WORLD</h1>
 
-  </ion-buttons>
+    <ion-buttons text-center [@fadeInLeft]>
+
+      <button
+        ion-button
+        large
+        color="danger"
+        (click)="openPage()">
+
+        Get started
+
+      </button>
+
+    </ion-buttons>
+
+  </div>
 
 </ion-content>

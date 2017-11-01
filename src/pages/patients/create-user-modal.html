@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-navbar>
+
+    <ion-title>Add profile</ion-title>
+
+    <ion-buttons end>
+      <button ion-button padding (click)="closeModal()">X</button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="createPatientForm" (ngSubmit)="savePatient()">
+
+    <ion-item>
+
+      <ion-label
+        color="danger"
+        *ngIf="createPatientForm.controls['name'].touched && createPatientForm.controls['name'].invalid"
+       >Name is required
+      </ion-label>
+
+      <ion-input *ngIf="!editMode" type="text" formControlName="name" placeholder="Enter Name" text-center></ion-input>
+
+      <ion-input *ngIf="editMode" type="text" formControlName="name" placeholder="Enter Name" text-center [value]="currentPatient.name"></ion-input>
+
+    </ion-item>
+
+      <ion-list>
+
+        <ion-list-header text-center>
+          Select avatar
+        </ion-list-header>
+
+        <div class="avatars">
+
+          <img
+            *ngFor="let avatar of db.C.AVATARS; let i = index;"
+            [src]="'assets/img/' + avatar.category + avatar.imgUrl"
+            [alt]="avatar.imgUrl"
+            class="modal-img"
+            [class.selected]="i === selectedAvatarIndex"
+            (click)="selectAvatar(i, avatar.imgUrl)">
+        </div>
+
+      </ion-list>
+
+    <ion-buttons right>
+
+      <button *ngIf="!editMode"
+        ion-button
+        padding
+        block
+        (click)="savePatient()"
+        [disabled]="createPatientForm.controls['name'].invalid"
+        >Save
+      </button>
+
+      <button *ngIf="editMode"
+        type="button"
+        ion-button
+        padding
+        block
+        (click)="editPatient()"
+        [disabled]="createPatientForm.controls['name'].invalid"
+        >Save
+      </button>
+
+    </ion-buttons>
+
+  </form>
+
+</ion-content>

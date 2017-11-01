@@ -1,36 +1,31 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { Component } from "@angular/core";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { StatusBar } from "@ionic-native/status-bar";
+import { Platform } from "ionic-angular";
 
-import { TabsPage } from '../pages/tabs/tabs';
-import { Database } from '../database';
+import { DatabaseNoSQL } from "../db-nosql";
+
+import { TabsPage } from "../pages/tabs/tabs";
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html",
 })
 export class MyApp {
-  rootPage = TabsPage;
+  private rootPage = TabsPage;
 
-  constructor(platform: Platform, public db: Database) {
+  constructor(
+    platform: Platform,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    private db: DatabaseNoSQL,
+    ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
 
-      db.openDatabase().then(() => {
-        // this.db.del()
-        this.db.generatepatients()
-        this.db.generatesituations()
-        this.db.generateitemposition()
-        this.db.generateitems()
-
-        this.db.populateDatabase()
-        this.db.getPopoverBackgrounds()
-        this.db.getPopoverPersons()
-        this.db.getPopoverMoods()
-        this.db.getPopoverItems()
-      })
+      this.db.preloadDb();
 
     });
   }
