@@ -62,10 +62,10 @@
               <h2 (click)="openPage(patient)">{{ patient.name }}</h2>
               <p>{{ patient.id | date: 'yMMMd'}}</p>
 
-              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="paper" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
               <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="trash" item-end (click)="deletePatient(patient)" color="danger" [@slowFading]></ion-icon>
 
-              <ion-icon padding name="more" item-end (click)="openSlidingItem(patient)"></ion-icon>
+              <ion-icon padding name="more" item-end (click)="openOptions(patient)"></ion-icon>
 
             </ion-item>
 

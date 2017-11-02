@@ -75,31 +75,34 @@ export class PatientsPage implements OnInit {
     console.log(this.patients);
   }
 
-  private openSlidingItem(patient: Patient) {
-    console.log(patient);
+  private openOptions(patient: Patient) {
     this.isOptionsOpen = !this.isOptionsOpen;
     this.selected = patient;
   }
 
   private openAddPatienModal() {
 
+    this.isOptionsOpen = false;
     const modal = this.modalCtrl.create(CreateUserModal);
     modal.present();
   }
 
   private openEditPatientModal(patient: Patient) {
 
+    this.isOptionsOpen = false;
     const modal = this.modalCtrl.create(CreateUserModal, { patient });
     modal.present();
   }
 
   private deletePatient(patient: Patient, index: number) {
 
+    this.isOptionsOpen = false;
     this.db.deletePatient(patient, index);
   }
 
   private sortBy(sortingOption: string) {
 
+    this.isOptionsOpen = false;
     this.db.patients = this.orderBy.transform(this.db.patients, sortingOption);
   }
 
@@ -123,6 +126,8 @@ export class PatientsPage implements OnInit {
   // }
 
   private openPage(patient: Patient) {
+
+    this.isOptionsOpen = false;
     this.navCtrl.push(EnvironmentsPage, { patient });
   }
 }

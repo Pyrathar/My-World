@@ -40,33 +40,19 @@
 
     <ion-row wrap>
 
-      <ion-col col-4 *ngFor="let item of db.environments; let i = index;">
+      <ion-col col-4 *ngFor="let env of db.environments; let i = index;">
         <ion-card>
 
           <!-- FIXME: another place for delete button -->
-          <ion-icon name="close" (click)="deleteEnvironment(item, i)" color="danger"></ion-icon>
-
-          <!-- FIXME: change category names and uses then in url -->
-          <img [src]="'assets/img/background'+ item.imgUrl" (click)="openPage(item, patientid, i)" />
+          <ion-icon name="close-circle" (click)="deleteEnvironment(env, i)" color="danger"></ion-icon>
+          <img [src]="'assets/img/background'+ env.imgUrl" (click)="openPage(env, patientid, i)" />
 
           <ion-list>
-            <ion-item-sliding #slidingItem>
 
-              <ion-item class="card-title">{{item.name}}</ion-item>
-
-              <ion-item-options>
-
-                <button ion-button padding (click)="editEnvironment(item, slidingItem)" color="light">
-                  <ion-icon name="paper"></ion-icon>
-                </button>
-
-                <button ion-button padding (click)="deleteEnvironment(item, i)" color="danger">
-                  <ion-icon name="trash"></ion-icon>
-                </button>
-
-              </ion-item-options>
-
-            </ion-item-sliding>
+              <ion-item class="card-title">
+                {{env.name}}
+                <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
+              </ion-item>
 
           </ion-list>
         </ion-card>

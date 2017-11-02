@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AlertController, ItemSliding, NavController, NavParams } from "ionic-angular";
+import { AlertController, NavController, NavParams } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../db-nosql";
 import { Environment, Patient } from "../../models";
@@ -53,14 +53,12 @@ export class EnvironmentsPage {
     this.openPage(environment, this.patientId, this.db.environments.length - 1);
   }
 
-  private editEnvironment(environment: Environment, itemSliding: ItemSliding) {
+  private editEnvironment(environment: Environment) {
 
     const prompt = this.alertCtrl.create({
       buttons: [
         {
-          handler: (data) => {
-            itemSliding.close();
-          },
+          handler: () => {},
           role: "cancel",
           text: "Cancel",
         },
@@ -68,7 +66,6 @@ export class EnvironmentsPage {
           handler: (data) => {
             environment.name = data.name;
             this.db.save(this.patientId, this.db.environments);
-            itemSliding.close();
           },
           text: "Save",
         },
