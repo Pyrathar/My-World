@@ -6,14 +6,12 @@ export class Constants {
     new Item(0, "background", "/class_tn.png", "Classroom"),
     new Item(1, "background", "/home_tn.png", "At Home"),
     new Item(2, "background", "/outdoors_tn.png", "The Great Outdoors"),
-    new Item(3, "background", "/metro_tn.png", "Station and Metro"),
   ];
 
   public BACKGROUNDS: Item[] = [
     new Item(0, "background", "/class.png", "Classroom"),
     new Item(1, "background", "/home.png", "At Home"),
     new Item(2, "background", "/outdoors.png", "The Great Outdoors"),
-    new Item(3, "background", "/metro.png", "Station and Metro"),
   ];
 
   public AVATARS: Item[] = [

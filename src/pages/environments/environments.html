@@ -21,9 +21,9 @@
 
     <h1 padding class="card-title">Add new environment</h1>
     <ion-row wrap>
-      <ion-col col-3 *ngFor="let popItem of db.C.BACKGROUNDTHUMBS; let i = index;">
+      <ion-col col-4 *ngFor="let popItem of db.C.BACKGROUNDTHUMBS; let i = index;">
 
-        <img padding [src]="'assets/img/' + popItem.category + popItem.imgUrl" (click)="addEnvironment(popItem, i)" />
+        <img padding [src]="'assets/img/background' + popItem.imgUrl" (click)="addEnvironment(popItem, i)" />
         <p ion-text color="IDAGrey">{{popItem.name}}</p>
 
       </ion-col>

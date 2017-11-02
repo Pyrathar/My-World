@@ -214,12 +214,6 @@ export class MainframePage {
         this.db.save(this.patientId, this.db.environments);
         break;
 
-      case "/metro.png":
-        this.db.addItemToEnvironment(this.index, 1, "item", "/bike.png", 200, 700, 0);
-        this.db.addItemToEnvironment(this.index, 2, "item", "/train.png", 708, 340, 0);
-        this.db.save(this.patientId, this.db.environments);
-        break;
-
       default:
         console.log("pregenerateItems(). default switch: something went wrong.");
         break;
