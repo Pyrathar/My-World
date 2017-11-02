@@ -252,13 +252,55 @@ page-mainframe {
 
 
     .person {
-      max-width: 30px;
+      max-width: 40px;
     }
     .mood {
       max-width: 50px;
     }
     .item {
       max-width: 80px;
+    }
+
+    // Customized single item sizes in situation
+
+    img.person[src*="old_man"] {
+      max-width: 48px!important;
+      border: 0;
+    }
+
+    img.person[src*="asian_man"] {
+      max-width: 48px!important;
+      border: 0;
+    }
+
+    img.person[src*="caucasis_woman"] {
+      max-width: 43px!important;
+      border: 0;
+    }
+
+    img.person[src*="teen"] {
+      max-width: 32px!important;
+      border: 0;
+    }
+
+    img.person[src*="boy"] {
+      max-width: 31px!important;
+      border: 0;
+    }
+
+    img.person[src*="girl"] {
+      max-width: 31px!important;
+      border: 0;
+    }
+
+    img.person[src*="afro_girl"] {
+      max-width: 38px!important;
+      border: 0;
+    }
+
+    img.person[src*="baby"] {
+      max-width: 58px!important;
+      border: 0;
     }
 
     img.item[src*="action_man"]{
