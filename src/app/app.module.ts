@@ -1,6 +1,7 @@
 import { ErrorHandler, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { Pro } from "@ionic/pro";
 import { IonicStorageModule } from "@ionic/storage";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 
@@ -27,6 +28,17 @@ import { StatusBar } from "@ionic-native/status-bar";
 
 // import { NgPipesModule } from 'ngx-pipes';
 import { NgArrayPipesModule } from "ngx-pipes/src/app/pipes/array";
+
+const IonicPro = Pro.init("55010440", {
+  appVersion: "0.0.1",
+});
+
+export class MyErrorHandler implements ErrorHandler {
+  public handleError(err: any): void {
+    IonicPro.monitoring.handleNewError(err);
+  }
+}
+// tslint:disable-next-line:max-classes-per-file
 
 @NgModule({
   bootstrap: [IonicApp],
@@ -65,7 +77,7 @@ import { NgArrayPipesModule } from "ngx-pipes/src/app/pipes/array";
     NgArrayPipesModule,
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: ErrorHandler, useClass: MyErrorHandler},
     Constants,
     DatabaseNoSQL,
     SplashScreen,
