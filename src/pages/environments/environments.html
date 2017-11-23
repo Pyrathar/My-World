@@ -5,19 +5,24 @@
     <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
   </div>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+
+    <button (click)="toBack()" ion-button clear>
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
 
     <ion-title>{{currentPatient.name}}'s Environments</ion-title>
 
     <ion-buttons right>
-      <button ion-button padding (click)="togglePopup()">
+      <button ion-button padding
+        (click)="togglePopup()">
         Add environment
       </button>
     </ion-buttons>
 
   </ion-navbar>
 
-  <ion-grid *ngIf="isPopup" [ngClass]="animationClasses" [@slowFading]>
+  <ion-grid [hidden]="!isPopup" class="add-environment-wrapper" [@slowFading]>
 
     <h1 padding class="card-title">Add new environment</h1>
     <ion-row wrap>
@@ -40,19 +45,19 @@
 
     <ion-row wrap>
 
-      <ion-col col-4 *ngFor="let env of db.environments; let i = index;">
+      <ion-col col-4 *ngFor="let env of environments; let i = index;">
         <ion-card>
 
           <!-- FIXME: another place for delete button -->
-          <ion-icon name="close-circle" (click)="deleteEnvironment(env, i)" color="danger"></ion-icon>
-          <img [src]="'assets/img/background'+ env.imgUrl" (click)="openPage(env, patientid, i)" />
+          <ion-icon name="close-circle" (click)="deleteEnvironment(env)" color="danger"></ion-icon>
+          <img [src]="'assets/img/background'+ env.imgUrl" (click)="openPage(env)" />
 
           <ion-list>
 
-              <ion-item class="card-title">
-                {{env.name}}
-                <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
-              </ion-item>
+            <ion-item class="card-title">
+              {{env.name}}
+              <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
+            </ion-item>
 
           </ion-list>
         </ion-card>

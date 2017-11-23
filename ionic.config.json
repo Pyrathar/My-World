@@ -2,6 +2,7 @@
   "name": "My World",
   "app_id": "55010440",
   "type": "ionic-angular",
+  "defaultBrowser": "chrome",
   "integrations": {
     "cordova": {}
   }

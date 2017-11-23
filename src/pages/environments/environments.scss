@@ -2,6 +2,21 @@ page-environments {
 
   ion-header {
     background-color: #f2f2f2;
+
+    ion-icon {
+      color: white;
+      // min-height: 3.2rem;
+      font-size: 3.4rem;
+    }
+
+    ion-icon::after {
+      position: relative;
+      top: -6px;
+      font-size: 17px;
+      padding-left: 5px;
+      font-family: "Gotham Book";
+      content: "Back";
+    }
   }
 
   ion-buttons button {
@@ -46,7 +61,7 @@ page-environments {
     font-size: 18px;
   }
 
-  .toggleBackgrounds{
+  .add-environment-wrapper {
     z-index: 10;
     background-color: white;
     border-bottom: 1px solid grey;
@@ -61,9 +76,5 @@ page-environments {
       padding: 16px 32px!important;
     }
   }
-
-  // ion-page.contacts-page scroll-content {
-  //   overflow: auto!important;
-  // }
 
 }

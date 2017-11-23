@@ -11,7 +11,6 @@
 </ion-header>
 
 <ion-content>
-
   <form [formGroup]="createPatientForm" (ngSubmit)="savePatient()">
 
     <ion-item>
@@ -53,7 +52,6 @@
         ion-button
         padding
         block
-        (click)="savePatient()"
         [disabled]="createPatientForm.controls['name'].invalid"
         >Save
       </button>
@@ -63,7 +61,7 @@
         ion-button
         padding
         block
-        (click)="editPatient()"
+        (click)="editPatient(currentPatient)"
         [disabled]="createPatientForm.controls['name'].invalid"
         >Save
       </button>

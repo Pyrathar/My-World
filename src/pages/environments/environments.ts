@@ -17,40 +17,43 @@ export class EnvironmentsPage {
   private currentPatient: Patient;
   private isPopup = false;
   private patientId;
-
-  private animationClasses: any = {
-    toggleBackgrounds: true,
-  };
+  private environments: Environment[];
 
   constructor(
     private alertCtrl: AlertController,
-    private navController: NavController,
+    private navCtrl: NavController,
     private navParams: NavParams,
     private db: DatabaseNoSQL,
   ) {
     this.currentPatient = navParams.get("patient");
   }
 
-  public ionViewDidLoad() {
+  public ionViewWillEnter() {
 
     this.patientId = `p${this.currentPatient.id}`;
-    this.db.getEnvironments(this.patientId);
+    this.db.getEnvironments(this.patientId).subscribe((environmentsDB) => {
+      this.environments = environmentsDB;
+    });
   }
 
+  // TODO: put background and avatar outside environment items, as separate properties
   private addEnvironment(environment: Environment, i) {
-    const items = [];
-    items.push(this.db.C.BACKGROUNDS[i]);
+    environment.id = Date.now();
+    // FIXME: find out how to use only BACKGROUNDS instead BACKGROUNDTHUMBS array
+    environment.backgroundUrl = this.db.C.BACKGROUNDS[i].imgUrl;
+    environment.items = [];
 
     this.db.C.AVATARS.map((avatar) => {
       if (avatar.imgUrl === this.currentPatient.avatar) {
-        items.push(avatar);
+        environment.items.push(avatar);
       }
     });
-    // FIXME: find out how to use only BACKGROUNDS instead BACKGROUNDTHUMBS array
 
-    this.db.addEnvironment(this.patientId, environment.name, environment.imgUrl, items);
-    this.isPopup = false;
-    this.openPage(environment, this.patientId, this.db.environments.length - 1);
+    this.db.addEnvironment(this.patientId, environment).subscribe((environmentsDB) => {
+      this.environments = environmentsDB;
+      this.isPopup = false;
+      this.openPage(environment);
+    });
   }
 
   private editEnvironment(environment: Environment) {
@@ -65,7 +68,7 @@ export class EnvironmentsPage {
         {
           handler: (data) => {
             environment.name = data.name;
-            this.db.save(this.patientId, this.db.environments);
+            this.db.setEnvironments(this.patientId, this.environments).subscribe(() => { });
           },
           text: "Save",
         },
@@ -82,8 +85,10 @@ export class EnvironmentsPage {
 
   }
 
-  private deleteEnvironment(environment: Environment, index: number) {
-    this.db.deleteEnvironment(this.patientId, index);
+  private deleteEnvironment(environment: Environment) {
+    this.db.deleteEnvironment(this.patientId, environment).subscribe((filteredEnvironments) => {
+      this.environments = filteredEnvironments;
+    });
   }
 
   private togglePopup() {
@@ -96,10 +101,26 @@ export class EnvironmentsPage {
     }
   }
 
-  private openPage(environment: Environment, patientId: string, index: number) {
-    patientId = this.patientId;
-    this.db.envIndex = index;
-    this.navController.push(MainframePage, { environment, index, patientId });
+  private openPage(environment: Environment) {
+    this.db.openEnvironment(this.patientId, environment).subscribe((data) => {
+
+      const currentPatient = this.currentPatient;
+      const patientId = this.patientId;
+
+      this.navCtrl.push(MainframePage, { environment, patientId, currentPatient });
+    });
   }
 
+  // private openPage(environment: Environment, patientId: string, index: number, currentPatient: Patient) {
+  //   patientId = this.patientId;
+  //   currentPatient = this.currentPatient;
+  //   // TODO: give id instead index
+  //   this.db.envIndex = index;
+  //   console.log(environment, index, patientId, currentPatient);
+  //   this.navCtrl.push(MainframePage, { environment, index, patientId, currentPatient });
+  // }
+
+  private toBack() {
+    this.navCtrl.pop({ animate: false });
+  }
 }

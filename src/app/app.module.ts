@@ -12,6 +12,7 @@ import { EnvironmentsPage } from "../pages/environments/environments";
 import { GettingStartedPage } from "../pages/getting-started/getting-started";
 import { InstructionsPage } from "../pages/instructions/instructions";
 import { MainframePage } from "../pages/mainframe/mainframe";
+import { NotesFormPage } from "../pages/mainframe/notes-form/notes-form";
 import { QuestionsPopover } from "../pages/mainframe/questions-popover";
 import { CreateUserModal } from "../pages/patients/create-user-modal";
 import { PatientsPage } from "../pages/patients/patients";
@@ -53,6 +54,7 @@ export class MyErrorHandler implements ErrorHandler {
     QuestionsPopover,
     CreateUserModal,
     InstructionsPage,
+    NotesFormPage,
   ],
   entryComponents: [
     MyApp,
@@ -65,6 +67,7 @@ export class MyErrorHandler implements ErrorHandler {
     QuestionsPopover,
     CreateUserModal,
     InstructionsPage,
+    NotesFormPage,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,8 @@ export class MyErrorHandler implements ErrorHandler {
     NgArrayPipesModule,
   ],
   providers: [
-    {provide: ErrorHandler, useClass: MyErrorHandler},
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    // {provide: ErrorHandler, useClass: MyErrorHandler},
     Constants,
     DatabaseNoSQL,
     SplashScreen,

@@ -12,9 +12,12 @@
     </ion-title>
 
     <ion-buttons right>
-      <button ion-button padding (click)="openAddPatienModal()">
+
+      <button ion-button large padding color="IDATurquoise"
+        (click)="openAddPatienModal()">
         Add profile
       </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -28,42 +31,49 @@
     <ion-row center>
       <ion-col offset-2 col-8>
 
-        <button
-          [hidden]="patients !== []"
-          ion-button
-          full
-          color="light"
-          large
-          padding
-          (click)="openAddPatienModal()"
-          >
-          ADD PROFILE
-          <ion-icon name="add" padding></ion-icon>
-        </button>
+        <ion-buttons>
 
-        <!-- <ion-searchbar (ionInput)="searchPatients($event)"></ion-searchbar> -->
+          <button ion-button full color="IDATurquoise"
+            [hidden]="patients.length > 0"
+            (click)="openAddPatienModal()">
+            ADD PROFILE
+            <ion-icon name="add" padding></ion-icon>
+          </button>
 
-        <ion-buttons right>
-          <button ion-button padding (click)="sortBy('name')">
+        </ion-buttons>
+
+        <!-- <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl"></ion-searchbar> -->
+
+        <ion-buttons right
+          [hidden]="patients.length < 2">
+
+          <button ion-button padding small outline color="IDATurquoise"
+            (click)="sortBy('name')">
             Order by name
           </button>
-          <button ion-button padding (click)="sortBy('id')">
+
+          <button ion-button padding small outline color="IDATurquoise"
+            (click)="sortBy('id')">
             Order by date modified
           </button>
+
         </ion-buttons>
 
 
         <ion-list>
 
-            <ion-item *ngFor="let patient of db.patients; let i = index;">
+            <ion-item *ngFor="let patient of patients; let i = index;">
+
               <ion-thumbnail item-start>
                 <img [src]="'assets/img/person' + patient.avatar" (click)="openPage(patient)">
               </ion-thumbnail>
-              <h2 (click)="openPage(patient)">{{ patient.name }}</h2>
-              <p>{{ patient.id | date: 'yMMMd'}}</p>
 
-              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
-              <ion-icon *ngIf="isOptionsOpen && patient === selected" padding name="trash" item-end (click)="deletePatient(patient)" color="danger" [@slowFading]></ion-icon>
+              <h1 (click)="openPage(patient)">{{ patient.name }}</h1>
+              <h2>{{ patient.id | date: 'yMMMd'}}</h2>
+
+              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="paper" item-end (click)="openNotes(patient)" color="light" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="trash" item-end (click)="deletePatient(patient, i)" color="danger" [@slowFading]></ion-icon>
 
               <ion-icon padding name="more" item-end (click)="openOptions(patient)"></ion-icon>
 

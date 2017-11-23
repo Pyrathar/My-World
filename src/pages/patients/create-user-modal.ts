@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertController, NavParams, ViewController } from "ionic-angular";
+import { AlertController, NavParams, ToastController, ViewController } from "ionic-angular";
+import { Observable } from "rxjs/Rx";
 
 import { DatabaseNoSQL } from "../../db-nosql";
 import { AvatarUrl, Patient } from "../../models";
@@ -9,7 +10,7 @@ import { AvatarUrl, Patient } from "../../models";
   templateUrl: "create-user-modal.html",
 })
 export class CreateUserModal implements OnInit {
-  // avatar: AvatarUrl = AvatarUrl.afro_boy;
+  // private avatar: AvatarUrl = AvatarUrl.afro_boy;
   private editMode = false;
   private selectedAvatarIndex = 0;
   private patientAvatar = "/afro_boy.png";
@@ -20,6 +21,7 @@ export class CreateUserModal implements OnInit {
     private db: DatabaseNoSQL,
     private formBuilder: FormBuilder,
     private params: NavParams,
+    private toast: ToastController,
     private viewCtrl: ViewController,
   ) {}
 
@@ -56,19 +58,29 @@ export class CreateUserModal implements OnInit {
 
   private savePatient() {
 
-    const patientName = this.createPatientForm.controls.name.value;
+    if (!this.editMode) {
 
-    this.db.addPatient(new Date().getTime(), patientName, this.patientAvatar);
+      const patient = new Patient(Date.now(), this.createPatientForm.controls.name.value, this.patientAvatar);
 
-    this.createPatientForm.reset();
-    this.closeModal();
+      this.createPatientForm.reset();
+      this.viewCtrl.dismiss(patient);
+
+      const toast = this.toast.create({
+        duration: 1000,
+        message: ` ${patient.name} was added.`,
+      });
+
+      toast.present();
+    }
   }
 
-  private editPatient() {
+  private editPatient(patient: Patient) {
     this.currentPatient.name = this.createPatientForm.controls.name.value;
     this.currentPatient.avatar = this.patientAvatar;
-    this.closeModal();
-    this.db.save("patients", this.db.patients);
+
+    this.db.editPatient(this.currentPatient).subscribe(() => {
+      this.closeModal();
+    });
   }
 
   private selectAvatar(i: number, imgUrl: string) {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { animate, Component } from "@angular/core";
 import { ModalController, NavController } from "ionic-angular";
 import { OrderByPipe } from "ngx-pipes/src/app/pipes/array/order-by";
 
 import { DatabaseNoSQL } from "../../db-nosql";
 import { Patient } from "../../models";
 import { EnvironmentsPage } from "../environments/environments";
+import { NotesFormPage } from "../mainframe/notes-form/notes-form";
 import { SlowFadingAnimation } from "./../../animations";
 import { CreateUserModal } from "./create-user-modal";
 
@@ -19,16 +20,11 @@ import { CreateUserModal } from "./create-user-modal";
   templateUrl: "patients.html",
 })
 
-export class PatientsPage implements OnInit {
+export class PatientsPage {
 
-  public patients;
-  public DBpatients;
-  private patient: Patient;
-  private addPatientBtn = false;
-  private orderCategory = "name";
-  private searchQuery: string = "";
+  private patients: Patient[] = [];
   private isOptionsOpen = false;
-  private selected: Patient;
+  private selectedPatient: Patient;
 
   constructor(
     private db: DatabaseNoSQL,
@@ -36,54 +32,44 @@ export class PatientsPage implements OnInit {
     private orderBy: OrderByPipe,
     private modalCtrl: ModalController,
   ) {
-
-    // this.db.getPatients().then(
-    //   (p) => {
-
-    //     console.log(p);
-    //     this.patients = p;
-    //     this.DBpatients = p;
-    //   });
-
-    // this.db.patients.on("value", (countryList) => {
-    //   const countries = [];
-    //   countryList.forEach((country) => {
-    //     countries.push(country.val());
-    //     return false;
-    //   });
-
-    //   // this.DBpatients = this.db.patients;
-    //   // this.patients = this.db.patients;
-    // });
-
+    this.getPatients();
   }
 
-  public ngOnInit() {
-
-    // this.db.getPatients();
-    // console.log(this.patients);
-    // this.initializePatients();
-    // console.log(this.patients);
-    // this.patients = this.db.patients;
-
+  public ionViewDidLoad() {
   }
 
-  private initializePatients() {
-    this.patients = this.DBpatients;
-    // this.patients = this.db.getPatients();
-    this.patients = this.db.patients;
-    console.log(this.patients);
+  private getPatients() {
+    this.db.getPatients().subscribe((patientsDB) => {
+      this.patients = patientsDB;
+    });
   }
 
   private openOptions(patient: Patient) {
-    this.isOptionsOpen = !this.isOptionsOpen;
-    this.selected = patient;
+
+    this.isOptionsOpen = (this.selectedPatient !== patient)
+      ? true
+      : !this.isOptionsOpen;
+
+    this.selectedPatient = patient;
   }
 
   private openAddPatienModal() {
 
     this.isOptionsOpen = false;
+
     const modal = this.modalCtrl.create(CreateUserModal);
+
+    modal.onDidDismiss((patient) => {
+
+      if (patient) {
+
+        this.db.addPatient(patient).subscribe((patientsDB) => {
+          this.patients = patientsDB;
+        });
+
+      }
+    });
+
     modal.present();
   }
 
@@ -91,39 +77,54 @@ export class PatientsPage implements OnInit {
 
     this.isOptionsOpen = false;
     const modal = this.modalCtrl.create(CreateUserModal, { patient });
+    // modal.onDidDismiss((data) => {
+    //   console.log(data, this.selectedPatient);
+
+    // });
     modal.present();
   }
 
   private deletePatient(patient: Patient, index: number) {
+    this.db.deletePatient(patient, index).subscribe((patientDeleted) => {
+      this.isOptionsOpen = false;
+      this.patients = patientDeleted;
+    });
+  }
 
-    this.isOptionsOpen = false;
-    this.db.deletePatient(patient, index);
+  private openNotes(patient: Patient) {
+    const notesModal = this.modalCtrl.create(NotesFormPage, { currentPatient: patient });
+
+    notesModal.onDidDismiss((currentPatientDB) => {
+      // if (currentPatientDB) { this.currentPatient = currentPatientDB; }
+    });
+
+    notesModal.present();
   }
 
   private sortBy(sortingOption: string) {
 
     this.isOptionsOpen = false;
-    this.db.patients = this.orderBy.transform(this.db.patients, sortingOption);
+    this.patients = this.orderBy.transform(this.patients, sortingOption);
   }
 
-  // private searchPatients(ev: any) {
+  private searchPatients(ev: any) {
 
-  //   // Reset patients back to all of the patients
-  //   this.initializePatients();
+    // Reset patients back to all of the patients
+    this.getPatients();
 
-  //   // set val to the value of the searchbar
-  //   const val = ev.target.value;
+    // set val to the value of the searchbar
+    const val = ev.target.value;
 
-  //   // if the value is an empty string don't filter the patients
-  //   if (val && val.trim() !== "") {
-  //     this.patients = this.patients.filter((patient) => {
-  //       if (patient.name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
-  //         console.log(patient);
-  //         return patient;
-  //       }
-  //     });
-  //   }
-  // }
+    // if the value is an empty string don't filter the patients
+    if (val && val.trim() !== "") {
+      this.patients = this.patients.filter((patient) => {
+        if (patient.name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
+          // console.log(patient);
+          return patient;
+        }
+      });
+    }
+  }
 
   private openPage(patient: Patient) {
 

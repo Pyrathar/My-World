@@ -4,14 +4,28 @@
     <p class="action" text-center [@slowFading]>{{ getAction() }}</p>
 
     <ion-buttons right>
-      <button
-        ion-button
-        padding
-        [hidden]="db.environments[db.envIndex].items.length > 2"
-        class="btnPregenerate"
-        (click)="pregenerateItems()">
+
+      <button ion-button padding
+        (click)="enableDeletion()" class="toolbarBtn">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+
+      <button ion-button padding
+        (click)="enableRotation()" class="toolbarBtn">
+        <ion-icon name="undo"></ion-icon>
+      </button>
+
+      <button ion-button padding
+        (click)="presentNotesModal()" class="toolbarBtn">
+        <ion-icon name="create"></ion-icon>
+      </button>
+
+      <button ion-button padding
+        [hidden]="currentEnvironment.items.length > 1"
+        (click)="pregenerateItems()" class="toolbarBtn">
         Pregenerate items
       </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -23,7 +37,7 @@
         <ion-col (click)="togglePopover('Person', $event)">
           <ion-buttons>
             <button ion-button color="light">
-              <ion-icon padding name="person" color="danger"></ion-icon>
+              <ion-icon padding name="person" color="IDATurquoise"></ion-icon>
               Add Person
             </button>
           </ion-buttons>
@@ -32,7 +46,7 @@
         <ion-col (click)="togglePopover('Mood', $event)">
           <ion-buttons>
             <button ion-button color="light">
-              <ion-icon padding name="happy" color="danger"></ion-icon>
+              <ion-icon padding name="happy" color="IDATurquoise"></ion-icon>
               Add Mood
             </button>
           </ion-buttons>
@@ -41,7 +55,7 @@
         <ion-col (click)="togglePopover('Item', $event)">
           <ion-buttons>
             <button ion-button color="light">
-              <ion-icon padding name="football" color="danger"></ion-icon>
+              <ion-icon padding name="football" color="IDATurquoise"></ion-icon>
               Add Item
             </button>
           </ion-buttons>
@@ -55,8 +69,7 @@
 
    <ion-list *ngIf="togglePersons" [ngClass]="animationPopoverClasses" [@slowFading]>
     <div *ngFor="let popItem of db.C.PERSONS" >
-      <img
-        [src]="'assets/img/' + popItem.category + popItem.imgUrl"
+      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
         [class]="popItem.category"
         (touchstart)="moveStart(popItem, $event)"
         (touchmove)="moveDragOver(popItem, $event)"
@@ -70,8 +83,7 @@
 
    <ion-list *ngIf="toggleMoods" [ngClass]="animationPopoverClasses" [@slowFading]>
     <div *ngFor="let popItem of db.C.MOODS">
-      <img
-        [src]="'assets/img/' + popItem.category + popItem.imgUrl"
+      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
         [class]="popItem.category"
         (touchstart)="moveStart(popItem, $event)"
         (touchmove)="moveDragOver(popItem, $event)"
@@ -85,8 +97,7 @@
 
   <ion-list *ngIf="toggleItems" [ngClass]="animationPopoverClasses" [@slowFading]>
     <div *ngFor="let popItem of db.C.ITEMS">
-      <img
-        [src]="'assets/img/' + popItem.category + popItem.imgUrl"
+      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
         [class]="popItem.category"
         (touchstart)="moveStart(popItem, $event)"
         (touchmove)="moveDragOver(popItem, $event)"
@@ -102,14 +113,20 @@
 
 
 
-<ion-content
-  fullscreen
+<ion-content no-bounce fullscreen
   [class]="allowScroll"
   (click)="closePopup()"
   >
-   <div class="situationItems">
-     <!-- {{ this.db.environments[this.index].items | json }} -->
-    <div *ngFor="let item of db.environments[db.envIndex].items; let i = index;"
+   <div class="situationItems"
+    [ngStyle]="{
+        'background': '#fff url(assets/img/background' + currentEnvironment.backgroundUrl + ') no-repeat left top / contain',
+        'width': '100vw',
+        'height': '100vh',
+        'overflow-y': 'scroll',
+        'z-index': '-1'
+    }">
+
+    <div *ngFor="let item of currentEnvironment.items"
       [class]="item.category"
       (touchstart)="moveStart(item, $event)"
       (touchmove)="moveDragOver(item, $event)"
@@ -117,44 +134,28 @@
       [style.left]="item.x + 'px'"
       [style.top]="item.y + 'px'"
       [style.transform]="'rotate(' + item.rotationAngle + 'deg)'">
-<!-- item.rotationAngle -->
-      <!-- FIXME: delete function. works on click/tap on div -->
-      <ion-icon
-        *ngIf="isActive && item.category !='background' && isPaused"
-        name="close-circle"
-        color="danger"
-        class="ion-ios-close"
-        (tap)="removeItemFromScene(item, i)"
-        >
-      </ion-icon>
-      <ion-icon
-        *ngIf="isActive && item.category !='background' && isPaused"
-        name="ion-ios-undo"
-        color="light"
-        class="undo"
-        (tap)="rotateItem(item, i, -90)"
-        >
-      </ion-icon>
-      <ion-icon
-        *ngIf="isActive && item.category !='background' && isPaused"
-        name="ion-ios-redo"
-        color="light"
-        class="redo"
-        (tap)="rotateItem(item, i, 90)"
+
+      <ion-icon name="close-circle" color="danger"
+        *ngIf="allowDeletion && (item.category !== 'avatar')"
+        (click)="removeItemFromScene(item)" class="delete"
         >
       </ion-icon>
 
-      <img
-        [src]="'assets/img/' + item.category + item.imgUrl"
-        [class]="item.category"
-      />
+      <ion-icon name="redo" color="IDATurquoise"
+        *ngIf="allowRotation && (item.category !== 'mood')"
+        (click)="rotateItem(item)" class="rotate"
+        >
+      </ion-icon>
+
+      <img [src]="'assets/img/' + item.category + item.imgUrl"
+        [class]="item.category"/>
 
     </div>
 
   </div>
 
-  <img src="assets/img/various/questionmark.png"
-    class="iconQuestionmark"
-    (tap)="prompQuestions($event)">
+  <div class="iconQuestionmark" (click)="prompQuestions($event)">
+    Conversation <br> starters
+  </div>
 
 </ion-content>

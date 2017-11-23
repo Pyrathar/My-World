@@ -1,8 +1,9 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 
-// import { PatientsPage } from "../patients/patients";
 import { FadeInLeftAnimation, FadeInRightAnimation } from "./../../animations";
+
+import { DatabaseNoSQL } from "../../db-nosql";
 
 @Component({
   animations: [FadeInLeftAnimation, FadeInRightAnimation],
@@ -12,15 +13,26 @@ import { FadeInLeftAnimation, FadeInRightAnimation } from "./../../animations";
 
 export class GettingStartedPage {
 
-  // private rootPage = PatientsPage;
+  private status: boolean;
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private navCtrl: NavController, public db: DatabaseNoSQL) {}
 
   public ionViewDidLoad() {}
 
-  public openPage() {
-    // navigates to Patients page and sets it rootPage in nav
-    this.navCtrl.parent.select(3); // Open Patients page
+  public openPage(pageNumber: number) {
+    // navigates to page and sets it rootPage in nav
+    this.navCtrl.parent.select(pageNumber);
+  }
+
+  private getStatus() {
+    this.db.getInstructionStatus().subscribe((statusDB) => {
+      this.status = statusDB;
+    });
+  }
+
+  private setStatus() {
+    this.status = !this.status;
+    this.db.setInstructionStatus(this.status).subscribe(() => {});
   }
 
 }

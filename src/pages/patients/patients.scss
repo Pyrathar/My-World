@@ -1,6 +1,18 @@
 page-patients {
   ion-header {
     background-color: #f2f2f2;
+
+      ion-buttons {
+        // TODO: check why variable color in header not working
+        button {
+          background-color: #0098AA!important;
+          color: white!important;
+          span {
+            text-transform: none;
+          }
+        }
+      }
+
   }
 
   ion-page.notes-page scroll-content {
@@ -9,16 +21,6 @@ page-patients {
 
   ion-label {
     color: #A1A19F;
-  }
-
-  ion-buttons {
-    button {
-      background-color: #0098AA!important;
-
-        span {
-          text-transform: none;
-        }
-    }
   }
 
   ion-thumbnail {

@@ -11,7 +11,7 @@ import { DatabaseNoSQL } from "../../db-nosql";
 @Component({
   templateUrl: "tabs.html",
 })
-export class TabsPage implements OnInit {
+export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
   public tab1Root: any = GettingStartedPage;
@@ -19,13 +19,17 @@ export class TabsPage implements OnInit {
   public tab3Root: any = AboutPage;
   public tab4Root: any = InstructionsPage;
 
-  public selectedTab;
+  @ViewChild("myTabs") private tabRef: Tabs;
 
-  constructor(private db: DatabaseNoSQL) {}
+  constructor(private db: DatabaseNoSQL) {
+    // this.getIndex();
+  }
 
-  public ngOnInit() {
-    this.selectedTab = this.db.isInstructionsSeen() ? 0 : 1;
-    // console.log(this.selectedTab, this.db.isInstructionsSeen());
+  private getIndex() {
+    this.db.getInstructionStatus().subscribe((instructionSeen) => {
+      const selectedTab = (instructionSeen) ? 1 : 3; // TODO: Change to 0 before testing
+      this.tabRef.select(selectedTab);
+    });
   }
 
 }

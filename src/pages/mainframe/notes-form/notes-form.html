@@ -1,0 +1,113 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Session documentation form</ion-title>
+
+    <ion-buttons end>
+      <button ion-button padding (click)="closeModal()">X</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>1. What did you learn about the child?</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q1"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise">2. How does the child manage communication at:</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>Home</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q2a"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>School</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q2b"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>Other</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q2c"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise">3. Provide some examples of effective strategies used and some challenges to be addressed.</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>Challenges:</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q3a"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>Strategies:</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q3b"></ion-textarea>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>4. What goals did you agree upon?</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q4"></ion-textarea>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>5. How could others help achieve these goals?</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q5"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise">6. What action has been agreed for:</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>The child</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q6a"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>The parent</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q6b"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>The teacher</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q6c"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>The audiologist</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q6d"></ion-textarea>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>7. What did you learn that you did not know before?</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q7"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="IDATurquoise" floating>8. Other comments:</ion-label>
+      <ion-textarea rows="4" clearInput [(ngModel)]="note.q8"></ion-textarea>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-buttons right>
+
+    <button *ngIf="!editMode" ion-button padding block (click)="saveNote()">Save
+    </button>
+
+    <button *ngIf="editMode" type="button" ion-button padding block (click)="editNote()">Save
+    </button>
+
+  </ion-buttons>
+
+</ion-content>
