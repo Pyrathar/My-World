@@ -32,10 +32,10 @@ export class PatientsPage {
     private orderBy: OrderByPipe,
     private modalCtrl: ModalController,
   ) {
-    this.getPatients();
   }
 
   public ionViewDidLoad() {
+    this.getPatients();
   }
 
   private getPatients() {
@@ -96,6 +96,7 @@ export class PatientsPage {
 
     notesModal.onDidDismiss((currentPatientDB) => {
       // if (currentPatientDB) { this.currentPatient = currentPatientDB; }
+      this.getPatients();
     });
 
     notesModal.present();
