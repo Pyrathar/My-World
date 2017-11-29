@@ -69,7 +69,7 @@
               </ion-thumbnail>
 
               <h1 (click)="openPage(patient)">{{ patient.name }}</h1>
-              <h2>{{ patient.id | date: 'yMMMd'}}</h2>
+              <h2>Created:  {{ patient.id | date: 'yMMMd'}}</h2>
 
               <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="paper" item-end (click)="openNotes(patient)" color="light" [@slowFading]></ion-icon>
               <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
