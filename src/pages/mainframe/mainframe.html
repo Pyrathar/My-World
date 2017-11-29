@@ -6,13 +6,13 @@
     <ion-buttons right>
 
       <button ion-button padding
-        (click)="enableDeletion()" class="toolbarBtn">
+        (click)="enableDeletion()" [ngClass]="{ 'active-btn' : allowDeletion, 'toolbarBtn' : true }" >
         <ion-icon name="close-circle"></ion-icon>
       </button>
 
       <button ion-button padding
-        (click)="enableRotation()" class="toolbarBtn">
-        <ion-icon name="undo"></ion-icon>
+        (click)="enableRotation()" [ngClass]="{ 'active-btn' : allowRotation, 'toolbarBtn' : true }">
+        <ion-icon name="redo"></ion-icon>
       </button>
 
       <button ion-button padding
@@ -23,7 +23,7 @@
       <button ion-button padding
         [hidden]="currentEnvironment.items.length > 1"
         (click)="pregenerateItems()" class="toolbarBtn">
-        Pregenerate items
+        Fill items
       </button>
 
     </ion-buttons>

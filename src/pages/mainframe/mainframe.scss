@@ -8,11 +8,16 @@ page-mainframe {
   }
 
   button.toolbarBtn {
-  background-color: #0098AA!important;
+    background-color: #0098AA!important;
 
     span {
       text-transform: none;
     }
+  }
+
+  button.active-btn {
+    background-color: #e63e4d!important;
+    transition: 0.2s;
   }
 
   ion-toolbar .toolbar-background {

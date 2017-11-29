@@ -220,7 +220,6 @@ export class MainframePage {
   }
 
   private moveStart(item: Item, e) {
-    console.log(item);
 
     this.allowScroll = "no-scroll";
     // this.item = item;
@@ -266,12 +265,12 @@ export class MainframePage {
 
   private enableDeletion() {
     this.allowRotation = false;
-    this.allowDeletion = true;
+    this.allowDeletion = (this.allowDeletion) ? false : !this.allowDeletion;
   }
 
   private enableRotation() {
     this.allowDeletion = false;
-    this.allowRotation = true;
+    this.allowRotation = (this.allowRotation) ? false : !this.allowRotation;
   }
 
 }
