@@ -4,7 +4,7 @@ import { AlertController, NavParams, ToastController, ViewController } from "ion
 import { Observable } from "rxjs/Rx";
 
 import { DatabaseNoSQL } from "../../db-nosql";
-import { AvatarUrl, Patient } from "../../models";
+import { Patient } from "../../models/patient";
 
 @Component({
   templateUrl: "create-user-modal.html",

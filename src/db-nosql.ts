@@ -3,7 +3,10 @@ import { Storage } from "@ionic/storage";
 import { Observable } from "rxjs/Observable";
 
 import { Constants } from "./constants";
-import { Environment, Item, Note, Patient } from "./models";
+import { Environment } from "./models/environment";
+import { Item } from "./models/item";
+import { Note } from "./models/note";
+import { Patient } from "./models/patient";
 
 @Injectable()
 export class DatabaseNoSQL {

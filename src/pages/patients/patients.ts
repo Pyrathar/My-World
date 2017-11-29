@@ -3,7 +3,7 @@ import { ModalController, NavController } from "ionic-angular";
 import { OrderByPipe } from "ngx-pipes/src/app/pipes/array/order-by";
 
 import { DatabaseNoSQL } from "../../db-nosql";
-import { Patient } from "../../models";
+import { Patient } from "../../models/patient";
 import { EnvironmentsPage } from "../environments/environments";
 import { NotesFormPage } from "../mainframe/notes-form/notes-form";
 import { SlowFadingAnimation } from "./../../animations";

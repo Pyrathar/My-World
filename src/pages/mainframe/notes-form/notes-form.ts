@@ -3,7 +3,8 @@ import { FormGroup } from "@angular/forms";
 import { IonicPage, NavParams, ViewController } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../../db-nosql";
-import { Note, Patient } from "../../../models";
+import { Note } from "../../../models/note";
+import { Patient } from "../../../models/patient";
 
 @Component({
   selector: "page-notes-form",

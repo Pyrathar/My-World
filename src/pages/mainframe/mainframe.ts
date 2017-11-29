@@ -2,10 +2,11 @@ import { Component } from "@angular/core";
 import { ModalController, NavParams, PopoverController } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../db-nosql";
-import { Environment, Item } from "../../models";
 import { NotesFormPage } from "./notes-form/notes-form";
 import { QuestionsPopover } from "./questions-popover";
 
+import { Environment } from "../../models/environment";
+import { Item } from "../../models/item";
 import { SlowFadingAnimation } from "./../../animations";
 
 export enum Popup {

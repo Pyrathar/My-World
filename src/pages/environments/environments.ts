@@ -2,9 +2,10 @@ import { Component } from "@angular/core";
 import { AlertController, NavController, NavParams } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../db-nosql";
-import { Environment, Patient } from "../../models";
 import { MainframePage } from "../mainframe/mainframe";
 
+import { Environment } from "../../models/environment";
+import { Patient } from "../../models/patient";
 import { SlowFadingAnimation } from "./../../animations";
 
 @Component({

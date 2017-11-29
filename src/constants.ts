@@ -1,4 +1,4 @@
-import { Item } from "./models";
+import { Item } from "./models/item";
 
 export class Constants {
 
