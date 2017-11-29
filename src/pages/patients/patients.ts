@@ -2,13 +2,15 @@ import { animate, Component } from "@angular/core";
 import { ModalController, NavController } from "ionic-angular";
 import { OrderByPipe } from "ngx-pipes/src/app/pipes/array/order-by";
 
-import { DatabaseNoSQL } from "../../db-nosql";
 import { Patient } from "../../models/patient";
+
 import { EnvironmentsPage } from "../environments/environments";
 import { NotesFormPage } from "../mainframe/notes-form/notes-form";
-import { SlowFadingAnimation } from "./../../animations";
 import { CreateUserModal } from "./create-user-modal";
 
+import { DatabaseNoSQL } from "../../providers/db-nosql";
+
+import { SlowFadingAnimation } from "./../../providers/animations";
 // import { DomSanitizer } from '@angular/platform-browser';
 // DomSanitizer helps preventing Cross Site Scripting Security bugs (XSS)
 // by sanitizing values to be safe to use in the different DOM contexts.

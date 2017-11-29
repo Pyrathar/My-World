@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
-import { DatabaseNoSQL } from "../../db-nosql";
+import { DatabaseNoSQL } from "../../providers/db-nosql";
 
 @IonicPage()
 @Component({

@@ -2,11 +2,11 @@ import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import { Observable } from "rxjs/Observable";
 
+import { Environment } from "../models/environment";
+import { Item } from "../models/item";
+import { Note } from "../models/note";
+import { Patient } from "../models/patient";
 import { Constants } from "./constants";
-import { Environment } from "./models/environment";
-import { Item } from "./models/item";
-import { Note } from "./models/note";
-import { Patient } from "./models/patient";
 
 @Injectable()
 export class DatabaseNoSQL {

@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { NavParams } from "ionic-angular";
 
-import { DatabaseNoSQL } from "../../db-nosql";
+import { DatabaseNoSQL } from "../../providers/db-nosql";
 
 @Component({
   selector: "questions-popover",

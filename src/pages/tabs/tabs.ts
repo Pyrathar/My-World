@@ -6,7 +6,7 @@ import { GettingStartedPage } from "../getting-started/getting-started";
 import { InstructionsPage } from "../instructions/instructions";
 import { PatientsPage } from "../patients/patients";
 
-import { DatabaseNoSQL } from "../../db-nosql";
+import { DatabaseNoSQL } from "../../providers/db-nosql";
 
 @Component({
   templateUrl: "tabs.html",

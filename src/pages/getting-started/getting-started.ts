@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 
-import { FadeInLeftAnimation, FadeInRightAnimation } from "./../../animations";
+import { FadeInLeftAnimation, FadeInRightAnimation } from "./../../providers/animations";
 
-import { DatabaseNoSQL } from "../../db-nosql";
+import { DatabaseNoSQL } from "../../providers/db-nosql";
 
 @Component({
   animations: [FadeInLeftAnimation, FadeInRightAnimation],

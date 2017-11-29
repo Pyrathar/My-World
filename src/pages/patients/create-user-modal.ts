@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AlertController, NavParams, ToastController, ViewController } from "ionic-angular";
 import { Observable } from "rxjs/Rx";
 
-import { DatabaseNoSQL } from "../../db-nosql";
 import { Patient } from "../../models/patient";
+import { DatabaseNoSQL } from "../../providers/db-nosql";
 
 @Component({
   templateUrl: "create-user-modal.html",

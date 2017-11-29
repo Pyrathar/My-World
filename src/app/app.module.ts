@@ -19,8 +19,8 @@ import { PatientsPage } from "../pages/patients/patients";
 import { TabsPage } from "../pages/tabs/tabs";
 
 // Service
-import { Constants } from "../constants";
-import { DatabaseNoSQL } from "../db-nosql";
+import { Constants } from "../providers/constants";
+import { DatabaseNoSQL } from "../providers/db-nosql";
 // import { SQLiteDB } from '../providers/sqliteDB';
 
 // Plugins

@@ -2,9 +2,9 @@ import { Component } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { IonicPage, NavParams, ViewController } from "ionic-angular";
 
-import { DatabaseNoSQL } from "../../../db-nosql";
 import { Note } from "../../../models/note";
 import { Patient } from "../../../models/patient";
+import { DatabaseNoSQL } from "../../../providers/db-nosql";
 
 @Component({
   selector: "page-notes-form",

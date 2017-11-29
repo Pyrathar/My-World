@@ -3,7 +3,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
 import { Platform } from "ionic-angular";
 
-import { DatabaseNoSQL } from "../db-nosql";
+import { DatabaseNoSQL } from "../providers/db-nosql";
 
 import { TabsPage } from "../pages/tabs/tabs";
 
