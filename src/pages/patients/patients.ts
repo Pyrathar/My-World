@@ -1,6 +1,6 @@
 import { animate, Component } from "@angular/core";
 import { ModalController, NavController } from "ionic-angular";
-import { OrderByPipe } from "ngx-pipes/src/app/pipes/array/order-by";
+import { OrderByPipe } from "ngx-pipes";
 
 import { Patient } from "../../models/patient";
 

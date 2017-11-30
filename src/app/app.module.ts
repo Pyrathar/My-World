@@ -21,14 +21,12 @@ import { TabsPage } from "../pages/tabs/tabs";
 // Service
 import { Constants } from "../providers/constants";
 import { DatabaseNoSQL } from "../providers/db-nosql";
-// import { SQLiteDB } from '../providers/sqliteDB';
 
 // Plugins
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
 
-// import { NgPipesModule } from 'ngx-pipes';
-import { NgArrayPipesModule } from "ngx-pipes/src/app/pipes/array";
+import { NgArrayPipesModule } from "ngx-pipes";
 
 const IonicPro = Pro.init("55010440", {
   appVersion: "0.0.1",
