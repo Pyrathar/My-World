@@ -10,7 +10,7 @@ import { Constants } from "./constants";
 
 @Injectable()
 export class DatabaseNoSQL {
-  public environments: Environment[];
+  // public environments: Environment[];
   public questions;
 
   constructor(private storage: Storage, public C: Constants) {}
@@ -197,6 +197,8 @@ export class DatabaseNoSQL {
       this.getEnvironments(patientId).subscribe((environmentsDB) => {
 
         const filteredEnvironment = environmentsDB.find((selectedEnv) => selectedEnv.id === environment.id);
+        filteredEnvironment.items = environment.items;
+
         const filteredItem = filteredEnvironment.items.find((selectedItem) => selectedItem.id === item.id);
 
         filteredItem.x = item.x;
@@ -258,6 +260,7 @@ export class DatabaseNoSQL {
         (environmentsDB) => {
 
           const selectedEnvironment = environmentsDB.find((selected) => selected.id === environment.id);
+          selectedEnvironment.items = environment.items;
           item.id = Date.now();
           selectedEnvironment.items.push(item);
 
@@ -278,7 +281,7 @@ export class DatabaseNoSQL {
         (environmentsDB) => {
 
           const selectedEnvironment = environmentsDB.find((selected) => selected.id === environment.id);
-          selectedEnvironment.items = selectedEnvironment.items.concat(itemsToAdd);
+          selectedEnvironment.items = environment.items.concat(itemsToAdd);
 
           this.setEnvironments(patientId, environmentsDB).subscribe(() => {
             observer.next(selectedEnvironment);
@@ -290,19 +293,14 @@ export class DatabaseNoSQL {
     });
   }
 
-  public saveEnvironment(patientId: string) {
-    this.storage.set(patientId, this.environments);
-  }
-
   public deleteItemFromEnvironment(patientId: string, environment: Environment, item: Item): Observable<Environment> {
     return Observable.create((observer) => {
 
       this.getEnvironments(patientId).subscribe((environmentsDB) => {
 
         const filteredEnvironment = environmentsDB.find((selectedEnv) => selectedEnv.id === environment.id);
-        const filteredItems = environment.items.filter((selectedItem) => selectedItem.id !== item.id);
 
-        filteredEnvironment.items = filteredItems;
+        filteredEnvironment.items = filteredEnvironment.items.filter((selectedItem) => selectedItem.id !== item.id);
 
         this.setEnvironments(patientId, environmentsDB).subscribe(() => {
           observer.next(filteredEnvironment);

@@ -80,7 +80,7 @@ export class MainframePage {
     this.currentEnvironment = navParams.get("environment");
   }
 
-  public ionViewDidLoad() {}
+  public ionViewDidLoad() { }
 
   private togglePopover(category, e) {
 
@@ -128,19 +128,15 @@ export class MainframePage {
 
       item.x = Math.round(e.changedTouches["0"].clientX);
       item.y = Math.round(e.changedTouches["0"].clientY - this.toolbarSize); // 104 is the height of header + toolbar
-      this.db.addItemToEnvironment(this.patientId, this.currentEnvironment, item).subscribe((currentEnvironmentDB) => {
-        this.currentEnvironment = currentEnvironmentDB;
-      });
+
+      this.db.addItemToEnvironment(this.patientId, this.currentEnvironment, item).subscribe();
       this.closePopup();
     }
   }
 
   private addToSituationToDefaultPosition(item: Item, e) {
 
-    // this.db.addItemToEnvironment(this.index, Date.now(), item.category, item.imgUrl, 150, 300, 0);
-    this.db.addItemToEnvironment(this.patientId, this.currentEnvironment, item).subscribe((currentEnvironmentDB) => {
-      this.currentEnvironment = currentEnvironmentDB;
-    });
+    this.db.addItemToEnvironment(this.patientId, this.currentEnvironment, item).subscribe();
     this.closePopup();
   }
 
@@ -208,23 +204,18 @@ export class MainframePage {
 
   private rotateItem(item: Item) {
     item.rotationAngle = item.rotationAngle + 90;
-    this.db.updateEnvironment(this.patientId, this.currentEnvironment, item).subscribe((environmentDB) => {
-      this.currentEnvironment = environmentDB;
-    });
+    this.db.updateEnvironment(this.patientId, this.currentEnvironment, item).subscribe();
   }
 
   private updateItemOnScene(item: Item, newX, newY) {
     item.x = newX;
     item.y = newY;
-    this.db.updateEnvironment(this.patientId, this.currentEnvironment, item).subscribe((environmentDB) => {
-      this.currentEnvironment = environmentDB;
-    });
+    this.db.updateEnvironment(this.patientId, this.currentEnvironment, item).subscribe();
   }
 
   private moveStart(item: Item, e) {
 
     this.allowScroll = "no-scroll";
-    // this.item = item;
 
     // current cursor X position on screen
     this.moveStartX = e.touches["0"].pageX;
@@ -236,8 +227,7 @@ export class MainframePage {
   }
 
   private moveDragOver(item: Item, e) {
-    this.allowDeletion = false;
-    this.allowRotation = false;
+    this.disableEditMode();
 
     item.x = Math.round(e.touches["0"].pageX - this.itemX);
     item.y = Math.round(e.touches["0"].pageY - this.toolbarSize - this.itemY);
