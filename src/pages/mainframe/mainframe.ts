@@ -84,6 +84,8 @@ export class MainframePage {
 
   private togglePopover(category, e) {
 
+    this.disableEditMode();
+
     switch (category) {
 
       case "Person":
@@ -248,12 +250,14 @@ export class MainframePage {
   }
 
   private prompQuestions(myEvent) {
+    this.disableEditMode();
 
     const popover = this.popoverCtrl.create(QuestionsPopover, { questions: this.currentEnvironment.backgroundUrl });
     popover.present({ ev: myEvent });
   }
 
   private presentNotesModal() {
+    this.disableEditMode();
     const notesModal = this.modalCtrl.create(NotesFormPage, { currentPatient: this.currentPatient });
 
     notesModal.onDidDismiss((currentPatientDB) => {
@@ -271,6 +275,11 @@ export class MainframePage {
   private enableRotation() {
     this.allowDeletion = false;
     this.allowRotation = (this.allowRotation) ? false : !this.allowRotation;
+  }
+
+  private disableEditMode() {
+    this.allowDeletion = false;
+    this.allowRotation = false;
   }
 
 }
