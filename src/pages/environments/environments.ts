@@ -37,7 +37,6 @@ export class EnvironmentsPage {
     });
   }
 
-  // TODO: put background and avatar outside environment items, as separate properties
   private addEnvironment(environment: Environment, i) {
     environment.id = Date.now();
     // FIXME: find out how to use only BACKGROUNDS instead BACKGROUNDTHUMBS array
@@ -86,8 +85,8 @@ export class EnvironmentsPage {
 
   }
 
-  private deleteEnvironment(environment: Environment) {
-    this.db.deleteEnvironment(this.patientId, environment).subscribe((filteredEnvironments) => {
+  private deleteEnvironment(environmentId: number) {
+    this.db.deleteEnvironment(this.patientId, environmentId).subscribe((filteredEnvironments) => {
       this.environments = filteredEnvironments;
     });
   }
@@ -111,15 +110,6 @@ export class EnvironmentsPage {
       this.navCtrl.push(MainframePage, { environment, patientId, currentPatient });
     });
   }
-
-  // private openPage(environment: Environment, patientId: string, index: number, currentPatient: Patient) {
-  //   patientId = this.patientId;
-  //   currentPatient = this.currentPatient;
-  //   // TODO: give id instead index
-  //   this.db.envIndex = index;
-  //   console.log(environment, index, patientId, currentPatient);
-  //   this.navCtrl.push(MainframePage, { environment, index, patientId, currentPatient });
-  // }
 
   private toBack() {
     this.navCtrl.pop({ animate: false });

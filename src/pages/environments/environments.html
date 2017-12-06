@@ -11,7 +11,7 @@
       <ion-icon name="arrow-back"></ion-icon>
     </button>
 
-    <ion-title>{{currentPatient.name}}'s Environments</ion-title>
+    <ion-title>{{ currentPatient.name | titlecase }}'s Environments</ion-title>
 
     <ion-buttons right>
       <button ion-button padding
@@ -29,7 +29,7 @@
       <ion-col col-4 *ngFor="let popItem of db.C.BACKGROUNDTHUMBS; let i = index;">
 
         <img padding [src]="'assets/img/background' + popItem.imgUrl" (click)="addEnvironment(popItem, i)" />
-        <p ion-text color="IDAGrey">{{popItem.name}}</p>
+        <p ion-text color="IDAGrey">{{ popItem.name }}</p>
 
       </ion-col>
     </ion-row>
@@ -39,32 +39,43 @@
 
 
 
-<ion-content overflow-scroll="true" class="card-background-page" (click)="closePopup()">
-<!-- {{ db.C.environments}} -->
-  <ion-grid padding>
+<ion-content overflow-scroll="true" no-bounce class="card-background-page" (click)="closePopup()">
 
-    <ion-row wrap>
+  <ion-grid>
+    <ion-row>
 
-      <ion-col col-4 *ngFor="let env of environments; let i = index;">
-        <ion-card>
+      <ion-col col-3>
+        <div class="avatar">
+          <img [src]="'assets/img/avatar' + currentPatient.avatar" alt="">
+          <h1 text-center color="light">{{ currentPatient.name | titlecase }}</h1>
+        </div>
+      </ion-col>
 
-          <!-- FIXME: another place for delete button -->
-          <ion-icon name="close-circle" (click)="deleteEnvironment(env)" color="danger"></ion-icon>
-          <img [src]="'assets/img/background'+ env.imgUrl" (click)="openPage(env)" />
+      <ion-col col-9>
+        <ion-row wrap>
+          <ion-col col-6 *ngFor="let env of environments; let i = index;">
+            <ion-card>
 
-          <ion-list>
+              <ion-icon name="close-circle" (click)="deleteEnvironment(env.id)" color="danger"></ion-icon>
+              <img [src]="'assets/img/background'+ env.imgUrl" (click)="openPage(env)" />
 
-            <ion-item class="card-title">
-              {{env.name}}
-              <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
-            </ion-item>
+              <ion-list>
 
-          </ion-list>
-        </ion-card>
+                <ion-item class="card-title">
+                  {{ env.name }}
+                  <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
+                </ion-item>
+
+              </ion-list>
+            </ion-card>
+
+          </ion-col>
+
+        </ion-row>
       </ion-col>
 
     </ion-row>
-
   </ion-grid>
+
 
 </ion-content>

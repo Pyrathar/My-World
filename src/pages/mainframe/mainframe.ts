@@ -13,6 +13,7 @@ export enum Popup {
   person,
   mood,
   item,
+  closed,
 }
 
 export enum Action {
@@ -22,6 +23,12 @@ export enum Action {
   item,
 }
 
+export enum Pregenerated {
+  class,
+  home,
+  outdoor,
+}
+
 @Component({
   animations: [SlowFadingAnimation],
   selector: "page-mainframe",
@@ -29,21 +36,20 @@ export enum Action {
 })
 export class MainframePage {
 
-  // private item: Item;
   private environments: Environment[];
   private currentEnvironment: Environment;
   private currentPatient;
-  // actionTitle
+  private patientId;
 
-  private popup: Popup = Popup.person;
+  private popup: Popup = Popup.closed;
   private action: Action = Action.empty;
+  private pregenerated: Pregenerated = Pregenerated.class;
 
   private togglePersons = false;
   private toggleMoods = false;
   private toggleItems = false;
-  private pregenerateBtn;
-  private index;
-  private patientId;
+  private togglePopup = false;
+  private popupImages = "person";
 
   private toolbarSize = 104;
 
@@ -56,18 +62,6 @@ export class MainframePage {
   private allowScroll: string;
   private allowRotation = false;
   private allowDeletion = false;
-
-  private animationPopoverClasses: any = {
-    popoverItems: true,
-  };
-
-  private animationDeleteClasses: any = {
-    animated: true,
-    infinite: true,
-    pulse: true,
-  };
-
-  private itemPressedTimer = 0;
 
   constructor(
     private db: DatabaseNoSQL,
@@ -88,33 +82,30 @@ export class MainframePage {
 
     switch (category) {
 
-      case "Person":
-        this.toggleItems = false;
-        this.toggleMoods = false;
-        this.togglePersons = (this.togglePersons) ? false : !this.togglePersons;
+      case "person":
+        this.popupImages = "person";
         this.popup = Popup.person;
         this.action = Action.person;
+        this.togglePopup = (this.togglePopup) ? true : !this.togglePopup;
         break;
 
-      case "Mood":
-        this.toggleItems = false;
-        this.togglePersons = false;
-        this.toggleMoods = (this.toggleMoods) ? false : !this.toggleMoods;
+      case "mood":
+        this.popupImages = "mood";
         this.popup = Popup.mood;
         this.action = Action.mood;
+        this.togglePopup = (this.togglePopup) ? true : !this.togglePopup;
         break;
 
-      case "Item":
-        this.togglePersons = false;
-        this.togglePersons = false;
-        this.toggleItems = (this.toggleItems) ? false : !this.toggleItems;
+      case "item":
+        this.popupImages = "item";
         this.popup = Popup.item;
         this.action = Action.item;
+        this.togglePopup = (this.togglePopup) ? true : !this.togglePopup;
         break;
 
       default:
         // this.toggleItems = !this.toggleItems;
-        // this.popup = Popup.item
+        this.popup = Popup.closed;
         this.action = Action.empty;
         break;
     }
@@ -140,41 +131,43 @@ export class MainframePage {
     this.closePopup();
   }
 
-  private pregenerateItems() {
+  private pregenerateItems(environmentUrl) {
 
     switch (this.currentEnvironment.backgroundUrl) {
+
       case "/class.png":
-        this.db.pregenerateEnvironment(this.patientId, this.currentEnvironment, this.db.C.PREGENERATED_CLASSROOM)
-          .subscribe((itemsAdded) => {
-            this.currentEnvironment = itemsAdded;
-          });
+        this.pregenerated = Pregenerated.class;
         break;
 
       case "/home.png":
-        this.db.pregenerateEnvironment(this.patientId, this.currentEnvironment, this.db.C.PREGENERATED_HOME)
-          .subscribe((itemsAdded) => {
-            this.currentEnvironment = itemsAdded;
-          });
+        this.pregenerated = Pregenerated.home;
         break;
 
       case "/outdoors.png":
-        this.db.pregenerateEnvironment(this.patientId, this.currentEnvironment, this.db.C.PREGENERATED_OUTDOOR)
-          .subscribe((itemsAdded) => {
-            this.currentEnvironment = itemsAdded;
-          });
+        this.pregenerated = Pregenerated.outdoor;
         break;
+    }
 
-      default:
-        console.log("pregenerateItems(). default switch: something went wrong.");
-        break;
+    this.db.pregenerateEnvironment(this.patientId, this.currentEnvironment, this.getPregeneratedItems())
+      .subscribe((itemsAdded) => {
+        this.currentEnvironment = itemsAdded;
+      });
+  }
+
+  private getPopup() {
+    switch (this.popup) {
+      case Popup.person:  return this.db.C.PERSONS;
+      case Popup.mood:    return this.db.C.MOODS;
+      case Popup.item:    return this.db.C.ITEMS;
+      case Popup.closed:  return [];
     }
   }
 
-  private getPopup(): string {
-    switch (this.popup) {
-      case Popup.person:  return "db.C.PERSONS";
-      case Popup.mood:    return "db.C.MOODS";
-      case Popup.item:    return "db.C.ITEMS";
+  private getPregeneratedItems() {
+    switch (this.pregenerated) {
+      case Pregenerated.class:    return this.db.C.PREGENERATED_CLASSROOM;
+      case Pregenerated.home:     return this.db.C.PREGENERATED_HOME;
+      case Pregenerated.outdoor:  return this.db.C.PREGENERATED_OUTDOOR;
     }
   }
 
@@ -193,6 +186,7 @@ export class MainframePage {
     this.toggleMoods = false;
     this.toggleItems = false;
     this.action = Action.empty;
+    this.popup = Popup.closed;
     this.allowScroll = "scroll";
   }
 

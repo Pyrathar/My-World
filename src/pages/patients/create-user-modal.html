@@ -15,15 +15,14 @@
 
     <ion-item>
 
-      <ion-label
-        color="danger"
+      <ion-label color="danger"
         *ngIf="createPatientForm.controls['name'].touched && createPatientForm.controls['name'].invalid"
        >Name is required
       </ion-label>
 
-      <ion-input *ngIf="!editMode" type="text" formControlName="name" placeholder="Enter Name" text-center></ion-input>
-
-      <ion-input *ngIf="editMode" type="text" formControlName="name" placeholder="Enter Name" text-center [value]="currentPatient.name"></ion-input>
+      <ion-input type="text" text-center placeholder="Enter Name"
+        formControlName="name" [value]="currentPatient.name"
+      ></ion-input>
 
     </ion-item>
 
@@ -48,20 +47,7 @@
 
     <ion-buttons right>
 
-      <button *ngIf="!editMode"
-        ion-button
-        padding
-        block
-        [disabled]="createPatientForm.controls['name'].invalid"
-        >Save
-      </button>
-
-      <button *ngIf="editMode"
-        type="button"
-        ion-button
-        padding
-        block
-        (click)="editPatient(currentPatient)"
+      <button ion-button block
         [disabled]="createPatientForm.controls['name'].invalid"
         >Save
       </button>

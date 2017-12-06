@@ -5,7 +5,7 @@ export class Constants {
   public BACKGROUNDTHUMBS: Item[] = [
     new Item(0, "background", "/class_tn.png",    "Classroom"),
     new Item(1, "background", "/home_tn.png",     "Home"),
-    new Item(2, "background", "/outdoors_tn.png", "Outdoors"),
+    new Item(2, "background", "/outdoors_tn.jpg", "Outdoors"),
   ];
 
   public BACKGROUNDS: Item[] = [

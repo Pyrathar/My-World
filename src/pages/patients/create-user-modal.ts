@@ -53,34 +53,33 @@ export class CreateUserModal implements OnInit {
       this.patientAvatar = this.currentPatient.avatar;
     } else {
       this.editMode = false;
+      this.currentPatient = new Patient(0, "", "");
     }
   }
 
   private savePatient() {
 
-    if (!this.editMode) {
-
-      const patient = new Patient(Date.now(), this.createPatientForm.controls.name.value, this.patientAvatar);
-
-      this.createPatientForm.reset();
-      this.viewCtrl.dismiss(patient);
-
-      const toast = this.toast.create({
-        duration: 1000,
-        message: ` ${patient.name} was added.`,
-      });
-
-      toast.present();
-    }
-  }
-
-  private editPatient(patient: Patient) {
     this.currentPatient.name = this.createPatientForm.controls.name.value;
     this.currentPatient.avatar = this.patientAvatar;
 
-    this.db.editPatient(this.currentPatient).subscribe(() => {
-      this.closeModal();
-    });
+    if (!this.editMode) {
+
+      this.db.addPatient(this.currentPatient).subscribe();
+      this.createPatientForm.reset();
+
+      const toast = this.toast.create({
+        duration: 2000,
+        message: ` ${this.currentPatient.name} was added.`,
+      });
+
+      toast.present();
+
+    } else {
+
+      this.db.editPatient(this.currentPatient).subscribe();
+    }
+
+    this.closeModal();
   }
 
   private selectAvatar(i: number, imgUrl: string) {

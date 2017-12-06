@@ -22,8 +22,8 @@
 
       <button ion-button padding
         [hidden]="currentEnvironment.items.length > 1"
-        (click)="pregenerateItems()" class="toolbarBtn">
-        Fill items
+        (click)="pregenerateItems(currentEnvironment.backgroundUrl)" class="toolbarBtn">
+        Preset items
       </button>
 
     </ion-buttons>
@@ -34,7 +34,7 @@
     <ion-grid>
       <ion-row>
 
-        <ion-col (click)="togglePopover('Person', $event)">
+        <ion-col (click)="togglePopover('person', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="person" color="IDATurquoise"></ion-icon>
@@ -43,7 +43,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('Mood', $event)">
+        <ion-col (click)="togglePopover('mood', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="happy" color="IDATurquoise"></ion-icon>
@@ -52,7 +52,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('Item', $event)">
+        <ion-col (click)="togglePopover('item', $event)">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="football" color="IDATurquoise"></ion-icon>
@@ -66,10 +66,9 @@
 
   </ion-toolbar>
 
-
-   <ion-list *ngIf="togglePersons" [ngClass]="animationPopoverClasses" [@slowFading]>
-    <div *ngFor="let popItem of db.C.PERSONS" >
-      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
+   <ion-list *ngIf="togglePopup"  class="popoverItems" [@slowFading]>
+    <div *ngFor="let popItem of getPopup()" >
+      <img *ngIf="popItem.category === popupImages" [src]="'assets/img/' + popItem.category + popItem.imgUrl"
         [class]="popItem.category"
         (touchstart)="moveStart(popItem, $event)"
         (touchmove)="moveDragOver(popItem, $event)"
@@ -79,35 +78,6 @@
         [style.top]="popItem.y + 'px'" />
     </div>
   </ion-list>
-
-
-   <ion-list *ngIf="toggleMoods" [ngClass]="animationPopoverClasses" [@slowFading]>
-    <div *ngFor="let popItem of db.C.MOODS">
-      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
-        [class]="popItem.category"
-        (touchstart)="moveStart(popItem, $event)"
-        (touchmove)="moveDragOver(popItem, $event)"
-        (touchend)="addToSituation(popItem, $event)"
-        (press)="addToSituationToDefaultPosition(popItem, $event)"
-        [style.left]="popItem.x + 'px'"
-        [style.top]="popItem.y + 'px'"/>
-    </div>
-  </ion-list>
-
-
-  <ion-list *ngIf="toggleItems" [ngClass]="animationPopoverClasses" [@slowFading]>
-    <div *ngFor="let popItem of db.C.ITEMS">
-      <img [src]="'assets/img/' + popItem.category + popItem.imgUrl"
-        [class]="popItem.category"
-        (touchstart)="moveStart(popItem, $event)"
-        (touchmove)="moveDragOver(popItem, $event)"
-        (touchend)="addToSituation(popItem, $event)"
-        (press)="addToSituationToDefaultPosition(popItem, $event)"
-        [style.left]="popItem.x + 'px'"
-        [style.top]="popItem.y + 'px'"/>
-    </div>
-  </ion-list>
-
 
 </ion-header>
 
@@ -119,7 +89,7 @@
   >
    <div class="situationItems"
     [ngStyle]="{
-        'background': '#fff url(assets/img/background' + currentEnvironment.backgroundUrl + ') no-repeat left top / contain',
+        'background': '#fff url(assets/img/background' + currentEnvironment.backgroundUrl + ') no-repeat left top / cover',
         'width': '100vw',
         'height': '100vh',
         'overflow-y': 'scroll',

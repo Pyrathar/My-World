@@ -27,6 +27,12 @@ page-environments {
     }
   }
 
+  .avatar {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6em;
+  }
+
   ion-card {
     padding: 1.8em 0 0.6em;
     position: relative;

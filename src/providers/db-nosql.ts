@@ -23,12 +23,12 @@ export class DatabaseNoSQL {
       this.storage.get("instructionsSeen")
         .then((status) => {
 
-          // status = (status)
-          //   ? true
-          //   : false;
+          status = (status)
+            ? true
+            : false;
 
           observer.next(status);
-          // observer.complete();
+          observer.complete();
         },
       ).catch(
         (err) => console.log("ZYGI: getPatients() ERROR:", err),
@@ -64,7 +64,7 @@ export class DatabaseNoSQL {
           : [];
 
         observer.next(patients);
-        // observer.complete();
+        observer.complete();
       },
       ).catch(
         (err) => console.log("ZYGI: getPatients() ERROR:", err),
@@ -84,19 +84,18 @@ export class DatabaseNoSQL {
     });
   }
 
-  // TODO: getPatient Avatar()
-
   public addPatient(patient: Patient): Observable<Patient[]> {
     return Observable.create((observer) => {
 
-      this.getPatients().subscribe(
-        (patientsDB) => {
-          patientsDB.unshift(patient);
+      this.getPatients().subscribe((patientsDB) => {
 
-          this.setPatients(patientsDB).subscribe(() => {
-            observer.next(patientsDB);
-            observer.complete();
-          });
+        patient.id = Date.now();
+        patientsDB.unshift(patient);
+
+        this.setPatients(patientsDB).subscribe(() => {
+          observer.next(patientsDB);
+          observer.complete();
+        });
 
         },
       );
@@ -141,6 +140,27 @@ export class DatabaseNoSQL {
     });
   }
 
+  public getFilteredPatients(searchText: string): Observable<Patient[]> {
+    return Observable.create((observer) => {
+      this.getPatients().subscribe((patientsDB) => {
+
+        if (searchText && searchText.length > 0) {
+
+          const filteredPatients = patientsDB
+            .filter((patient) => patient.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1);
+
+          observer.next(filteredPatients);
+
+        } else {
+
+          observer.next(patientsDB);
+
+        }
+
+      });
+    });
+  }
+
 /**
  * 2. Environments Management
  */
@@ -169,7 +189,7 @@ export class DatabaseNoSQL {
 
       this.storage.set(patientId, environments).then((storedEnvironments) => {
         observer.next(storedEnvironments);
-        // observer.complete();
+        observer.complete();
       });
 
     });
@@ -215,16 +235,16 @@ export class DatabaseNoSQL {
     });
   }
 
-  public deleteEnvironment(patientId: string, environment: Environment): Observable<Environment[]> {
+  public deleteEnvironment(patientId: string, environmentId: number): Observable<Environment[]> {
     return Observable.create((observer) => {
 
       this.getEnvironments(patientId).subscribe((environmentsDB) => {
 
-        const filteredEnvironment = environmentsDB.filter((selected) => selected.id !== environment.id);
+        const filteredEnvironments = environmentsDB.filter((selected) => selected.id !== environmentId);
         this.storage.remove(patientId);
 
-        this.setEnvironments(patientId, filteredEnvironment).subscribe(() => {
-          observer.next(filteredEnvironment);
+        this.setEnvironments(patientId, filteredEnvironments).subscribe(() => {
+          observer.next(filteredEnvironments);
           observer.complete();
         });
 
@@ -233,6 +253,7 @@ export class DatabaseNoSQL {
     });
   }
 
+  // TODO: check if needed
   public openEnvironment(patientId: string, environment: Environment): Observable<Environment> {
     return Observable.create((observer) => {
       this.storage.get(patientId)

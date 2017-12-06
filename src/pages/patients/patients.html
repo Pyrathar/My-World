@@ -22,10 +22,16 @@
 
   </ion-navbar>
 
+  <ion-searchbar
+    [(ngModel)]="searchText"
+    [showCancelButton]="shouldShowCancel"
+    (ionInput)="searchPatients()">
+  </ion-searchbar>
+
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-bounce>
 
   <ion-grid>
     <ion-row center>
@@ -34,7 +40,7 @@
         <ion-buttons>
 
           <button ion-button full color="IDATurquoise"
-            [hidden]="patients.length > 0"
+            [hidden]="patients.length > 0 || searchText !== undefined"
             (click)="openAddPatienModal()">
             ADD PROFILE
             <ion-icon name="add" padding></ion-icon>
@@ -42,7 +48,6 @@
 
         </ion-buttons>
 
-        <!-- <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl"></ion-searchbar> -->
 
         <ion-buttons right
           [hidden]="patients.length < 2">
@@ -53,7 +58,7 @@
           </button>
 
           <button ion-button padding small outline color="IDATurquoise"
-            (click)="sortBy('id')">
+            (click)="sortBy('-id')">
             Order by date modified
           </button>
 
@@ -68,8 +73,10 @@
                 <img [src]="'assets/img/person' + patient.avatar" (click)="openPage(patient)">
               </ion-thumbnail>
 
-              <h1 (click)="openPage(patient)">{{ patient.name }}</h1>
-              <h2>Created:  {{ patient.id | date: 'yMMMd'}}</h2>
+              <div (click)="openPage(patient)">
+                <h1>{{ patient.name | titlecase }}</h1>
+                <h2>Created:  {{ patient.id | date:'mediumDate' }}</h2>
+              </div>
 
               <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="paper" item-end (click)="openNotes(patient)" color="light" [@slowFading]></ion-icon>
               <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>

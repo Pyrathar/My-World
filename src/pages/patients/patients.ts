@@ -1,5 +1,5 @@
 import { animate, Component } from "@angular/core";
-import { ModalController, NavController } from "ionic-angular";
+import { AlertController, ModalController, NavController } from "ionic-angular";
 import { OrderByPipe } from "ngx-pipes";
 
 import { Patient } from "../../models/patient";
@@ -27,8 +27,10 @@ export class PatientsPage {
   private patients: Patient[] = [];
   private isOptionsOpen = false;
   private selectedPatient: Patient;
+  private searchText: string;
 
   constructor(
+    private alertCtrl: AlertController,
     private db: DatabaseNoSQL,
     private navCtrl: NavController,
     private orderBy: OrderByPipe,
@@ -36,12 +38,12 @@ export class PatientsPage {
   ) {
   }
 
-  public ionViewDidLoad() {
+  public ionViewWillEnter() {
     this.getPatients();
   }
 
   private getPatients() {
-    this.db.getPatients().subscribe((patientsDB) => {
+    this.db.getFilteredPatients(this.searchText).subscribe((patientsDB) => {
       this.patients = patientsDB;
     });
   }
@@ -61,16 +63,7 @@ export class PatientsPage {
 
     const modal = this.modalCtrl.create(CreateUserModal);
 
-    modal.onDidDismiss((patient) => {
-
-      if (patient) {
-
-        this.db.addPatient(patient).subscribe((patientsDB) => {
-          this.patients = patientsDB;
-        });
-
-      }
-    });
+    modal.onDidDismiss( () => this.getPatients() );
 
     modal.present();
   }
@@ -79,18 +72,37 @@ export class PatientsPage {
 
     this.isOptionsOpen = false;
     const modal = this.modalCtrl.create(CreateUserModal, { patient });
-    // modal.onDidDismiss((data) => {
-    //   console.log(data, this.selectedPatient);
-
-    // });
     modal.present();
   }
 
+  // tslint:disable:object-literal-sort-keys
   private deletePatient(patient: Patient, index: number) {
-    this.db.deletePatient(patient, index).subscribe((patientDeleted) => {
-      this.isOptionsOpen = false;
-      this.patients = patientDeleted;
+
+    const alert = this.alertCtrl.create({
+      title: "Delete profile",
+      message: "Are you sure you want to delete profile?",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          handler: () => {
+            this.isOptionsOpen = false;
+          },
+        },
+        {
+          text: "Delete",
+          handler: () => {
+
+            this.db.deletePatient(patient, index).subscribe((patientsDB) => {
+              this.isOptionsOpen = false;
+              this.patients = patientsDB;
+            });
+
+          },
+        },
+      ],
     });
+    alert.present();
   }
 
   private openNotes(patient: Patient) {
@@ -104,29 +116,18 @@ export class PatientsPage {
     notesModal.present();
   }
 
+  // FIXME: sort both ways
   private sortBy(sortingOption: string) {
 
     this.isOptionsOpen = false;
     this.patients = this.orderBy.transform(this.patients, sortingOption);
   }
 
-  private searchPatients(ev: any) {
+  private searchPatients() {
 
-    // Reset patients back to all of the patients
-    this.getPatients();
-
-    // set val to the value of the searchbar
-    const val = ev.target.value;
-
-    // if the value is an empty string don't filter the patients
-    if (val && val.trim() !== "") {
-      this.patients = this.patients.filter((patient) => {
-        if (patient.name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
-          // console.log(patient);
-          return patient;
-        }
-      });
-    }
+    this.db.getFilteredPatients(this.searchText).subscribe((filteredPatients) => {
+      this.patients = filteredPatients;
+    });
   }
 
   private openPage(patient: Patient) {
