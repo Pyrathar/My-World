@@ -19,11 +19,27 @@ export class InstructionsPage {
       },
       {
         image: "assets/img/background/home_tn.png",
-        title: "Add environment and make it look like yours",
+        title: "Add environment and rename it if you like",
       },
       {
-        image: "assets/img/background/outdoors_tn.png",
-        title: "Add people you know and use moods to describe a situation",
+        image: "assets/img/background/outdoors_tn.jpg",
+        title: "Add people and items to make it look like yours",
+      },
+      {
+        image: "assets/img/background/outdoors_tn.jpg",
+        title: "Use moods to describe a situation",
+      },
+      {
+        image: "assets/img/background/outdoors_tn.jpg",
+        title: "Rotate or delete items from situation",
+      },
+      {
+        image: "assets/img/background/outdoors_tn.jpg",
+        title: "Open conversation starter for example of questions you may want to ask ",
+      },
+      {
+        image: "assets/img/background/outdoors_tn.jpg",
+        title: "Use notes to describe session with a patient",
       },
     ];
   }

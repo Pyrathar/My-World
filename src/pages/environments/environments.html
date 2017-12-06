@@ -62,7 +62,8 @@
               <ion-list>
 
                 <ion-item class="card-title">
-                  {{ env.name }}
+                  <h2 class="card-title">{{ env.name }}</h2>
+                  <h2>{{ env.id | date:'mediumDate' }}</h2>
                   <ion-icon name="create" item-end (click)="editEnvironment(env)" color="light"></ion-icon>
                 </ion-item>
 
