@@ -53,7 +53,7 @@ export class CreateUserModal implements OnInit {
       this.patientAvatar = this.currentPatient.avatar;
     } else {
       this.editMode = false;
-      this.currentPatient = new Patient(0, "", "");
+      this.currentPatient = new Patient(0, "", "", []);
     }
   }
 

@@ -16,11 +16,6 @@
       </button>
 
       <button ion-button padding
-        (click)="presentNotesModal()" class="toolbarBtn">
-        <ion-icon name="create"></ion-icon>
-      </button>
-
-      <button ion-button padding
         [hidden]="currentEnvironment.items.length > 1"
         (click)="pregenerateItems(currentEnvironment.backgroundUrl)" class="toolbarBtn">
         Preset items
@@ -34,7 +29,7 @@
     <ion-grid>
       <ion-row>
 
-        <ion-col (click)="togglePopover('person', $event)">
+        <ion-col padding (click)="togglePopover('person', $event)" [ngClass]="{ 'active-icon' : popupImages == 'person' }">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="person" color="IDATurquoise"></ion-icon>
@@ -43,7 +38,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('mood', $event)">
+        <ion-col padding (click)="togglePopover('mood', $event)" [ngClass]="{ 'active-icon' : popupImages == 'mood' }">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="happy" color="IDATurquoise"></ion-icon>
@@ -52,7 +47,7 @@
           </ion-buttons>
         </ion-col>
 
-        <ion-col (click)="togglePopover('item', $event)">
+        <ion-col padding (click)="togglePopover('item', $event)" [ngClass]="{ 'active-icon' : popupImages == 'item' }">
           <ion-buttons>
             <button ion-button color="light">
               <ion-icon padding name="football" color="IDATurquoise"></ion-icon>

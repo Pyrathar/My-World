@@ -16,27 +16,26 @@ export class NotesFormPage {
   private editMode = false;
   private note: Note;
   private currentPatient: Patient;
+  private currentNote: Note;
 
   constructor(
     public db: DatabaseNoSQL,
     public navParams: NavParams,
     private viewCtrl: ViewController,
   ) {
-    this.note = new Note();
+    this.note = new Note(Date.now());
+    this.currentNote = navParams.get("note");
     this.currentPatient = navParams.get("currentPatient");
-    if (this.currentPatient.note) {
-      this.note = this.currentPatient.note;
+
+    if (this.currentNote) {
+      this.note = this.currentNote;
     }
   }
 
   private saveNote() {
-    this.db.addNote(this.note, this.currentPatient).subscribe( (patientDB) => {
+    this.db.saveNote(this.note, this.currentPatient).subscribe((patientDB) => {
       this.viewCtrl.dismiss(patientDB);
     });
-  }
-
-  private editNote() {
-    console.log("Note edited and saved");
   }
 
   private closeModal() {

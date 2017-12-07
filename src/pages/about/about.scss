@@ -1,11 +1,21 @@
 page-about {
 
-    .scroll-content {
-        background: url(../assets/img/various/trees.jpg) no-repeat center center;
-        background-size: cover;
-    }
+  .scroll-content {
+    background: url(../assets/img/various/trees.jpg) no-repeat center center / cover;
+  }
 
-    ion-card {
-        background: rgba(255, 255, 255, 0.8)!important;
+  ion-slides {
+    background: rgba(255, 255, 255, 0.8)!important;
+
+    ion-slide {
+      align-items: flex-start!important;
+
+      h3 {
+      }
+      p {
+        font-size: 1em!important;
+        text-align: left;
+      }
     }
+  }
 }

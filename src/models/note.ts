@@ -1,5 +1,6 @@
 export class Note {
   constructor(
+    public id: number,
     public q1?: string,
     public q2a?: string,
     public q2b?: string,

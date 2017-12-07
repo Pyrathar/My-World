@@ -16,7 +16,7 @@ page-mainframe {
   }
 
   button.active-btn {
-    background-color: #e63e4d!important;
+    background-color: #0098aa!important;
     transition: 0.2s;
   }
 
@@ -26,8 +26,30 @@ page-mainframe {
     border-bottom: 1px solid transparent !important;
   }
 
-  ion-toolbar ion-icon {
-    font-size: 2em !important;
+  ion-toolbar {
+    padding: 0!important;
+
+    ion-grid {
+      padding: 0!important;
+    }
+
+    button {
+      font-size: 1.5em!important;
+
+      ion-icon {
+        font-size: 2em !important;
+      }
+    }
+  }
+
+  .active-icon {
+    background-color: #9ecbd3!important;
+
+    button,
+    ion-icon {
+      color: white!important;
+      font-weight: bold;
+    }
   }
 
   .popoverItems {
@@ -39,14 +61,14 @@ page-mainframe {
     justify-content: flex-start;
     align-items: flex-end;
     overflow-x: scroll;
-    border-top: 2px solid #e63e4d;
+    border-top: 2px solid #0098aa;
 
     div {
       img {
         position: initial;
         max-width: 200px!important;
         flex: 0 0 auto;
-        margin: 15px;
+        margin: 10px;
       }
       img.person{
         max-width: 35px!important;
@@ -55,7 +77,7 @@ page-mainframe {
         max-width: 70px!important;
       }
       img.item {
-        max-width: 100px!important;
+        max-width: 80px!important;
       }
 
 
@@ -95,104 +117,107 @@ page-mainframe {
 
 
       img.item[src*="action_man"] {
-        max-width: 75px!important;
+        max-width: 50px!important;
         border: 0;
       }
       img.item[src*="chair"]{
-        max-width: 75px!important;
+        max-width: 50px!important;
       }
       img.item[src*="arm_chair"]{
-        max-width: 100px!important;
+        max-width: 80px!important;
       }
       img.item[src*="bike"]{
-        max-width: 160px!important;
+        max-width: 130px!important;
       }
       img.item[src*="bird"]{
-        max-width: 140px!important;
+        max-width: 110px!important;
       }
       img.item[src*="bookcase"]{
-        max-width: 170px!important;
+        max-width: 130px!important;
       }
       img.item[src*="bte"]{
-        max-width: 80px!important;
+        max-width: 60px!important;
       }
       img.item[src*="bed"]{
-        max-width: 150px!important;
+        max-width: 120px!important;
       }
       img.item[src*="bus"]{
-        max-width: 190px!important;
+        max-width: 140px!important;
       }
       img.item[src*="car"]{
-        max-width: 170px!important;
+        max-width: 120px!important;
       }
       img.item[src*="cat"]{
-        max-width: 65px!important;
+        max-width: 38px!important;
       }
       img.item[src*="cochlear_implants"]{
-        max-width: 80px!important;
+        max-width: 55px!important;
       }
       img.item[src*="consol"]{
-        max-width: 70px!important;
+        max-width: 45px!important;
       }
       img.item[src*="dog"]{
-        max-width: 65px!important;
+        max-width: 40px!important;
       }
       img.item[src*="doll"]{
-        max-width: 85px!important;
+        max-width: 57px!important;
       }
       img.item[src*="electric_piano"]{
-        max-width: 250px!important;
+        max-width: 120px!important;
       }
       img.item[src*="flatscreen"]{
-        max-width: 200px!important;
+        max-width: 120px!important;
+      }
+      img.item[src*="fodbold"]{
+        max-width: 60px!important;
       }
       img.item[src*="ketched"]{
-        max-width: 50px!important;
+        max-width: 35px!important;
       }
       img.item[src*="kort"]{
         max-width: 100px!important;
       }
       img.item[src*="lego"]{
-        max-width: 70px!important;
+        max-width: 50px!important;
       }
       img.item[src*="large_table"]{
         max-width: 130px!important;
       }
       img.item[src*="mask_and_snorke"]{
-        max-width: 160px!important;
+        max-width: 120px!important;
       }
       img.item[src*="microphone"]{
-        max-width: 25px!important;
+        max-width: 18px!important;
       }
       img.item[src*="mobile"]{
-        max-width: 60px!important;
+        max-width: 45px!important;
       }
       img.item[src*="mp3"]{
-        max-width: 70px!important;
+        max-width: 50px!important;
       }
       img.item[src*="radio_cd"]{
-        max-width: 170px!important;
+        max-width: 130px!important;
       }
       img.item[src*="science_lab"]{
-        max-width: 80px!important;
+        max-width: 55px!important;
       }
       img.item[src*="sofa"]{
-        max-width: 170px!important;
+        max-width: 130px!important;
       }
       img.item[src*="skateboard"]{
         max-width: 170px!important;
       }
       img.item[src*="table"]{
-        max-width: 130px!important;
+        max-width: 110px!important;
       }
       img.item[src*="terningsspil"]{
-        max-width: 150px!important;
+        max-width: 120px!important;
       }
       img.item[src*="tortois"]{
-        max-width: 170px!important;
+        max-width: 130px!important;
       }
       img.item[src*="train"]{
-        max-width: 180px!important;
+        max-width: 130px!important;
         border: 0;
       }
     }

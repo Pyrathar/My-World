@@ -337,7 +337,7 @@ export class DatabaseNoSQL {
    * 3. Notes Management
    */
 
-  public addNote(note: Note, currentPatient: Patient): Observable <Patient> {
+  public saveNote(note: Note, currentPatient: Patient): Observable <Patient> {
     return Observable.create((observer) => {
 
       this.getPatients().subscribe(
@@ -345,7 +345,27 @@ export class DatabaseNoSQL {
           const selectedPatient = patientsDB.find((selected) => selected.id === currentPatient.id);
 
           if (selectedPatient) {
-            selectedPatient.note = note;
+
+            const foundNote = selectedPatient.notes.find((selectedNote) => selectedNote.id === note.id);
+
+            if (foundNote) {
+              foundNote.q1 = note.q1;
+              foundNote.q2a = note.q2a;
+              foundNote.q2b = note.q2b;
+              foundNote.q2c = note.q2c;
+              foundNote.q3a = note.q3a;
+              foundNote.q3b = note.q3b;
+              foundNote.q4 = note.q4;
+              foundNote.q5 = note.q5;
+              foundNote.q6a = note.q6a;
+              foundNote.q6b = note.q6b;
+              foundNote.q6c = note.q6c;
+              foundNote.q6d = note.q6d;
+              foundNote.q7 = note.q7;
+              foundNote.q8 = note.q8;
+            } else {
+              selectedPatient.notes.push(note);
+            }
           }
 
           this.setPatients(patientsDB).subscribe(() => {
@@ -357,4 +377,24 @@ export class DatabaseNoSQL {
       );
     });
   }
+
+  public deleteNote(note: Note, patientId: number): Observable<Patient> {
+    return Observable.create((observer) => {
+
+      this.getPatients().subscribe((patientsDB) => {
+
+        const filteredPatient = patientsDB.find((selectedPatient) => selectedPatient.id === patientId);
+
+        filteredPatient.notes = filteredPatient.notes.filter((selectedNote) => selectedNote.id !== note.id);
+
+        this.setPatients(patientsDB).subscribe(() => {
+          observer.next(filteredPatient);
+          observer.complete();
+        });
+
+      });
+
+    });
+  }
+
 }

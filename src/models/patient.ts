@@ -6,6 +6,6 @@ export class Patient {
     public id: number,
     public name: string,
     public avatar: string,
-    public note?: Note,
+    public notes: Note[],
   ) { }
 }

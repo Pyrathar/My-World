@@ -3,13 +3,13 @@ page-environments {
   ion-header {
     background-color: #f2f2f2;
 
-    ion-icon {
+    ion-icon.backIcon {
       color: white;
       // min-height: 3.2rem;
       font-size: 3.4rem;
     }
 
-    ion-icon::after {
+    ion-icon.backIcon::after {
       position: relative;
       top: -6px;
       font-size: 17px;
@@ -30,7 +30,17 @@ page-environments {
   .avatar {
     display: flex;
     flex-direction: column;
-    margin-top: 6em;
+    margin-top: 2em;
+
+    h1 {
+      font-size: 1.8em;
+      color: #a4a3a3;
+      font-weight: bold;
+    }
+
+    ion-item {
+      background-color: transparent;
+    }
   }
 
   ion-card {

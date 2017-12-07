@@ -8,28 +8,25 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content no-bounce>
 
   <ion-grid>
     <ion-row>
 
       <ion-col offset-3 col-6>
 
-        <ion-card>
-          <ion-card-content>
+        <ion-slides pager>
 
-            <ion-card-title text-center> About IDA Institute </ion-card-title>
+          <ion-slide *ngFor="let slide of slides" padding>
+            <h1 [innerHTML]="slide.title"></h1>
+            <p>{{ slide.p1 }}</p>
+            <p>{{ slide.p2 }}</p>
+            <p>{{ slide.p3 }}</p>
+            <a [href]="slide.link">{{ slide.link }}</a>
+          </ion-slide>
 
-              <p>
-                The Ida Institute is an independent, non-profit organization working to integrate person-centered care in hearing rehabilitation.
-                We aim to enable people with hearing loss to take an active role in their care by expressing their needs and preferences.
-              </p>
-              <p>
-                Together with hearing care professionals around the world, we develop free tools and resources to strengthen the counseling process.
-              </p>
+        </ion-slides>
 
-          </ion-card-content>
-        </ion-card>
       </ion-col>
 
     </ion-row>

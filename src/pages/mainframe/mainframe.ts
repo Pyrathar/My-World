@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
-import { ModalController, NavParams, PopoverController } from "ionic-angular";
+import { NavParams, PopoverController } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../providers/db-nosql";
-import { NotesFormPage } from "./notes-form/notes-form";
 import { QuestionsPopover } from "./questions-popover";
 
 import { Environment } from "../../models/environment";
@@ -36,7 +35,6 @@ export enum Pregenerated {
 })
 export class MainframePage {
 
-  private environments: Environment[];
   private currentEnvironment: Environment;
   private currentPatient;
   private patientId;
@@ -45,11 +43,8 @@ export class MainframePage {
   private action: Action = Action.empty;
   private pregenerated: Pregenerated = Pregenerated.class;
 
-  private togglePersons = false;
-  private toggleMoods = false;
-  private toggleItems = false;
   private togglePopup = false;
-  private popupImages = "person";
+  private popupImages = "";
 
   private toolbarSize = 104;
 
@@ -65,7 +60,6 @@ export class MainframePage {
 
   constructor(
     private db: DatabaseNoSQL,
-    public modalCtrl: ModalController,
     private navParams: NavParams,
     private popoverCtrl: PopoverController,
   ) {
@@ -104,12 +98,11 @@ export class MainframePage {
         break;
 
       default:
-        // this.toggleItems = !this.toggleItems;
+        this.popupImages = "";
         this.popup = Popup.closed;
         this.action = Action.empty;
         break;
     }
-
   }
 
   // Save our item to the DB and display it in Mainframe Page
@@ -182,10 +175,9 @@ export class MainframePage {
   }
 
   private closePopup() {
-    this.togglePersons = false;
-    this.toggleMoods = false;
-    this.toggleItems = false;
+    this.togglePopup = false;
     this.action = Action.empty;
+    this.popupImages = "";
     this.popup = Popup.closed;
     this.allowScroll = "scroll";
   }
@@ -238,17 +230,6 @@ export class MainframePage {
 
     const popover = this.popoverCtrl.create(QuestionsPopover, { questions: this.currentEnvironment.backgroundUrl });
     popover.present({ ev: myEvent });
-  }
-
-  private presentNotesModal() {
-    this.disableEditMode();
-    const notesModal = this.modalCtrl.create(NotesFormPage, { currentPatient: this.currentPatient });
-
-    notesModal.onDidDismiss((currentPatientDB) => {
-      if (currentPatientDB) { this.currentPatient = currentPatientDB; }
-    });
-
-    notesModal.present();
   }
 
   private enableDeletion() {

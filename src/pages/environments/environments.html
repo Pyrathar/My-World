@@ -8,16 +8,23 @@
   <ion-navbar hideBackButton>
 
     <button (click)="toBack()" ion-button clear>
-      <ion-icon name="arrow-back"></ion-icon>
+      <ion-icon name="arrow-back" class="backIcon"></ion-icon>
     </button>
 
     <ion-title>{{ currentPatient.name | titlecase }}'s Environments</ion-title>
 
     <ion-buttons right>
+
+      <button ion-button padding
+        (click)="openNote()">
+        Add note
+      </button>
+
       <button ion-button padding
         (click)="togglePopup()">
         Add environment
       </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -48,6 +55,13 @@
         <div class="avatar">
           <img [src]="'assets/img/avatar' + currentPatient.avatar" alt="">
           <h1 text-center color="light">{{ currentPatient.name | titlecase }}</h1>
+
+          <ion-item *ngFor="let note of currentPatient.notes" (click)="openNote(note)">
+            {{ note.id | date:'mediumDate' }}
+            <ion-icon name="trash" item-end color="danger" (click)="deleteNote(note, $event)"></ion-icon>
+            <ion-icon name="paper" item-end padding-left color="light"></ion-icon>
+          </ion-item>
+
         </div>
       </ion-col>
 

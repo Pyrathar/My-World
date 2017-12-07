@@ -9,10 +9,10 @@ import { MyApp } from "./app.component";
 
 import { AboutPage } from "../pages/about/about";
 import { EnvironmentsPage } from "../pages/environments/environments";
+import { NotesFormPage } from "../pages/environments/notes-form/notes-form";
 import { GettingStartedPage } from "../pages/getting-started/getting-started";
 import { InstructionsPage } from "../pages/instructions/instructions";
 import { MainframePage } from "../pages/mainframe/mainframe";
-import { NotesFormPage } from "../pages/mainframe/notes-form/notes-form";
 import { QuestionsPopover } from "../pages/mainframe/questions-popover";
 import { CreateUserModal } from "../pages/patients/create-user-modal";
 import { PatientsPage } from "../pages/patients/patients";
@@ -37,8 +37,8 @@ export class MyErrorHandler implements ErrorHandler {
     IonicPro.monitoring.handleNewError(err);
   }
 }
-// tslint:disable-next-line:max-classes-per-file
 
+// tslint:disable-next-line:max-classes-per-file
 @NgModule({
   bootstrap: [IonicApp],
   declarations: [

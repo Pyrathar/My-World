@@ -67,22 +67,21 @@
 
         <ion-list>
 
-            <ion-item *ngFor="let patient of patients; let i = index;">
+            <ion-item *ngFor="let patient of patients; let i = index;" (click)="openPage(patient)">
 
               <ion-thumbnail item-start>
-                <img [src]="'assets/img/person' + patient.avatar" (click)="openPage(patient)">
+                <img [src]="'assets/img/person' + patient.avatar" >
               </ion-thumbnail>
 
-              <div (click)="openPage(patient)">
+              <div>
                 <h1>{{ patient.name | titlecase }}</h1>
                 <h2>Created:  {{ patient.id | date:'mediumDate' }}</h2>
               </div>
 
-              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="paper" item-end (click)="openNotes(patient)" color="light" [@slowFading]></ion-icon>
-              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="create" item-end (click)="openEditPatientModal(patient)" color="light" [@slowFading]></ion-icon>
-              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="trash" item-end (click)="deletePatient(patient, i)" color="danger" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="create" item-end (click)="openEditPatientModal(patient, $event)" color="light" [@slowFading]></ion-icon>
+              <ion-icon *ngIf="isOptionsOpen && patient === selectedPatient" padding name="trash" item-end (click)="deletePatient(patient, i, $event)" color="danger" [@slowFading]></ion-icon>
 
-              <ion-icon padding name="more" item-end (click)="openOptions(patient)"></ion-icon>
+              <ion-icon padding name="more" item-end (click)="openOptions(patient, $event)"></ion-icon>
 
             </ion-item>
 

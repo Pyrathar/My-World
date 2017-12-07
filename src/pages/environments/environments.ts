@@ -1,12 +1,14 @@
 import { Component } from "@angular/core";
-import { AlertController, NavController, NavParams } from "ionic-angular";
+import { AlertController, ModalController, NavController,  NavParams} from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../providers/db-nosql";
 import { MainframePage } from "../mainframe/mainframe";
 
 import { Environment } from "../../models/environment";
+import { Note } from "../../models/note";
 import { Patient } from "../../models/patient";
 import { SlowFadingAnimation } from "./../../providers/animations";
+import { NotesFormPage } from "./notes-form/notes-form";
 
 @Component({
   animations: [SlowFadingAnimation],
@@ -22,6 +24,7 @@ export class EnvironmentsPage {
 
   constructor(
     private alertCtrl: AlertController,
+    public modalCtrl: ModalController,
     private navCtrl: NavController,
     private navParams: NavParams,
     private db: DatabaseNoSQL,
@@ -99,6 +102,44 @@ export class EnvironmentsPage {
     if (this.isPopup) {
       this.isPopup = false;
     }
+  }
+
+  private openNote(note: Note) {
+    const notesModal = this.modalCtrl.create(NotesFormPage, { note, currentPatient: this.currentPatient });
+
+    notesModal.onDidDismiss((currentPatientDB) => {
+      if (currentPatientDB) { this.currentPatient = currentPatientDB; }
+    });
+
+    notesModal.present();
+  }
+
+  private deleteNote(note: Note, ev: Event) {
+    ev.stopPropagation();
+
+    const alert = this.alertCtrl.create({
+      title: "Delete note",
+      message: "Are you sure you want to delete this note?",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          handler: () => {},
+        },
+        {
+          text: "Delete",
+          handler: () => {
+
+            this.db.deleteNote(note, this.currentPatient.id).subscribe((patientDB) => {
+              this.currentPatient = patientDB;
+            });
+
+          },
+        },
+      ],
+    });
+
+    alert.present();
   }
 
   private openPage(environment: Environment) {

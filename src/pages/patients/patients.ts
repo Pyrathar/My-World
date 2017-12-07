@@ -5,7 +5,6 @@ import { OrderByPipe } from "ngx-pipes";
 import { Patient } from "../../models/patient";
 
 import { EnvironmentsPage } from "../environments/environments";
-import { NotesFormPage } from "../mainframe/notes-form/notes-form";
 import { CreateUserModal } from "./create-user-modal";
 
 import { DatabaseNoSQL } from "../../providers/db-nosql";
@@ -48,7 +47,9 @@ export class PatientsPage {
     });
   }
 
-  private openOptions(patient: Patient) {
+  private openOptions(patient: Patient, ev: Event) {
+
+    ev.stopPropagation();
 
     this.isOptionsOpen = (this.selectedPatient !== patient)
       ? true
@@ -68,7 +69,9 @@ export class PatientsPage {
     modal.present();
   }
 
-  private openEditPatientModal(patient: Patient) {
+  private openEditPatientModal(patient: Patient, ev: Event) {
+
+    ev.stopPropagation();
 
     this.isOptionsOpen = false;
     const modal = this.modalCtrl.create(CreateUserModal, { patient });
@@ -76,7 +79,9 @@ export class PatientsPage {
   }
 
   // tslint:disable:object-literal-sort-keys
-  private deletePatient(patient: Patient, index: number) {
+  private deletePatient(patient: Patient, index: number, ev: Event) {
+
+    ev.stopPropagation();
 
     const alert = this.alertCtrl.create({
       title: "Delete profile",
@@ -103,17 +108,6 @@ export class PatientsPage {
       ],
     });
     alert.present();
-  }
-
-  private openNotes(patient: Patient) {
-    const notesModal = this.modalCtrl.create(NotesFormPage, { currentPatient: patient });
-
-    notesModal.onDidDismiss((currentPatientDB) => {
-      // if (currentPatientDB) { this.currentPatient = currentPatientDB; }
-      this.getPatients();
-    });
-
-    notesModal.present();
   }
 
   // FIXME: sort both ways
