@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from "@angular/core";
+import { ErrorHandler, Injectable, Injector, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Pro } from "@ionic/pro";
@@ -29,12 +29,27 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { NgArrayPipesModule } from "ngx-pipes";
 
 const IonicPro = Pro.init("55010440", {
-  appVersion: "0.0.1",
+  appVersion: "0.0.2",
 });
 
+@Injectable()
 export class MyErrorHandler implements ErrorHandler {
+  public ionicErrorHandler: IonicErrorHandler;
+
+  constructor(injector: Injector) {
+    try {
+      this.ionicErrorHandler = injector.get(IonicErrorHandler);
+    } catch (e) {
+      // Unable to get the IonicErrorHandler provider, ensure
+      // IonicErrorHandler has been added to the providers list below
+    }
+  }
+
   public handleError(err: any): void {
     IonicPro.monitoring.handleNewError(err);
+    // Remove this if you want to disable Ionic's auto exception handling
+    // in development mode.
+    this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
   }
 }
 
@@ -78,8 +93,9 @@ export class MyErrorHandler implements ErrorHandler {
     NgArrayPipesModule,
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    // {provide: ErrorHandler, useClass: MyErrorHandler},
+    // {provide: ErrorHandler, useClass: IonicErrorHandler},
+    IonicErrorHandler,
+    [{ provide: ErrorHandler, useClass: MyErrorHandler }],
     Constants,
     DatabaseNoSQL,
     SplashScreen,
