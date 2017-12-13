@@ -1,11 +1,17 @@
 <ion-header>
 
   <ion-navbar>
+
+    <ion-buttons start>
+      <button ion-button padding (click)="saveNote()">Save</button>
+    </ion-buttons>
+
     <ion-title>Session documentation form</ion-title>
 
     <ion-buttons end>
       <button ion-button padding (click)="closeModal()">X</button>
     </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
@@ -99,15 +105,5 @@
     </ion-item>
 
   </ion-list>
-
-  <ion-buttons right>
-
-    <button *ngIf="!editMode" ion-button padding block (click)="saveNote()">Save
-    </button>
-
-    <button *ngIf="editMode" type="button" ion-button padding block (click)="editNote()">Save
-    </button>
-
-  </ion-buttons>
 
 </ion-content>
