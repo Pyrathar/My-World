@@ -4,31 +4,10 @@ import { NavParams, PopoverController } from "ionic-angular";
 import { DatabaseNoSQL } from "../../providers/db-nosql";
 import { QuestionsPopover } from "./questions-popover";
 
+import { Action, Popup, Pregenerated } from "../../models/enums";
 import { Environment } from "../../models/environment";
 import { Item } from "../../models/item";
 import { SlowFadingAnimation } from "./../../providers/animations";
-
-export enum Popup {
-  person,
-  mood,
-  item_class,
-  item_home,
-  item_outdoor,
-  closed,
-}
-
-export enum Action {
-  empty,
-  person,
-  mood,
-  item,
-}
-
-export enum Pregenerated {
-  class,
-  home,
-  outdoor,
-}
 
 @Component({
   animations: [SlowFadingAnimation],
