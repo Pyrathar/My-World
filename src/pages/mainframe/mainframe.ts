@@ -11,7 +11,9 @@ import { SlowFadingAnimation } from "./../../providers/animations";
 export enum Popup {
   person,
   mood,
-  item,
+  item_class,
+  item_home,
+  item_outdoor,
   closed,
 }
 
@@ -92,7 +94,13 @@ export class MainframePage {
 
       case "item":
         this.popupImages = "item";
-        this.popup = Popup.item;
+        if (this.currentEnvironment.backgroundUrl === "/class.png") {
+          this.popup = Popup.item_class;
+        } else if (this.currentEnvironment.backgroundUrl === "/home.png") {
+          this.popup = Popup.item_home;
+        } else if (this.currentEnvironment.backgroundUrl === "/outdoors.png") {
+          this.popup = Popup.item_outdoor;
+        }
         this.action = Action.item;
         this.togglePopup = (this.togglePopup) ? true : !this.togglePopup;
         break;
@@ -149,10 +157,12 @@ export class MainframePage {
 
   private getPopup() {
     switch (this.popup) {
-      case Popup.person:  return this.db.C.PERSONS;
-      case Popup.mood:    return this.db.C.MOODS;
-      case Popup.item:    return this.db.C.ITEMS;
-      case Popup.closed:  return [];
+      case Popup.person:          return this.db.C.PERSONS;
+      case Popup.mood:            return this.db.C.MOODS;
+      case Popup.item_class:      return this.db.C.ITEMS_CLASSROOM;
+      case Popup.item_home:       return this.db.C.ITEMS_HOME;
+      case Popup.item_outdoor:    return this.db.C.ITEMS_OUTDOOR;
+      case Popup.closed:          return [];
     }
   }
 
