@@ -261,6 +261,15 @@ page-mainframe {
   }
 
   .situationItems .person,
+  .situationItems .avatar {
+    z-index: 20;
+  }
+
+  .situationItems .mood {
+    z-index: 30;
+  }
+
+  .situationItems .person,
   .situationItems .mood,
   .situationItems .item,
   .situationItems .avatar {
