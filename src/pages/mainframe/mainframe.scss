@@ -16,7 +16,7 @@ page-mainframe {
   }
 
   button.active-btn {
-    background-color: #0098aa!important;
+    background-color: #e63e4d!important;
     transition: 0.2s;
   }
 
@@ -37,7 +37,7 @@ page-mainframe {
       font-size: 1.5em!important;
 
       ion-icon {
-        font-size: 2em !important;
+        font-size: 1.7em !important;
       }
     }
   }
@@ -226,6 +226,7 @@ page-mainframe {
   ion-content {
     background-color: #fff;
     background-repeat: no-repeat;
+    -webkit-overflow-scrolling: auto!important;
 
     .iconQuestionmark {
       position: fixed;
@@ -257,6 +258,15 @@ page-mainframe {
 
   .item {
     contain: initial!important;
+  }
+
+  .situationItems .person,
+  .situationItems .avatar {
+    z-index: 20;
+  }
+
+  .situationItems .mood {
+    z-index: 30;
   }
 
   .situationItems .person,
