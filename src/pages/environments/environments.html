@@ -5,42 +5,40 @@
     <img id="bubbles" class="title-image" src="assets/img/iconslogos/bubbles.png" />
   </div>
 
-  <ion-navbar hideBackButton>
-
-    <button (click)="toBack()" ion-button clear>
-      <ion-icon name="arrow-back" class="backIcon"></ion-icon>
-    </button>
+  <ion-navbar>
 
     <ion-title>{{ currentPatient.name | titlecase }}'s Environments</ion-title>
 
     <ion-buttons right>
 
-      <button ion-button padding
-        (click)="openNote()">
+      <button ion-button padding (click)="openNote()">
         Add note
       </button>
 
-      <button ion-button padding
-        (click)="togglePopup()">
-        Add environment
+      <button ion-button padding (click)="togglePopup()">
+        Add environment&nbsp;
+        <ion-icon [name]="isPopup ? 'arrow-down' : 'arrow-forward'"></ion-icon>
       </button>
 
     </ion-buttons>
 
   </ion-navbar>
 
-  <ion-grid [hidden]="!isPopup" class="add-environment-wrapper" [@slowFading]>
+  <div>
 
-    <h1 padding class="card-title">Add new environment</h1>
-    <ion-row wrap>
-      <ion-col col-4 *ngFor="let popItem of db.C.BACKGROUNDTHUMBS; let i = index;">
+    <ion-grid *ngIf="isPopup" class="add-environment-wrapper" [@slowFading]>
 
-        <img padding [src]="'assets/img/background' + popItem.imgUrl" (click)="addEnvironment(popItem, i)" />
-        <p ion-text color="IDAGrey">{{ popItem.name }}</p>
+      <h1 padding class="card-title">Select new environment</h1>
+      <ion-row wrap>
+        <ion-col col-4 *ngFor="let popItem of db.C.BACKGROUNDTHUMBS; let i = index;">
 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          <img padding [src]="'assets/img/background' + popItem.imgUrl" (click)="addEnvironment(popItem, i)" />
+          <p ion-text color="IDAGrey">{{ popItem.name }}</p>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-header>
 

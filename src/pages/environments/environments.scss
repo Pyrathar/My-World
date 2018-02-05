@@ -1,73 +1,47 @@
 page-environments {
-
   ion-header {
     background-color: #f2f2f2;
-
-    ion-icon.backIcon {
-      color: white;
-      // min-height: 3.2rem;
-      font-size: 3.4rem;
-    }
-
-    ion-icon.backIcon::after {
-      position: relative;
-      top: -6px;
-      font-size: 17px;
-      padding-left: 5px;
-      font-family: "Gotham Book";
-      content: "Back";
-    }
   }
-
   ion-buttons button {
-    background-color: #0098AA!important;
-
+    background-color: #0098AA !important;
     span {
       text-transform: none;
     }
   }
-
   .avatar {
     display: flex;
     flex-direction: column;
     margin-top: 2em;
-
     h1 {
       font-size: 1.8em;
       color: #a4a3a3;
       font-weight: bold;
     }
-
     ion-item {
       background-color: transparent;
     }
   }
-
   ion-card {
     padding: 1.8em 0 0.6em;
     position: relative;
-
+    ion-icon.ion-md-close-circle,
     ion-icon.ion-ios-close-circle {
       font-size: 2em;
       position: absolute;
       right: 15px;
       top: 15px;
     }
-
     img {
       width: 80%;
       margin: 0 auto 0.5em;
     }
   }
-
   .card-title {
     width: 100%;
     font-size: 1.4em;
-    font-weight: bold;
-    // text-align: center;
-    border: 0!important;
+    font-weight: bold; // text-align: center;
+    border: 0 !important;
     color: #A1A19F;
-
     ion-icon {
       position: absolute;
       top: 0;
@@ -82,21 +56,17 @@ page-environments {
     margin: 12px 8px 0 0;
     font-size: 18px;
   }
-
   .add-environment-wrapper {
     z-index: 10;
     background-color: white;
-    border-bottom: 1px solid grey;
-
-    h1, p {
+    h1,
+    p {
       text-align: center;
       font-size: 20px;
       margin: 0;
     }
-
     img {
-      padding: 16px 32px!important;
+      padding: 16px 32px !important;
     }
   }
-
 }

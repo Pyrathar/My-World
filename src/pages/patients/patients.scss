@@ -1,34 +1,34 @@
 page-patients {
   ion-header {
     background-color: #f2f2f2;
-
     ion-buttons {
       // TODO: check why variable color in header not working
       button {
-        background-color: #0098AA!important;
-        color: white!important;
+        background-color: #0098AA !important;
+        color: white !important;
         span {
           text-transform: none;
         }
       }
     }
   }
-
   ion-label {
     color: #A1A19F;
   }
-
   ion-thumbnail {
     img {
-      width: 32px!important;
-      height: 100%!important;
-      border-radius: 0!important;
-      margin: 0 10px!important;
+      width: 32px !important;
+      height: 100% !important;
+      border-radius: 0 !important;
+      margin: 0 10px !important;
     }
   }
-
   img.modal-img {
     width: 30px;
+  }
+
+  .orderBnt{
+    margin-bottom: 0.75em;
   }
 
 }

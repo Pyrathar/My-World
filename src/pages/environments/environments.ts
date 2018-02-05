@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { AlertController, ModalController, NavController,  NavParams} from "ionic-angular";
+import { Component, ViewChild } from "@angular/core";
+import { AlertController, ModalController, Navbar, NavController, NavParams } from "ionic-angular";
 
 import { DatabaseNoSQL } from "../../providers/db-nosql";
 import { MainframePage } from "../mainframe/mainframe";
@@ -16,6 +16,7 @@ import { NotesFormPage } from "./notes-form/notes-form";
   templateUrl: "environments.html",
 })
 export class EnvironmentsPage {
+  @ViewChild(Navbar) navBar: Navbar;
 
   private currentPatient: Patient;
   private isPopup = false;
@@ -30,6 +31,10 @@ export class EnvironmentsPage {
     private db: DatabaseNoSQL,
   ) {
     this.currentPatient = navParams.get("patient");
+  }
+
+  ionViewDidLoad() {
+    this.setBackButtonAction()
   }
 
   public ionViewWillEnter() {
@@ -64,7 +69,7 @@ export class EnvironmentsPage {
     const prompt = this.alertCtrl.create({
       buttons: [
         {
-          handler: () => {},
+          handler: () => { },
           role: "cancel",
           text: "Cancel",
         },
@@ -124,7 +129,7 @@ export class EnvironmentsPage {
         {
           text: "Cancel",
           role: "cancel",
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: "Delete",
@@ -152,7 +157,14 @@ export class EnvironmentsPage {
     });
   }
 
-  private toBack() {
-    this.navCtrl.pop({ animate: false });
+  //Method to override the default back button action
+  setBackButtonAction() {
+    this.navBar.backButtonClick = () => {
+      //Write here wherever you wanna do
+      this.navCtrl.pop(
+        { animate: false, duration: 100 }
+        // { direction: 'forward', duration: 4000, easing: 'ease-out', animation: 'SlowFadingAnimation' }
+      )
+    }
   }
 }

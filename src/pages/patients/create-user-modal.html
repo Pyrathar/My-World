@@ -15,42 +15,32 @@
 
     <ion-item>
 
-      <ion-label color="danger"
-        *ngIf="createPatientForm.controls['name'].touched && createPatientForm.controls['name'].invalid"
-       >Name is required
+      <ion-label color="danger" *ngIf="createPatientForm.controls['name'].touched && createPatientForm.controls['name'].invalid">Name is required
       </ion-label>
 
-      <ion-input type="text" text-center placeholder="Enter Name"
-        formControlName="name" [value]="currentPatient.name"
-      ></ion-input>
+      <ion-input type="text" text-center placeholder="Enter Name" formControlName="name" [value]="currentPatient.name"></ion-input>
 
     </ion-item>
 
-      <ion-list>
+    <ion-list>
 
-        <ion-list-header text-center>
-          Select avatar
-        </ion-list-header>
+      <ion-list-header text-center>
+        Select avatar
+      </ion-list-header>
 
-        <div class="avatars">
+      <div class="avatars">
 
-          <img
-            *ngFor="let avatar of db.C.AVATARS; let i = index;"
-            [src]="'assets/img/' + avatar.category + avatar.imgUrl"
-            [alt]="avatar.imgUrl"
-            class="modal-img"
-            [class.selected]="i === selectedAvatarIndex"
-            (click)="selectAvatar(i, avatar.imgUrl)">
-        </div>
+        <img *ngFor="let avatar of db.C.AVATARS; let i = index;" [src]="'assets/img/' + avatar.category + avatar.imgUrl" [alt]="avatar.imgUrl"
+          class="modal-img" [class.selected]="i === selectedAvatarIndex" (click)="selectAvatar(i, avatar.imgUrl)">
+      </div>
 
-      </ion-list>
+    </ion-list>
 
     <ion-buttons right>
 
-      <button ion-button block
-        [disabled]="createPatientForm.controls['name'].invalid"
-        >Save
+      <button ion-button block [disabled]="createPatientForm.controls['name'].invalid">Save
       </button>
+
 
     </ion-buttons>
 

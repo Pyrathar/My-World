@@ -1,38 +1,31 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 $font-path: "../assets/fonts";
-
 @import "ionic.globals";
-
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
-
 $toolbar-background: #9ecbd3;
 $tabs-background: #9ecbd3;
 $searchbar-ios-background-color: #9ecbd3;
 $searchbar-ios-padding-horizontal: 30%;
-
 ion-modal {
   ion-item {
     background-color: #F2F2F2 !important;
   }
   .selected {
-    opacity: 1!important;
+    opacity: 1 !important;
     transition: 0.3s;
     transform: scale(1.25);
   }
-
   .avatars {
     display: flex;
     justify-content: center;
     align-items: flex-end;
     padding: 3em 0 1em;
-
     .modal-img {
       height: 120px;
       margin: 10px;
@@ -44,6 +37,15 @@ ion-modal {
   }
 }
 
+html {
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+  /* make scrollbar transparent */
+}
 
 // Named Color Variables
 // --------------------------------------------------
@@ -52,36 +54,19 @@ ion-modal {
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-
-$colors: (
-  primary:        #387ef5,
-  secondary:      #32db64,
-  danger:         #e63e4d,
-  light:          #A1A19F,
-  dark:           #222222,
-  IDATurquoise:   #0098AA,
-  IDAPurple:      #676696,
-  IDAViolet:      #A1ABD3,
-  IDAYellow:      #F5A52B,
-  IDAGrey:        #A1A19F,
-  IDAmenu:        #F2F2F2
-);
-
+$colors: ( primary : #387ef5, secondary : #32db64, danger : #e63e4d, light : #A1A19F, dark : #222222, IDATurquoise : #0098AA, IDAPurple : #676696, IDAViolet : #A1ABD3, IDAYellow : #F5A52B, IDAGrey : #A1A19F, IDAmenu : #F2F2F2);
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
 $tabs-ios-tab-color-inactive: #fff;
 $tabs-ios-tab-color-active: #e63e4d;
 $background-ios-color: #F2F2F2;
 $toolbar-ios-title-font-size: 2rem; // 1.7
 $tabs-ios-tab-font-size: 14px;
 $popover-ios-width: 360px;
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
 $tabs-md-tab-color-inactive: #fff;
 $tabs-md-tab-color-active: #e63e4d;
 $background-md-color: #F2F2F2;
@@ -89,37 +74,25 @@ $toolbar-md-title-font-size: 2.3rem; // 2
 $tabs-ios-tab-font-size: 1.4rem;
 $tabs-md-tab-font-size-active: 1.6rem;
 $popover-md-width: 360px;
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
-
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
-
 @import "ionic.theme.default";
-
-
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
-
 @import "ionic.ionicons";
-
-
 // Fonts
 // --------------------------------------------------
 // @import "noto-sans";
 // @import "gotham";
-
 $font-family-base: "Gotham Book";
 $font-family-ios-base: $font-family-base;
 $font-family-md-base: $font-family-base;

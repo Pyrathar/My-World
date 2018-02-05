@@ -1,3 +1,11 @@
 page-notes-form {
-
+  .saveBtn {
+    order: 1;
+  }
+  ion-title {
+    order: 2;
+  }
+  .closeBtn {
+    order: 3;
+  }
 }

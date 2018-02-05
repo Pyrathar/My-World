@@ -27,13 +27,20 @@
     </ion-slide>
 
     <ion-slide>
+      <div>
+        <ion-buttons end>
+          <button ion-button color="IDATurquoise" (click)="skipTutorial()">Get Started&nbsp;
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-buttons>
+      </div>
       <img src="assets/img/tutorial/IMG_0056.PNG" class="slide-image" />
       <h3 class="slide-title">Use notes to describe session with a patient</h3>
       <h2 class="slide-title" (click)="skipTutorial()"></h2>
-      <button ion-button large clear icon-end text-center color="IDATurquoise" (click)="skipTutorial()">
+      <!-- <button ion-button large clear icon-end text-center color="IDATurquoise" class="getStartedBtn" (click)="skipTutorial()">
         Get Started
         <ion-icon name="arrow-forward" color="IDATurquoise"></ion-icon>
-      </button>
+      </button> -->
     </ion-slide>
 
   </ion-slides>

@@ -5,19 +5,22 @@
 
     <ion-buttons right>
 
-      <button ion-button padding
-        (click)="enableDeletion()" [ngClass]="{ 'active-btn' : allowDeletion, 'toolbarBtn' : true }" >
-        <ion-icon name="close-circle"></ion-icon>
+      <button ion-button padding (click)="enableDeletion()" [ngClass]="{ 'active-delete' : allowDeletion, 'toolbarBtn' : true }">
+        <ion-icon *ngIf="!allowDeletion" name="md-close-circle"></ion-icon>
+        <span *ngIf="!allowDeletion">&nbsp;Delete</span>
+        <ion-icon *ngIf="allowDeletion" name="checkmark-circle"></ion-icon>
+        <span *ngIf="allowDeletion">&nbsp;Done</span>
       </button>
 
-      <button ion-button padding
-        (click)="enableRotation()" [ngClass]="{ 'active-btn' : allowRotation, 'toolbarBtn' : true }">
-        <ion-icon name="redo"></ion-icon>
+      <button ion-button padding (click)="enableRotation()" [ngClass]="{ 'active-rotate' : allowRotation, 'toolbarBtn' : true }">
+        <ion-icon *ngIf="!allowRotation" name="refresh"></ion-icon>
+        <span *ngIf="!allowRotation">&nbsp;Rotate</span>
+        <ion-icon *ngIf="allowRotation" name="checkmark-circle"></ion-icon>
+        <span *ngIf="allowRotation">&nbsp;Done</span>
       </button>
 
-      <button ion-button padding
-        [hidden]="currentEnvironment.items.length > 1"
-        (click)="pregenerateItems(currentEnvironment.backgroundUrl)" class="toolbarBtn">
+      <button ion-button padding [hidden]="currentEnvironment.items.length > 1" (click)="pregenerateItems(currentEnvironment.backgroundUrl)"
+        class="toolbarBtn">
         Preset items
       </button>
 
@@ -61,16 +64,12 @@
 
   </ion-toolbar>
 
-   <ion-list *ngIf="togglePopup"  class="popoverItems" [@slowFading]>
-    <div *ngFor="let popItem of getPopup()" >
-      <img *ngIf="popItem.category === popupImages" [src]="'assets/img/' + popItem.category + popItem.imgUrl"
-        [class]="popItem.category"
-        (touchstart)="moveStart(popItem, $event)"
-        (touchmove)="moveDragOver(popItem, $event)"
-        (touchend)="addToSituation(popItem, $event)"
-        (press)="addToSituationToDefaultPosition(popItem, $event)"
-        [style.left]="popItem.x + 'px'"
-        [style.top]="popItem.y + 'px'" />
+  <ion-list *ngIf="togglePopup" class="popoverItems" [@slowFading]>
+    <div *ngFor="let popItem of getPopup()">
+      <img *ngIf="popItem.category === popupImages" [src]="'assets/img/' + popItem.category + popItem.imgUrl" [class]="popItem.category"
+        (touchstart)="moveStart(popItem, $event)" (touchmove)="moveDragOver(popItem, $event)" (touchend)="addToSituation(popItem, $event)"
+        (press)="addToSituationToDefaultPosition(popItem, $event)" [style.left]="popItem.x + 'px'" [style.top]="popItem.y + 'px'"
+      />
     </div>
   </ion-list>
 
@@ -78,12 +77,8 @@
 
 
 
-<ion-content no-bounce fullscreen sroll="false" has-bouncing="false" overflow-scroll="false"
-  [class]="allowScroll"
-  (click)="closePopup()"
-  >
-   <div class="situationItems"
-    [ngStyle]="{
+<ion-content no-bounce fullscreen sroll="false" has-bouncing="false" overflow-scroll="false" [class]="allowScroll" (click)="closePopup()">
+  <div class="situationItems" [ngStyle]="{
         'background': '#fff url(assets/img/background' + currentEnvironment.backgroundUrl + ') no-repeat left top / cover',
         'width': '100vw',
         'height': '100vh',
@@ -91,36 +86,26 @@
         'z-index': '-1'
     }">
 
-    <div *ngFor="let item of currentEnvironment.items"
-      [class]="item.category"
-      (touchstart)="moveStart(item, $event)"
-      (touchmove)="moveDragOver(item, $event)"
-      (touchend)="moveDrop(item, $event)"
-      [style.left]="item.x + 'px'"
-      [style.top]="item.y + 'px'"
-      [style.transform]="'rotate(' + item.rotationAngle + 'deg)'">
+    <div *ngFor="let item of currentEnvironment.items" [class]="item.category" (touchstart)="moveStart(item, $event)" (touchmove)="moveDragOver(item, $event)"
+      (touchend)="moveDrop(item, $event)" [style.left]="item.x + 'px'" [style.top]="item.y + 'px'" [style.transform]="'rotate(' + item.rotationAngle + 'deg)'">
 
-      <ion-icon name="close-circle" color="danger"
-        *ngIf="allowDeletion && (item.category !== 'avatar')"
-        (click)="removeItemFromScene(item)" class="delete"
-        >
+      <ion-icon name="close-circle" color="danger" *ngIf="allowDeletion && (item.category !== 'avatar')" (click)="removeItemFromScene(item)"
+        class="delete">
       </ion-icon>
 
-      <ion-icon name="redo" color="IDATurquoise"
-        *ngIf="allowRotation && (item.category !== 'mood')"
-        (click)="rotateItem(item)" class="rotate"
-        >
+      <ion-icon name="refresh" color="IDATurquoise" *ngIf="allowRotation && (item.category !== 'mood')" (click)="rotateItem(item)"
+        class="rotate">
       </ion-icon>
 
-      <img [src]="'assets/img/' + item.category + item.imgUrl"
-        [class]="item.category"/>
+      <img [src]="'assets/img/' + item.category + item.imgUrl" [class]="item.category" />
 
     </div>
 
   </div>
 
   <div class="iconQuestionmark" (click)="prompQuestions($event)">
-    Conversation <br> starters
+    Conversation
+    <br> starters
   </div>
 
 </ion-content>
